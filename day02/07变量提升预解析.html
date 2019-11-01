@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		
+//		变量提升(预解析):
+//			程序运行前,会吧函数声明和var声明提示到本作用域的顶端.
+//			只提示声明部分,不提升赋值部分.
+//			如果函数名和变量冲突,以函数为准.
+		
+		function fn(){
+			alert(a);//函数a
+			function a(){
+				console.log(this);
+			}
+			var a = 100;
+			alert(a);//100
+		}
+		
+		fn();
+			
+		
+	</script>
+</html>

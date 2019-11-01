@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>			
+			<ul>
+				
+				<!--<li v-for='d in arr'>
+					<span v-for='d in arr'>{{d}}</span>
+				</li>-->
+				
+				<!--<li v-for='d in arr'>
+					<span v-for='d in arr'>{{d.name}}</span>
+				</li>-->
+				
+				<!--li循环arr,这里的d是arr内的每一项,每一项都是一个json对象-->
+				<!--span循环的是arr内的一项,这里是d-->
+				
+				<li v-for='d in arr'>
+					<span v-for='item in d'>{{item}}</span>
+				</li>
+				
+				<!--<li>
+					<span>1</span>
+					<span>2</span>
+					<span>3</span>
+				</li>
+				<li>
+					<span>1</span>
+					<span>2</span>
+					<span>3</span>
+				</li>
+				<li>
+					<span>1</span>
+					<span>2</span>
+					<span>3</span>
+				</li>-->
+			</ul>			
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		new Vue({
+			el:'#app',
+			data:{
+//				arr:[1,2,3]
+//				arr:[{name:'幂幂'},{name:'超越'},{name:'坤坤'}]
+				arr:[
+					{name:'幂幂',sex:'女',age:33},
+					{name:'超越',sex:'女',age:20},
+					{name:'坤坤',sex:'不懂',age:21}
+				]
+			}
+		})
+		
+		ajax
+		
+	</script>
+</html>

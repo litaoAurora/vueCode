@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<div>{{arr}}</div>
+			<div>{{obj}}</div>
+			<div>{{str}}</div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		响应式实现条件:
+//			1:视图要绑定数据.
+//			2:这个数据必须有数据监听.
+		
+//		什么情况下数据变化视图不会变:
+//			数组:修改数组的元素而不是修改数组.
+//			对象:修改一个本来不存在的属性.
+		
+//		arr[0] = 100 -> 修改数组的元素
+		
+//		push,pop,shift,unshift,splice,sort,reverse,concat,join,slice
+//		forEach,map,filter,some,every.
+		
+//		会修改到数组本身的方法:
+//			push,pop,shift,unshift,splice,sort,reverse
+			
+//		会修改字符串本身的方法:
+//			一个都没有.
+				
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				arr:[1,2,3],
+				obj:{name:'啊哈哈'},
+				str:'abc'
+			}
+		})
+
+//		获取对象属性的4种基本描述
+//		Object.getOwnPropertyDescriptor();
+
+//		vue实现响应式更新的底层函数.
+//		修改对象属性的4种基本描述.给对象的属性设置监听.(可以检测到对象的属性变化的)
+//		Object.defineProperty();
+		
+	</script>
+</html>

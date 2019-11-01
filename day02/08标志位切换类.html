@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			
+			div>div{
+				width: 200px;
+				height: 200px;
+				background: red;
+				display: none;
+			}
+			.active{
+				display: block;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="button" value='切换' @click = 'fn' />
+			<div :class='flag ? "active" :""'></div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				flag:true
+			},
+			methods:{
+				fn(){
+					this.flag = !this.flag;
+				}
+			}
+		})
+		
+//		let oDiv = document.getElementsByTagName('div')[1];
+//		let oBtn = document.getElementsByTagName('input')[0];
+		
+//		标志位		
+//		let flag = true;
+		
+//		oBtn.onclick = function(){
+//			oDiv.className = (flag?"active":"");
+//			flag = !flag;
+//		}
+		
+		
+		
+	</script>
+</html>

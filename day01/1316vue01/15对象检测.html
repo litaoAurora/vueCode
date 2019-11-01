@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		
+//		如何知道一个对象的原型链上有没有某个属性.(in);
+//		如何知道一个对象有没有某个私有属性.(hasOwnProperty);
+//		如何知道一个对象的原型链上有没有某个对象.(iSPrototypeof);
+//		如何判断一个类的原型在不在某个对象的原型链上.(instanceof);
+
+//		蒙() -> 人类(讲话) -> 动物(跑) -> 生物(呼吸) -> 呼吸这个属性是不是在蒙老师的原型链上
+		
+//		__proto__ -> 用来获取一个对象的上一级原型对象.(如何知道一个对象直接继承哪个对象)
+				
+//		let arr = [];
+		
+//		console.log(arr.__proto__)
+
+//		'value' in arr -> value这个属性在不在arr的原型链上.
+//		if('value' in arr){
+//			alert('有');
+//		}else{
+//			alert('没有');
+//		}
+
+//		arr.hasOwnProperty('push') -> 判断push是不是arr的私有属性
+//		if(arr.hasOwnProperty('push')){
+//			alert('是');
+//		}else{
+//			alert('不是');
+//		}
+
+//		判断document对象是不是存在于arr的原型链上
+//		if(document.isPrototypeOf(arr)){
+//			alert('在');
+//		}else{
+//			alert('不在')
+//		}
+
+//		Function.prototype是不是在alert的原型链上.
+//		if(Function.prototype.isPrototypeOf(alert)){
+//			alert('在');
+//		}else{
+//			alert('不在');
+//		}
+
+//		if(alert instance Fuction){
+//			alert('在');
+//		}else{
+//			alert('不在');
+//		}
+
+//		arr instanceof Array -> 判断Array.prototype在不在arr的原型链上 -> (判断arr是否属于Array类)
+//		if(arr instanceof Array){
+//			alert('arr是数组')
+//		}else{
+//			alert('arr不是数组')
+//		}
+		
+//		prototype,__proto__,构造函数,new,实例.
+//		
+//		实例 -> 小孩.
+//		构造函数 -> 妈妈.
+//		构造函数.prototype -> 妈妈的老公.
+//		new -> 生小孩
+//		小孩.__proto__ -> 小孩的爸爸.
+//		
+//		小孩.__proto__ == 构造函数.prototype -> true
+
+	</script>
+</html>

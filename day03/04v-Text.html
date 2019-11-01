@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<!--<p v-text='msg'></p>-->
+			<!--<p>{{msg}}</p>-->
+			
+			<p v-html='template'></p>
+			
+			<p>{{template}}</p>
+			
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		v-html -> 可以把html模板插入某个元素内(插值表达式不行)
+//		v-html -> 有可能不安全.
+		
+		new Vue({
+			el:'#app',
+			data:{
+				msg:'哈哈哈',
+				template:'<span>我是span</span><script>alert(100)<\/script>'
+			}
+		})
+		
+	</script>
+</html>

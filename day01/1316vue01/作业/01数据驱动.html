@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='div'>
+        <input type="button" value="随机取数" @click="setRandom()">
+        <div> {{rand}} </div>
+    </div>
+</body>
+<script src="../js/vue.js"></script>
+<script>
+    // 运行页面时,div内显示一个随机整数,取值1-10;点击按钮重新选取一个随机数并显示在app内的div里.
+
+
+    // random 是 [0,1)  , 考虑把0 去掉
+    // 0 到 10 的随机数  Math.floor( Math.random() * 10)   0 1 2 3 4 5 6 7 8 9  + 1 
+    var count = 0;
+    var random = new Vue({
+        el : "#div",
+        data : {
+            rand : Math.floor( Math.random() * 10) + 1
+        },
+        methods : {
+            setRandom(){
+                this.rand = Math.ceil( Math.random() * 10 ) + 1;
+            }
+        }
+    })
+
+</script>
+</html>

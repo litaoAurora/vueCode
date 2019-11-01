@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			
+			div>div{
+				width: 200px;
+				height: 200px;
+				background: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="button" value='切换' @click = 'fn' />
+			<div v-show='flag'>111111111111</div>
+			<div v-show='!flag'>22222222222222</div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		vue指令:
+//			其实都是自定义的标签属性.
+//			这些自定指令的值都可以书写任意表达式.
+//			属性值可以书写相应式数据
+		
+//		作用:
+//			每一种指令表示一种快捷功能.(没有也可以通过其他方式实现)
+//			不同指令有不同的功能.
+		
+//		v-if -> 用于实现简便的显示隐藏功能.
+//		v-show -> 也可以实现显示隐藏.
+		
+//		v-if是通过删除和添加元素来实现显示隐藏
+//		v-show是通过切换样式display来显示隐藏
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				flag:true
+			},
+			methods:{
+				fn(){
+					this.flag = !this.flag;
+				}
+			}
+		})
+		
+	</script>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='app'>
+			
+			<!--事件传参,只需要在click后面属性函数的调用,并且在()内写上实参即可.(原生js不能这样做)-->
+			<!--$event -> vue框架如果需要手动传递事件对象的固定写法。-->
+			
+			<input type="button" :value='name' @click='fn($event,num1)' />			
+			<input type="button" :value='name' @click='fn($event,num2)' />			
+			<input type="button" :value='name' @click='fn($event,num3)' />
+
+		</div>
+		
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/javascript">
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				name:'宇宙头号超级大按钮',
+				num1:100,
+				num2:200,
+				num3:300
+			},
+			methods:{				
+				fn(ev,num){										
+					alert(num);
+					ev.target.style.background = 'red';
+				}
+			}
+		})
+		
+	</script>
+	
+</html>

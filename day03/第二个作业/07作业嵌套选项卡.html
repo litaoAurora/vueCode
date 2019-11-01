@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style>
+#div1{ width:58px; border:1px #000000 solid; float:left;}
+#div1 input{ margin:5px;}
+#div1 input.active{ background:red;}
+.box1{ width:300px; height:300px; border:1px #000000 solid; float:left; margin-left:10px; display:none;}
+.box2{ width:250px; height:250px; background:#666666; margin:10px auto; color:#FFFFFF; display:none;}
+.box1 .active{ background:blue;}
+</style>
+</head>
+
+<body>
+	
+<div id='app'>
+	<div id="div1">
+		<input 
+			type="button" 
+			@click='saveIndex(i)' 
+			v-for='(d,i) in tab' 
+			:class='index==i && "active"' 
+			:value='d'
+		/>
+	</div>
+	
+	<div class='box1' v-for='(d,i) in tab' :style='{display:index==i?"block":""}'>
+		<div 
+			class="box2" 
+			v-for='(d,i) in red' 
+			:style='{display:blues[index].xiab==i?"block":""}'
+		>{{d}}</div>
+	    <input 
+	    	type="button" 
+	    	v-for='(d,i) in red' 
+	    	:value='d' 
+	    	@click='saveBlue(i)' 
+	    	:class='blues[index].xiab==i && "active"' 
+	    />
+	</div>
+</div>
+</body>
+<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	
+	new Vue({
+		el:'#app',
+		data:{
+			tab:['tab1','tab2','tab3','tab4','tab5'],
+			red:['tab-1','tab-2','tab-3'],
+			//红色按钮的下标
+			index:0,
+			//5个小选项卡的下标数组。
+			blues:[{xiab:0},{xiab:0},{xiab:0},{xiab:0},{xiab:0}];//造数据
+		},
+		methods:{
+			saveIndex(i){
+				this.index = i;
+			},
+			saveBlue(i){
+				this.blues[this.index].xiab = i;
+			}
+		}
+	})
+	
+</script>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			{{obj}}
+			{{arr}}
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		vue实例创建的过程中，会给data属性内的数据设置setter和getter,有多少设多少，没有设置不了
+//		一开始obj没有name属性，则这个name属性无法设置setter和getter，则name的改变不会有响应式。
+//		name没有监听，但是obj有监听，因此修改obj就可以有响应式。
+
+//		如果数据是数组，实例化的过程中，只能给数组本身添加监听，而没有办法给数组的元素添加监听.
+//		除非这个元素是引用类型。则实例化的过程中会递归给这个引用元素的属性添加监听。
+
+//		每次视图更新，系统会自动检测data数据，如果有新的数据字段，会重新给这个数据字段添加数据监听。
+//		例如obj有监听:
+//			修改obj = {name:'宝强'},这一步会导致视图更新.
+//			视图给新之后,系统检测,obj多了一个属性name,则会再次给name添加数据监听.
+
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				obj:{},
+				arr:[1,2,3,{name:'杨幂'}],
+			}
+		})
+		
+	</script>
+</html>

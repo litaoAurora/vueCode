@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#app div{
+				width: 200px;
+				height: 200px;
+				border:1px solid #000;
+                float: left;
+                margin-left: 10px;
+			}
+
+
+		</style>
+	</head>
+	<body>
+		<div id='app'>		
+			<input type="button" v-for="(col, i ) in color" :value='col' @click="fn(i)" /> <br>
+			<div v-for="(ind, i) in divs" @click="setColor(i)" :styke="{backgroun: ind.color}"> {{}} </div>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+        //用vue实现拾取颜色效果,点击input后再点击某个div,div的内容和背景色变成input的value
+		new Vue({
+			el : '#app',
+			data : {
+				color : ['red', 'green', 'blue'],
+				divs : [{color: ''}, {color: ''}, {color: ''}],
+				flog : null
+			},
+			methods : {
+				fn(flag){
+					this.flag = flag;	
+				},
+				setColor(index){
+					this['divs'][index] = this.color[this.flog]
+				}
+			}
+		})
+		
+	</script>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+				
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				obj:{
+					name:'哈哈',
+					A:{
+						name:'呵呵',
+						B:{
+							name:'嘻嘻'
+						}
+					}
+				}
+			},
+			watch:{				
+				"obj":{
+					
+					//deep设为true,可以监听对象内的所有嵌套属性.
+					//但是不能知道当前变化的是哪个属性.
+					//深度监听之后,形参newVal会打印整个对象.					
+					deep:true,
+					handler(newVal){
+						console.log(newVal);
+						console.log('obj变化了')
+					}
+				}
+			}
+			
+//			watch:{				
+//				"obj":{
+//					handler(){
+//						console.log('obj变化了')
+//					}
+//				},
+//				"obj.name":{
+//					handler(){
+//						console.log('obj.name变化了')
+//					}
+//				}
+//			}
+		})
+		
+//		事件句柄(handler),回调函数(作为实参的函数)
+		
+		
+	</script>
+</html>

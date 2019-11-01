@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="button" value="按钮" />
+	</body>
+	<script type="text/javascript">
+		
+//		bind -> 绑定this指向.
+		
+		let oYm = {
+			name:'hhh',
+			fn(){
+				console.log(this);
+			}
+		}
+		
+		let oSls = {
+			name:'萨拉斯'
+		}
+		
+		//oSls偷了oYm的技能马上发动。
+		//call返回什么？fn返回什么，这里call就返回什么
+		//oYm.fn.call(oSls);
+		
+		//oSls偷了oYm的技能没有发生发动。
+		//就算oSls的这个技能再被别人偷掉，this永远绑定的是oSls。
+		//在这里bind永远返回另一个函数show。这个函数show和fn一模一样，但是不是同一个函数。
+		//这个show在调用时，无论以何种形式调用，this都指向oSls。
+		let show = oYm.fn.bind(oSls);
+		
+		show();//oSls
+		show.call(oYm);//oSls
+		
+		
+	</script>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		1:this,变量查找.
+			this指向谁?
+				1):this在哪个函数声明里.
+				2):这个函数的调用的函数在哪里.
+				3):函数的前面有没有对象的名字,有就是它,没有就是window.
+				
+				特殊情况:
+					1):call和apply(this指向第一个参数)
+					2):箭头函数.(内部的this指向箭头函数所在作用域内的this)(里面的this指向外面的this)
+					3):new (this指向实例);
+					4):bind (bind返回的函数在调用时this永远指向bind的第一个参数).
+			
+			变量查找:
+				1):先写变量所在作用域链
+				2):顺着这个作用域链逐层往上查找,查找变量声明(形参也算),找到停止查找.(就近原则).
+			
+		2:v-if,else-if,v-else,v-model,v-bind-,v-for
+			
+			v-if,v-else-if,v-else -> 条件渲染 (显示隐藏的)
+			v-for -> 做列表渲染.			
+				循环数组:
+					var arr = [1,2,3,4];					
+					<li v-for='(d,i) in arr'>{{d}}</li>
+					
+					var arr = [{name:'1111'},{name:'2222'}];					
+					<li v-for='(d,i) in arr'>{{d.name}}</li>					
+				循环对象:
+					var obj = {name:'哈哈',age:32}
+					<li v-for='d in obj'>{{d}}</li>
+					<li v-for='(d,prop) in obj'>{{d}}</li>
+					<li v-for='(d,prop,i) in obj'>{{d}}</li>
+					
+					var obj = {name:'哈哈',age:32,arr:[1,2,3,4]}
+					
+			v-model:
+				获取页面表单元素输入的值。
+				
+				获取文本框输入的值，得到字符串
+				获取单选框的值，得到的勾选的单选框的value
+				
+				如果用布尔值获取复选框输入的值，得到的是复选框的勾选状态
+				如果用数组获取复选框输入的值，这个数组的元素会根据复选框的勾选状态增减。
+			
+			v-bind:把相应数据绑定到属性上(把属性值变成变量或者表达式).
+				v-bind的简写就是一个:
+				
+				<div :style='"background:"+color'></div>
+				<div :style='{background:color}'></div>
+				
+				<div :class='"box"+" "+"active"'></div>
+				<div :class='["box","active"]'></div>
+				<div :class='{box:true,active:true}'></div>
+				
+	</body>
+	<script type="text/javascript">
+
+//		-------------------------------------------------------------------
+//		function fn(){
+//			console.log(this);
+//		}
+//		
+//		fn.bind(document)();//document
+//		fn.call(document.body);//document.body	
+//		
+//		fn.bind(document).call(document.body);//document		
+//		let show = fn.bind(document);		
+//		---------------------------------------------------------------------
+				
+//		let arr = [];
+//		
+//		function fn(){
+//			for(var i=0;i<5;i++){
+//				arr.push(function(){
+//					console.log(i)
+//				})
+//			}
+//		}
+//		
+//		fn();
+//		
+//		for(var i=0;i<5;i++){
+//			arr[i]();
+//		}
+		
+
+	</script>
+</html>

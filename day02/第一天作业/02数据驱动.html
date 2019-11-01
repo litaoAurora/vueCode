@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        {{num1+num2}}
+        {{num3}}
+    </div>
+</body>
+
+<!--<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>-->
+<script>
+	
+    // 运行页面时,div内显示一个随机整数,取值1-10;点击按钮重新选取一个随机数并显示在app内的div里.
+     
+    
+    let vm = new Vue({
+    	el:'#app',
+// 		data:{
+// 			num1:Math.floor(Math.random()*10) + 1,
+// 			num2:Math.floor(Math.random()*10) + 1
+// 		}
+//  	
+    	data:{
+    		num1:Math.floor(Math.random()*10) + 1,
+    		num2:Math.floor(Math.random()*10) + 1,
+//  		num3:this.num1+this.num2
+    		num3:num1+num2
+    	}
+    })
+    
+    function fn(obj){
+    	console.log(obj)
+    }
+    
+    function show(){
+    	fn(this);
+    }
+    
+    show();
+    
+</script>
+</html>

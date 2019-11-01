@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='app'>
+			{{msg}}
+		</div>
+				
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		{{}} -> 插值表达式
+
+//		这个vue例子实际只实现了吧msg变量的值放入了div作为内容。
+		new Vue({
+			el:'#app',
+			data:{
+				msg:'hello Vue！！'
+			}
+		})
+
+//		原生js实现以上效果(DOM操作思路):
+		let oDiv = document.getElementById("app");
+		let msg = 'hello Vue！！';		
+		oDiv.innerText = msg;
+
+//		js写项目需要基于DOM操作的思路进行.
+//		
+//		DOM操作.
+//			1:获取节点.2:设置操作节点
+//		
+//		Vue写项目(其他框架)是基于数据驱动.(没有DOM操作)(凡是用框架时涉及到获取元素的思路，都是不对的)
+		
+	</script>
+</html>

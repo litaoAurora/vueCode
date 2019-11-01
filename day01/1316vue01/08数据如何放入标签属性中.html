@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.red{
+				background: red;
+			}
+			.green{
+				background: green;
+			}
+			.yellow{
+				background: deeppink;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='app'>
+			<p :class='color1'>{{num1}}</p>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		只有标签的内容可以写插值表达式。
+//		标签属性内要放数据,不能写插值表达式。
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				num1:1,
+				color1:'red',
+				color2:'green'
+			}
+		});
+		
+	</script>
+</html>

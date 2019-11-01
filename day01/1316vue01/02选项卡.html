@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			
+			div{
+				width: 200px;
+				height: 200px;
+				border:1px solid #000;
+				display: none;
+			}
+			
+			div.active{
+				display: block;
+			}
+			
+			input.active{
+				background: red;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<input type="button" class='active' value='111111' />
+		<input type="button" value='222222' />
+		<input type="button" value='333333' />
+		<input type="button" value='44444' />
+		<input type="button" value='5555' />
+		<div class='active'>1111</div>
+		<div>2222</div>
+		<div>3333</div>
+		<div>4444</div>
+		<div>55555</div>
+	</body>
+	<script type="text/javascript">
+		
+//		写代码必须有目的.(你得知道你要干嘛).
+
+//		点击第一个按钮显示第一个div
+//		点击第二个按钮显示第二个div
+//		点击第三个按钮显示第三个div
+
+//		for循环是实现目的的手段,不是目的。
+
+		let aBtn = document.getElementsByTagName('input');
+		let aDiv = document.getElementsByTagName('div');
+		
+		for(let j=0;j<aBtn.length;j++){
+			aBtn[j].onclick = function(){			
+				for(let i=0;i<aBtn.length;i++){
+					aDiv[i].className = '';
+					aBtn[i].className = ''；
+				}				
+				aDiv[j].className = 'active';
+				this.className = 'active';
+			}
+		}
+		
+	</script>
+</html>

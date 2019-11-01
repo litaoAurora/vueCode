@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.red{
+				background: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='app'>
+			
+			<div v-bind:class='"red"||0'>{{msg}}</div>
+			
+			<!--一下是v-bind的简写-->
+			<div :class='color' :id='wrap'>{{msg}}</div>
+			
+			<!--这样写会报错，为什么？因为active box nav不是表达式-->
+			<!--<div :class = 'active box nav'></div>-->
+			
+			<!--多个类的数组写法-->
+			<!--<div :class = '["box","active","nav"]'></div>-->
+			
+			<!--多个类的对象写法-->
+			<!--<div :class = '{box:true,active:true,nav:false}'></div>-->
+			
+			<!--<div :style='"background:"+color'>style</div>-->
+			
+			<div :style='{background:color}'>style</div>
+			
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		v-bind -> 让属性值变成变量.(表达式)
+//		指令的值可以写任意表达式
+//		任何属性都可以用v-bind处理,让属性值变成变量(表达式)
+		
+		new Vue({
+			el:'#app',
+			data:{
+				msg:'马上放学了，好开心啊',
+				color:'red',
+				wrap:'hahaha'
+			}
+		})
+		
+	</script>
+</html>

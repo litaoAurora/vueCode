@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<p>{{num1}}</p>
+			<h3>{{num3}}</h3>
+			<div>{{num2}}</div>
+			<div>{{1+1}}</div>
+			<div>{{1<1}}</div>
+			<div>{{0||1}}</div>
+			<div>{{0?1:2}}</div>
+			<div>{{Math.random()}}</div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		把数据放入视图 -> 插值表达式 -> {{表达式}}
+//		Math这样的全局对象可以写入{{}}内，其他window的方法不行。
+
+//		表达式:
+//			1:原始表达式
+//				单个常亮,单个变量.
+//			2:复合表达式
+//				原始表达式+操作符.
+//			3:函数调用表达式.
+//			
+//		操作符:
+//			1:算术运算符(+,-,*,/)
+//			2:比较运算符
+//			3:逻辑运算符
+//			4:三目运算符(条件运算符).
+//			5:赋值运算符
+//			
+//			typeof instanceof in delete
+//		
+//		表达式都会有返回值.(计算结果)
+		
+//		1+1 -> 表达式 -> 用来提供1+1的结果.
+//		1<2 -> 表达式 -> 用来提供1<2的结果.
+//		1||0 -> 表达式 -> 用来提供1||0的结果.
+//		alert(100) -> 表达式 -> 用来提供alert(100)的结果
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				num1:1,
+				num2:2,
+				num3:3
+			}
+		});
+		
+	</script>
+</html>

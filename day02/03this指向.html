@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="button" value="按钮" />
+	</body>
+	<script type="text/javascript">
+		
+		let oBtn = document.getElementsByTagName('input')[0];
+		
+//		oBtn.onclick = function(){
+//			console.log(this);
+//		}
+		
+		//点击时系统自动调用我们赋值的匿名函数,调用形式如下
+		//这样可以分析出this指向oBtn.
+		//oBtn.click();
+
+//		-------------------------------------------------------------------------
+//		oBtn.onclick = fn();
+//		
+//		function fn (){
+//			console.log(this);//window
+//			return function(){
+//				console.log(this);//oBtn
+//			}			
+//		}
+//		----------------------------------------------------------------------------------
+		
+		let oYm = {
+			name:'幂幂',
+			fn(){
+				console.log(this);
+			}
+		}		
+		let show = oYm.fn;		
+		oYm.fn();//oYm
+		show();//window
+		
+		
+	</script>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		
+//		如果有特殊情况,分析时不能用3个步骤中的第三步
+		
+//		this指向的特殊情况:
+//			1):有call和apply,(this指向call和apply的第一个参数)
+//			2):有箭头函数.
+//			3):有new.(this指向实例)
+//			4):有bind.(bind返回的函数在调用时,this永远指向bind的第一个参数)
+		
+//		call和apply -> 用来改变this指向(用来偷技能的)
+		
+//		let oYm = {
+//			name:'hhhh',
+//			Q(num){
+//				console.log(this)
+//			}
+//		}
+//		
+//		let oSls = {
+//			name:'塞拉斯'
+//		}
+//		
+//		oYm.Q();
+//		
+//		//oSls没有Q技能,不能发动.报错.
+//		oSls.Q();
+//		
+//		//oSls临时调用一次oYm的Q方法
+//		oYm.Q.call(oSls,100);
+//		oYm.Q.apply(oSls,[100]);
+
+//		---------------------------------------------------------------------
+		
+//		function Fn(name){
+//			this.name = name;
+//		}
+//		
+//		let oYm = new Fn('羊毛');有new this指向oYm,没new,this指向window.
+
+//		--------------------------------------------------------------
+		
+		
+		
+	</script>
+</html>

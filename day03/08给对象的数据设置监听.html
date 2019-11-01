@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'></div>
+	</body>
+	<script type="text/javascript">
+		
+		let oDiv = document.getElementById("app");
+		
+		let data = {
+			msg:'哈哈哈'
+		}
+		
+		let val = data.msg
+
+//		给对象的属性设置监听:
+//			通过Object.defineProperty给对象的属性设置getter和setter来实现。
+						
+//		设置了getter和setter后,不能再设置value属性,msg属性的值也只能通过getter函数返回
+		
+		Object.defineProperty(data,'msg',{
+			//getter在msg被访问时触发.
+			get(){
+				console.log('msg被访问了');
+				return val
+			},
+			//setter在msg被修改时触发
+			set(newVal){
+				//形参newVal就是每次修改的值。
+				oDiv.innerText = newVal;
+				//让getter返回新修改的值，以达到修改的目的。
+				val = newVal;
+				console.log('msg被修改了');
+			}
+		})
+		
+		
+	</script>
+</html>

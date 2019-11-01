@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="text" placeholder="单价" v-model='price' />
+			<input type="text" placeholder="数量" v-model='count' />
+			<p>总价:{{total}}</p>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		watch -> 监听数据,在数据变化时做一些额外的事情.(默认事情是视图更新)
+//		监听的数据可以写成函数的形式(简写),也可以写成对象的形式(全写).
+		
+		new Vue({
+			el:'#app',
+			data:{
+				price:10,
+				count:1,
+				total:0,
+			},
+			watch:{
+				price:{
+					//可以让handler默认执行一次,而不需要数据变化.
+					immediate:true,
+					handler(){
+						this.total = this.price * this.count;
+					}
+				},
+				
+				//以下写法,当count发生变化时,可以同时触发3个函数.(理论上无数个).
+				//函数的写法有3种.第一种是字符串函数名,第二种匿名函数,第三种json对象写方法.
+				count:['show1',function(){
+					console.log('第二逻辑触发')
+				},{
+					handler(){
+						console.log('第三逻辑触发')
+					}
+				}]
+			},
+			methods:{
+				show1(){
+					console.log('第一逻辑触发')
+				}
+			}
+		})
+		
+//		事件句柄(handler),回调函数(作为实参的函数)
+		
+		
+	</script>
+</html>

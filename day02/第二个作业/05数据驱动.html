@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <input type="button" value="插入li" @click="add">
+        <input type="button" value="chang" @click="chang">
+        <ul >
+            <li v-for='(item, i) in arr'> {{item}} </li>
+        </ul>
+    </div>
+</body>
+<script src="../js/vue.js"></script>
+<script>
+    //每点击一次按钮,给ul插入一个新的li.li的内容随机取1-10的随机整数
+    new Vue({
+        el : '#app',
+        data : {
+            arr : []
+
+        },
+        methods : {
+            add(){
+                this.arr.push( Math.floor( (Math.random() * 10 ) + 1) )
+            
+            },
+            // chang(){
+            //     this.arr[2] = 5555;
+            //     this.arr.pop()
+            //     console.log(this.arr)
+            // }
+            // 调试当 数组的 什么改变是 会出发 响应式。 
+        }
+    })
+
+</script>
+</html>

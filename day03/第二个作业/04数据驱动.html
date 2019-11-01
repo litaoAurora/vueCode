@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#app div{
+				width: 200px;
+				height: 200px;
+				border:1px solid #000;
+                float: left;
+                margin-left: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="button" v-for='(d,i) in colors' :value='d' @click='getColor(i)' />
+			<br />
+			<div v-for='(d,i) in divs' @click='setColor(d)' :style='{background:d.color}'></div>			
+		</div>
+	</body>
+	<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+        //用vue实现拾取颜色效果,点击input后再点击某个div,div的内容和背景色变成input的value
+        
+        new Vue({
+        	el:"#app",
+        	data:{
+        		colors:['red','blue','green'],
+        		divs:[{color:''},{color:''},{color:''}],
+        		i:0,
+        	},
+        	methods:{
+        		getColor(i){
+        			this.i = i;
+        		},
+        		setColor(d){
+        			d.color = this.colors[this.i]
+        		}
+        	}
+        })
+        
+        
+	</script>
+</html>

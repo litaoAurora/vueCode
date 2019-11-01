@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="text" v-model="val" />
+			<input type="button" value="发表" @click="add" />
+			<ul>
+				<li v-for=" (item, i) in arr ">
+					<span> {{i}} </span><span  :contenteditable="item.flag">{{item.val}}</span >
+					<input type="button" value="上移"  @click='fontShift( i )'/>					
+					<input type="button" value="下移" @click="xShift( i )" />
+					<input type="button" value="删除" @click="remove(i)"/>
+					<input type="button" value="编辑" @click="edit(i)" />
+				</li>
+			</ul>
+		</div>
+	</body>
+	<!-- <script src="..js/vue.js" charset="utf-8"></script> -->
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		
+//		arr.splice()来实现上移下移
+//		arr:[{content:1111,edit:true},{content:222222,edit:false}]
+		var vm = new Vue({
+			el : '#app',
+			data : {
+				// shift : ['上移', '下移', '删除','编辑'],
+				arr : [{val : 1111,flag : false,},{val : 222,flag : true,}],  // 默认4个。 
+				val : null,
+			},
+			methods : {
+				fontShift(i){
+					// console.log(this.arr.splice(i,1))
+					// let item = {val, flag} = this.arr.splice(i,1)[0]; 
+					// console.log(item)
+					// splice 这个鬼东西放回的是一个数组。 
+					this.arr.splice(i-1, 0,  this.arr.splice(i,1)[0])
+				}, 
+				xShift(i){
+					this.arr.splice(i+1, 0,  this.arr.splice(i,1)[0])
+				},
+				remove(i){
+
+					this.arr.splice(i,1)
+				},
+				edit(i){
+					// var middle = 
+					this.arr[i].flag = this.arr[i].flag ;
+				},
+				add(){
+					this.arr.push(  {  val : this.val, flag: false } )
+					this.val = null;
+				}
+			}
+		})
+
+	</script>
+</html>

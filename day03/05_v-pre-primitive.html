@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="">
+			function fn(){
+				alert(100)
+			}
+		</div>
+		<pre>
+			function fn(){
+				alert(100)
+			}
+		</pre>
+		
+		<div id="app">
+			<div v-pre>{{alert(100)}}</div>
+			<p v-once>{{msg}}</p>
+		</div>
+		
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		v-pre -> 内容不进行插值表达式的求值.写什么显示什么.
+//		v-once -> 响应式只执行一次。
+		
+//		function fn(){
+//			alert(100)
+//		}
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				msg:11111
+			},
+			methods
+		})
+		
+	</script>
+</html>

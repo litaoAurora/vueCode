@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="text" placeholder="单价" v-model='price' />
+			<input type="text" placeholder="数量" v-model='count' />
+			<p>总价:{{total}}</p>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		computed能做到的事情,watch都可以做到.(有可能会更麻烦)
+//		watch能做到的事情,computed不一定能做到.(有异步操作时,computed做不到)
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				price:10,
+				count:1,
+				total:0,
+			},			
+//			computed:{
+				//计算属性无法执行异步操作。因为计算属性的值需要函数return，return是同步的。
+//				total(){					
+//					let num = 0;					
+//					setTimeout(()=>{
+//						num = this.price * this.count;
+//					},1000);					
+//					return num;					
+//				}
+//			},			
+			watch:{
+				price:{
+					handler(){
+	
+//						这里的this指向window。而不是vm
+//						setTimeout(function(){
+//							this.total = this.price * this.count;
+//						},1000)
+
+//						通过bind绑定this为vm
+						setTimeout(function(){
+							this.total = this.price * this.count;
+						}.bind(this),1000);
+
+//						用一个变量that缓存vm
+//						let that = this;
+//						setTimeout(function(){
+//							that.total = that.price * that.count;
+//						},1000);
+
+//						箭头函数，可以让箭头函数里面的this指向外面的this(最优写法)
+//						setTimeout(()=>{
+//							this.total = this.price * this.count;
+//						},1000);					
+					}
+				}
+			},
+			methods:{
+				setData(){
+					this.total = this.price * this.count;
+				}
+			}
+		});
+		
+		(function(){
+			console.log(1000)
+		}())
+		
+		
+	</script>
+</html>

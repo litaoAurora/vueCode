@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		
+		<div>
+			{{msg}}
+			{{fn()}}
+		</div>
+		
+		1:vue框架
+			
+			框架写程序是以数据驱动来进行的。(没有DOM操作)
+			
+			选项:实例化vue的实参是一个json对象,对象的所有属性都叫选项.
+			选项需要配置,不同的选项有不同的功能.
+			
+			1):el的作用?
+				把el指定的标签的outerHTML作为虚拟阶段模板.(确定vue控制的视图是哪个).
+				el选项的值是一个标签的选择器,这个选择器选中多个元素,则第一个会作为视图
+				el不能指定body和html作为视图.
+				
+			2):data的作用?
+				vue的变量写在data里.vue的状态(data,view).
+				data内的数据默认都是响应式(数据变化会导致视图变化).
+			
+			3):methods的作用？
+				用于属性自定义函数(fn).
+			
+			4):响应式.
+				a:有data
+				b:这个data必须插入到视图内.
+				
+			5):视图如何绑定数据?
+				a:通过插值表达式插入.
+					{{任意表达式}}
+				b:插入到属性里.
+					:属性 = '任意表达式'
+			
+			6):视图如何查找数据?
+				视图内的数据会默认去vue的实例上查找相应的属性或者方法.
+				<div>
+					{{msg}}
+					{{fn()}}
+				</div>
+				视图会查找vm身上有没有msg属性以及fn方法.如果没有就报错.
+				因此视图上引用的数据或者方法需要在data内和methods内声明过.
+				
+			7):视图如何绑定事件.
+				<div @click='fn'></div>
+				事件引入的方法fn，必须在methods内声明。
+				
+				如果需要传参数,需要带();
+				<div @click='fn(100)'></div>
+				
+				$event -> 手动传入事件对象
+				<div @click='fn($event,100)'></div>
+				
+				事件内的this指向vue实例.(不是指向标签本身).
+				
+			let vm = new Vue({
+				el:
+				data:
+				methods:
+			})
+		
+	</body>
+</html>

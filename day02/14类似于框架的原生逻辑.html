@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			
+			div{
+				width: 200px;
+				height: 200px;
+				border:1px solid #000;
+				display: none;
+			}
+			
+			input.active{
+				background: red;
+			}
+			
+			div.active{
+				display: block;
+			}
+			
+		</style>
+	</head>
+	<body>
+		
+		<input type="button" class='active' value='111111'  />
+		<input type="button" value='222222' />
+		<input type="button" value='333333' />
+		<div class='active'>1111</div>
+		<div >2222</div>
+		<div >3333</div>
+				
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		let aDiv = document.getElementsByTagName('div');
+		let aBtn = document.getElementsByTagName('input');
+		
+//		每次点击按钮,循环所有div,判断哪个div的下标跟当前被点击按钮的下标一致,一致的就显示,不一致的不显示
+		
+		for(let index = 0;index<aBtn.length;index++){
+			aBtn[index].addEventListener('click',function(){
+				for(let i = 0;i<aDiv.length;i++){
+					if(index == i){
+						aDiv[i].className = 'active';
+					}else{
+						aDiv[i].className = '';
+					}
+				}
+			})
+		}
+		
+	</script>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="text" placeholder="单价" v-model='price' />
+			<input type="text" placeholder="数量" v-model='count' />
+			<input type="text" placeholder="数量" v-model='abc' />
+			<p>总价:{{total}}</p>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		计算属性:
+//			如果一个数据依赖于别的数据计算得出,都可以写成计算属性(computed)
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				price:10,
+				count:1,
+				abc:1,
+			},
+			computed:{
+//				total也是响应式数据.不过可以写成函数的形式,它的值需要通过函数返回。
+//				计算属性也会变成vm实例的属性，但是不要写在data里。
+//				每次price或者count变化时total都会触发，触发后得到新的值。
+				total(){
+					return this.price * this.count + this.abc
+				}
+			}
+//			watch:{
+//				price:{
+//					//可以让handler默认执行一次,而不需要数据变化.
+//					immediate:true,
+//					handler(){
+//						this.total = this.price * this.count;
+//					}
+//				},
+//				count:{
+//					handler(){
+//						this.total = this.price * this.count;
+//					}
+//				}
+//			}
+		})
+		
+//		事件句柄(handler),回调函数(作为实参的函数)
+		
+		
+	</script>
+</html>

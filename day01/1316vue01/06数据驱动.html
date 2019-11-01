@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='app'>
+			<input type="button" value='按钮' @click='changeText' />
+			<p>{{num}}</p>
+			<h3>{{msg}}</h3>
+		</div>
+				
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		let num = Math.random();
+		
+//		默认让p的内容显示num,点击按钮,给p的内容显示另一个随机数
+
+//		原生js的逻辑(DOM操作);
+//		let oBtn = document.getElementsByTagName('input')[0];
+//		let oP = document.getElementsByTagName('p')[0];
+//		
+//		oP.innerText = num;
+//		
+//		oBtn.onclick = function(){
+//			oP.innerText = Math.random();
+//		}
+
+//		框架书写项目,没有DOM操作.都是基于数据驱动.
+//		数据驱动 -> 只修改数据,通过修改数据来重新渲染视图.(标签).
+//		数据变化,视图会跟着变化 -> 响应式.
+//			例如:这个数据是响应式的 -> 这个数据变化会之间导致视图变化.
+
+//		视图:vue实例控制的页面部分.
+//		数据:vue实例实参的data属性内的各种数据.这些数据默认都是响应式的.
+
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				num:Math.random(),
+				msg:'vue你好'
+			},
+			methods:{
+				changeText:function(){
+					this.num = Math.random();
+				}
+			}
+		});
+		
+
+		
+
+		
+	</script>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		
+//		变量查找:为了确定变量是哪个.
+//			1:确定变量所在的作用域链
+//			2:在这个作用域链上逐层插值变量声明.查找到就停止查找(就近原则)。
+//				(形参相当于是声明在函数内的局部变量)
+		
+		var n = 10;		
+		function add(){
+			var n = 20;
+			function fn(n){
+				n += 100;
+				alert(n);//fn -> add -> 全局 120
+			}			
+			fn();
+			alert(n);//add -> 全局 120
+		}
+		
+		add();
+		alert(n);//全局 10
+
+//		-----------------------------------------------------------------------
+
+//		js的作用域链跟函数在哪里调用没有关系,只跟函数声明写在哪里有关系.
+
+//		js的这种作用域教静态作用域(词法作用域)
+
+//		var n = 20;
+//		
+//		function fn(){
+//			console.log(n);//fn -> 全局
+//		}
+//		
+//		function show(){
+//			var n = 10;
+//			fn();
+//		}
+//		
+//		show();
+		
+	</script>
+</html>

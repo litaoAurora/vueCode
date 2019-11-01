@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='app'>			
+			<input type="button" :value='name' @click='fn' />			
+		</div>
+		
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/javascript">
+		
+		let vm = new Vue({
+//			确定视图在哪里。el的属性值是这个视图的选择器。如果选择器选中多个元素，则视图默认是第一个。
+//			不能用body和html来做视图。
+			el:'#app',
+//			响应式数据都要写在data内。
+			data:{
+				name:'宇宙头号超级大按钮'
+			},
+//			自定义函数都需要写在methods内
+			methods:{
+				fn(){
+					alert('老子四点要下课，想得美');
+				}
+			}
+		})
+		
+	</script>
+	
+</html>

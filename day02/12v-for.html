@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>			
+			<!--<ul>
+				<li>{{arr[0]}}</li>
+				<li>{{arr[1]}}</li>
+				<li>{{arr[2]}}</li>
+				<li>{{arr[3]}}</li>
+			</ul>-->
+			
+			<!--<ul>
+				<li v-for='(d,i) in arr'>{{arr[i]}}</li>
+			</ul>-->
+			
+			<!--v-for -> 列表渲染-->
+			
+			<!--
+				d -> 是循环的数组的元素
+				i -> 是循环的元素的下标
+			-->
+			
+			<!--<ul>
+				<li v-for='(d,i) in arr'>{{d}}</li>
+			</ul>-->
+		
+			<!--<ul>
+				<li v-for='d in arr'>{{d}}</li>
+			</ul>-->
+			
+			<!--如果循环的是对象,这里d就是属性值-->
+			
+			<!--<ul>
+				<li v-for='d in oYm'>{{d}}</li>
+			</ul>-->
+			
+			<!--这里的i是对象的属性名-->
+			<!--<ul>
+				<li v-for='(d,i) in oYm'>{{i+":"+d}}</li>
+			</ul>-->
+			
+			<!--这里的index是属性的序号。(从0开始)-->
+			<!--<ul>
+				<li v-for='(d,i,index) in oYm'>{{index+":"+i+":"+d}}</li>
+			</ul>-->
+			
+			<!--还可以循环字符串-->
+			<!--<ul>
+				<li v-for='d in str'>{{d}}</li>
+			</ul>-->
+			
+			<!--可以直接写数字控制循环次数-->
+			<ul>
+				<li v-for='d in 10'>{{d}}</li>
+			</ul>
+			
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		new Vue({
+			el:'#app',
+			data:{
+				arr:['首页','活动','双11','攻略'],
+				oYm:{
+					name:'幂幂',
+					sex:'女',
+					age:33,
+					height:'165cm'
+				},
+				str:'我今天没水喝'
+			}
+		})
+		
+//		arr:{
+//			0:"首页",
+//			1:"活动",
+//			2:'双11'
+//		}
+		
+	</script>
+</html>

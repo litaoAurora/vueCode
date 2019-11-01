@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			
+			div>div{
+				width: 200px;
+				height: 200px;
+				border:1px solid #000;
+			}
+			
+			input.active{
+				background: red;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id='app'>
+			
+			<!--每次循环的d和i是相互独立的,不会相互影响和替换-->
+			
+			<!--循环的下标，可以通过函数传入-->
+			
+			<input v-for='(d,i) in arr' :class='index==i?"active":""' type="button" :value='d' @click='fn(i)' />
+			<div v-for='(d,i) in arr' v-if='index == i'>{{d}}</div>
+			
+		</div>
+		
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+				
+		new Vue({
+			el:'#app',
+			data:{
+				//点击的按钮的下标
+				index:0,
+				arr:['首页','活动','双11','春节大酬宾','七夕大酬宾','白色情人节']
+			},
+			methods:{
+				fn(i){
+					this.index = i;
+				}
+			}
+		})
+		
+		
+	</script>
+</html>

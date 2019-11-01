@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			{{a}}
+			{{fn}}
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		视图内的变量必须在data内或者methods内声明,否则报错
+//		data内声明的变量和methods内声明的方法都会变成vue实例(vm)的属性和方法.
+//		在methods内的函数中如果需要使用data内的数据,可以同this获取.
+
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				a:100
+			},
+			methods:{
+				fn(){
+//					console.log(vm.a);
+					console.log(this.a);
+				}
+			}
+		})
+		
+	</script>
+</html>

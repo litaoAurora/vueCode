@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			
+			div>div{
+				width: 200px;
+				height: 200px;
+				border:1px solid #000;
+			}
+			
+			input.active{
+				background: red;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="button" :class='index==0 ? "active" : ""' value='111111' @click='fn(0)' />
+			<input type="button" :class='index==1 ? "active" : ""' value='222222' @click='fn(1)'/>
+			<input type="button" :class='index==2 ? "active" : ""' value='333333' @click='fn(2)'/>
+			<div v-if='index == 0'>1111</div>
+			<div v-if='index == 1'>2222</div>
+			<div v-if='index == 2'>3333</div>
+		</div>
+		
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+				
+		new Vue({
+			el:'#app',
+			data:{
+				index:0
+			},
+			methods:{
+				fn(i){
+					this.index = i;
+				}
+			}
+		})
+		
+		
+	</script>
+</html>

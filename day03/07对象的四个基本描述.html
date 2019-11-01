@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		
+//		对象属性有四个基本描述:
+//			1):value值.
+//			2):是不是可以修改
+//			3):是不是可以删除
+//			4):是不是可枚举
+		
+		let oYm = {name:'哈哈哈'};
+		
+		let des = Object.getOwnPropertyDescriptor(oYm,'name');
+		
+//		configurable: true -> 是否可删除
+//		enumerable: true -> 是否可枚举
+//		value: "哈哈哈" -> value值
+//		writable: true -> 是否可修改
+		
+//		删除一个对象的属性
+//		delete oYm.name
+		
+//		enumerable -> 是否可枚举 -> for in循环是否可以遍历到的属性
+//		for in遍历 -> 遍历的是对象原型链上所有可枚举的属性.
+
+		Object.prototype.fn = 100;
+
+//		修改oYm的name属性的可枚举属性为false(不可枚举).
+		Object.defineProperty(oYm,'name',{
+			enumerable: false
+		})
+		
+		for(var prop in oYm){
+			console.log(prop);
+		}
+		
+	</script>
+</html>

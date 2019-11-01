@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			
+			div>div{
+				width: 200px;
+				height: 200px;
+				background: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="button" value='切换' @click = 'fn' />
+			<div v-if='flag'>111111111111</div>
+			<div v-else-if='flag'>222222222</div>
+			<div v-else>3333333333</div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+				
+//		v-if -> 用于实现简便的显示隐藏功能.
+		
+//		v-if是通过删除和添加元素来实现显示隐藏
+//		v-if和v-else可以有多个中间条件v-else-if
+				
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				flag:true
+			},
+			methods:{
+				fn(){
+					this.flag = !this.flag;
+				}
+			}
+		})
+		
+		
+	</script>
+</html>

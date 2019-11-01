@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .odd {
+            background: red;
+        }
+        .even {
+            background : green;
+        }
+    </style>
+</head>
+<body>
+    <div id='app'>
+        <input type="button" value="插入li" @click="add">
+        <ul>
+            <li v-for="(item, i) in arr" :class='item.cla'> {{item.rand}} </li>
+        </ul>
+    </div>
+</body>
+<script src='../js/vue.js'></script>
+<script>
+    //每点击一次按钮,给ul插入一个新的li.li的内容随机取1-10的随机整数
+    //奇数li背景红,偶数li背脊绿(可以配合样式类)
+    var p = {a :1, b : 2}
+    console.log(p.a, p.b);
+    console.log([p.a, p.b ] = [ p.b, p.a])
+    console.log(p.a, p.b);
+
+
+    new Vue({
+        el: '#app',
+        data : {
+            arr : [],
+            odd : 'odd',
+            even : 'even'
+        },
+        methods : {
+            add(){
+                console.log(this.odd, this.even)
+                this.arr.push( {
+                    rand : Math.floor( Math.random() * 10 ) + 1 ,
+                    cla : this.odd
+                })
+                // console.log([this.odd, this.even] = [this.even, this.odd])
+                // 对象就不要用数组解构了
+                var a = this.odd;
+                this.odd = this.even;
+                this.even =  a;
+                 console.log(this.odd, this.even)
+            }
+        }
+    })
+</script>
+</html>

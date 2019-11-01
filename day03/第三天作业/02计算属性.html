@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #div1{
+            height: 100px;
+            background: #000000;
+        }
+        #div2{
+            background: red;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="num">
+        <!-- vue 模式中 ， '{在里面也是可以用 任的意表达式的}' 键可以加引号， 值不加引号， 可以计算 。 -->
+        <div id='div1' :style="{'width': width + 'px'}"></div>
+        <div id='div2' :style="{width : width/2 + 'px'  }"></div>
+    </div>
+</body>
+<script src="../js/vue.js"></script>
+<script>
+    //在文本框内输入数字，根据数字可以改变div1的宽
+    //保证div2的宽始终是div1宽的一半.
+
+    let vm = new Vue({
+        el: '#app',
+        data : {
+            num:  0
+        },
+        computed : {
+            width: {
+                get (){
+                    return this.num ;
+                },
+                set(){
+
+                }
+            }
+        }
+    })
+</script>
+</html>

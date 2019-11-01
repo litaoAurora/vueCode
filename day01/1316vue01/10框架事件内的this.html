@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='app'>			
+			<input type="button" :value='name' @click='fn' />			
+			<input type="button" :value='name' @click='fn' />			
+			<input type="button" :value='name' @click='fn' />			
+		</div>
+		
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/javascript">
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				name:'宇宙头号超级大按钮',
+			},
+			methods:{
+				fn(ev){
+					
+//					methods内的所有自定义方法内的this都指向vue实例					
+//					this在这里不指向按钮，而指向vue的实例vm
+//					this.style.background = 'red';
+//					console.log(this == vm);
+
+//					框架事件内的事件对象。(使用方法和原生js一致)
+					ev.target.style.background = 'red';
+					
+				}
+			}
+		})
+		
+	</script>
+	
+</html>

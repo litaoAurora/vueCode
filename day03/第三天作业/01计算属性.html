@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" placeholder="长" v-model="length">
+        <input type="text" placeholder="宽" v-model="width">
+        <input type="text" placeholder="高" v-model="high">
+        <div> 体积是:{{volume}}  </div>
+    </div>
+</body>
+<script src="../js/vue.js"></script>
+<script>
+    //输入长宽高后再div内显示体积
+    var vm = new Vue({
+        el : '#app',
+        data : {
+            length : 0,
+            width : 0,
+            high : 0 ,
+            //volume : 0
+        },
+        computed : {
+            volume(){
+                console.log(this.length, this.width, this.high)
+                // volume 的值是依靠return 的到的。
+                return this.length * this.width * this.high;
+            }
+        }
+
+    })
+
+</script>
+</html>

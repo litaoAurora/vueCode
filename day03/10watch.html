@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="text" placeholder="单价" v-model='price' />
+			<input type="text" placeholder="数量" v-model='count' />
+			<p>总价:{{total}}</p>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		watch -> 监听数据,在数据变化时做一些额外的事情.(默认事情是视图更新)
+//		监听的数据可以写成函数的形式(简写),也可以写成对象的形式(全写).
+		
+		new Vue({
+			el:'#app',
+			data:{
+				price:10,
+				count:1,
+				total:0,
+			},
+			watch:{
+//				price(newVal,oldVal){
+//					this.total = this.price * this.count;
+//				},
+//				count(){
+//					this.total = this.price * this.count;
+//				}
+				
+				price:{
+//					newVal是变化后的值,oldVal是变化前的值
+					handler(newVal,oldVal){
+						console.log(newVal);
+						console.log(oldVal);
+						this.total = this.price * this.count;
+					}
+				},
+				count:{
+					handler(){
+						this.total = this.price * this.count;
+					}
+				}
+			}
+		})
+		
+//		事件句柄(handler),回调函数(作为实参的函数)
+		
+		
+	</script>
+</html>

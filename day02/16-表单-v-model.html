@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<!--<input type="text" value="" @change='saveData' />-->
+			<!--<input type="text" value="" @input='saveData' />-->
+			
+			<!--默认情况,v-model底层实现的事件是input事件-->
+			<!--<input type="text" value="" v-model='msg' />-->
+			
+			<!--.lazy -> 修饰符 -> 把底层是实现事件换成onchange-->
+			<!--<input type="text" value="" v-model.lazy='msg' />-->
+			
+			<!--number -> 让输入的内容转换为有效数字。100px转换成100-->
+			<!--<input type="text" value="" v-model.number='msg' />-->
+			
+			<!--trim -> 让输入内容的首位空格消失-->
+			<input type="text" value="" v-model.trim='msg' />
+			
+			<div>{{msg}}</div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		v-model -> 用于将表单元素输入的内容绑定为响应式数据.
+		
+		new Vue({
+			el:'#app',
+			data:{
+				msg:''
+			},
+//			methods:{
+//				saveData(ev){
+//					this.msg = ev.target.value;
+//				}
+//			}
+		})
+		
+		
+	</script>
+</html>

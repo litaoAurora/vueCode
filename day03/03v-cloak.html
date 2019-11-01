@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			[v-cloak]{
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='app' v-cloak>
+			{{msg}}
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		v-cloak -> 为了解决视图渲染时有一瞬间看见查找表达式{{}}
+//		Vue没有创建实例成功,隐藏v-cloak所在元素,当实例创建成功,会自动移除这个指令,从而显示渲染后的视图
+		
+		new Vue({
+			el:'#app',
+			data:{
+				msg:'阿双方就看上的放假哈时代峰峻哈时代峻峰哈可视对讲'
+			}
+		})
+		
+	</script>
+</html>
