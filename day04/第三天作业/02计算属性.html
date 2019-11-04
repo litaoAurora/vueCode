@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #div1{
+            height: 100px;
+            background: #000000;
+        }
+        #div2{
+            background: red;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model='w'>
+        <div id='div1' :style='{width:w+"px"}'>1111111</div>
+        <div id='div2' :style="{width:w/2 + 'px'}"></div>
+    </div>
+</body>
+<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    //在文本框内输入数字，根据数字可以改变div1的宽
+    //保证div2的宽始终是div1宽的一半.
+    
+    new Vue({
+    	el:'#app',
+    	data:{
+    		w:0
+    	}
+    })
+    
+</script>
+</html>

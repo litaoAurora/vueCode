@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="text" v-model='msg' />
+			<div is='box' :str='msg'></div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		很多时候,组件间需要传递数据.
+//			常见的传递方式有,父传子,子传父.....
+		
+//		其他传递方式:
+//			兄弟传兄弟,七大姑传八大姨(vuex)
+
+//		父传子:
+//			子组件数据如果需要接受父组件的数据,则这个数据需要通过props声明.(不能用data声明)
+//			在子组件的自定义标签上做父传子的数据复制。(前子后父)
+
+		let box = {
+			template:`
+				<div>
+					<h3>天王盖地虎,小鸡炖蘑菇</h3>
+					<p>{{str}}</p>
+				</div>
+			`,
+			props:['str']
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				msg:''
+			},
+			components:{box}
+		})
+		
+		
+	</script>
+</html>

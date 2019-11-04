@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+				list-style: none;
+			}
+			li{
+				float: left;
+				border:1px solid #000;
+				border-radius: 10px;
+				margin-left:15px;
+				padding:15px;
+			}
+			p{
+				padding: 20px 0 0 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='app'>
+			<ul>
+				<li v-for='(d,i) in arr' :d='d' is='goods'></li>
+			</ul>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		let goods = {
+			template:`
+				<li>
+					<img width='200' :src='d.src' />
+					<p>{{d.content}}</p>
+				</li>
+			`,
+			props:['d']
+//			data(){
+//				return {
+//					arr:[
+//						{src:'img/111.png',content:'超越便宜大甩卖,5块钱1斤'},
+//						{src:'img/222.png',content:'刚出炉的超越便宜大甩卖,5块钱2斤'},
+//						{src:'img/333.png',content:'反正你脸盲,买啥都一样'}
+//					]
+//				}
+//			}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			components:{goods},
+			data:{
+				arr:[
+					{src:'img/111.png',content:'超越便宜大甩卖,5块钱1斤'},
+					{src:'img/222.png',content:'刚出炉的超越便宜大甩卖,5块钱2斤'},
+					{src:'img/333.png',content:'反正你脸盲,买啥都一样'}
+				]
+			}
+		})
+		
+	</script>
+</html>

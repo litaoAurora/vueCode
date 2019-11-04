@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			{{arr}}
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		属于引用类型的:
+//			object -> 数组,函数,纯对象(plain object,上一级原型对象是Object.prototype).
+//			
+//		属于基本类型的是:
+//			number,string,boolean,null,undefined.
+		
+//		let oYm = {
+//			name:'杨幂'
+//		}		
+//		let oFbb = {};		
+//		oFbb = oYm;		
+//		oFbb.name = '冰冰';(改对象).	
+//		console.log(oYm.name);//冰冰
+		
+//		let oYm = {
+//			name:'杨幂'
+//		}		
+//		let oFbb = {};
+//		oFbb = oYm;	
+//		oFbb = {name:'冰冰'};//(改变量)
+//		console.log(oYm.name);//oYm
+
+//		只能修改到对象的属性,对象才会发生改变.
+//		只修改存储对象引用的变量,对象是不会有任何改变的.
+
+//		把对象{}的引用放入变量obj.这里{}和obj是不能等价.
+//		let obj = {};
+
+//		let arr = [{name:100},{name:200}];
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				arr:[{name:100},{name:200}]
+			}
+		})
+
+
+	</script>
+</html>

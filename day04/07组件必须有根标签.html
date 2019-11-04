@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			
+			<!--<h3>11111</h3>
+			<h3>22222</h3>
+			
+			<h3>11111</h3>
+			<h3>22222</h3>
+			
+			<h3>11111</h3>
+			<h3>22222</h3>-->
+			
+			<son></son>
+			<son></son>
+			<son></son>
+			
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		组件的模板必须有一个跟元素包裹，否则报错
+		
+		let son = {
+			template:`
+				<div>
+					<h3>11111</h3>
+					<h3>22222</h3>
+				</div>				
+			`		
+//			template:`				
+//				<h3>11111</h3>
+//				<h3>22222</h3>			
+//			`
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			components:{son}
+		})
+		
+	</script>
+</html>

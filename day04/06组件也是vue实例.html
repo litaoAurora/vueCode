@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<input type='button' value ='点击' @click='fn' />
+			<my-component></my-component>
+			<hr />
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		每个组件都是一个vue实例.都可以拥有自己的data,自己的methods.......
+
+//		哪个数据是哪个组件的？
+//			数据A写在组件B的template内,则数A就是组件B的响应式数据..
+//			函数FN写在组件B的template内,则函数FN就是组件B的methods...
+//			watch同理,computed同理....
+
+//		子组件的data必须写成函数的形式。
+
+//		不管是数据还是函数，写在哪个组件的视图内，就是哪个组件的。。。。
+
+		let myComponent = {
+			template:`
+				<ul>
+					<input type='button' value ='点击' @click='fn' />
+					<li>{{num}}</li>
+					<li>222</li>
+					<li>333</li>
+				</ul>
+			`,
+			data(){
+				return {
+					num:1111
+				}
+			},
+			methods:{
+				fn(){
+					alert(100)
+				}
+			}
+		}
+
+		new Vue({
+			el:'#app',
+			data:{
+				msg:'哈哈哈',
+				num:222
+			},
+			components:{myComponent},
+			methods:{
+				fn(){
+					alert(200)
+				}
+			}
+		})
+
+	</script>
+</html>

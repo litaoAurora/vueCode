@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			
+			<!--<my-component></my-component>-->
+			
+			<!--<div is='myComponent'></div>-->
+			<abc :is='com'></abc>
+			<!-- 这里写 div 是为了利于阅读， 其实是 写啥都没有所谓。 -->
+			
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		组件的is属性:
+//			可以给一般标签添加is属性,来引入组件.
+		
+		let myComponent = {
+			template:`
+				<p>哈哈哈哈</p>
+			`
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			components:{myComponent},
+			data:{
+				com:'myComponent'
+			}
+		})
+		
+	</script>
+</html>

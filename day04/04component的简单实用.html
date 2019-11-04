@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<my-component></my-component>
+			<hr />
+			<my-component></my-component>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		框架的核心是组件.最重要的也是组件.
+//		组件的引入会涉及组件的数据传递.(例如函数的引入会引来参数传递的问题).
+
+//		框架之所以高效,很大的原因是因为框架很好的支持了组件的书写.
+//		组件可以让我们的页面模板能够高效的复用.
+
+//		1:什么是组件.
+//		2:为什么用组件.
+//		3:用组件遇到什么问题,怎么解决.
+
+//		组件是页面上重复的公共html模板。(例如每个网站的导航).
+//		公共的部分应该做出组件,在需要的地方直接引入.这样可以极大的提示开发速度和减少维护成本.
+
+//		通过设置components选项来注册组件.可以同时配置多个组件.每个组件可以使用多次.
+//		组件名不能和html默认有的标签名冲突.如果标签名不带-,需要写成驼峰的形式.
+
+//		如何写公共的html部分:
+//			写在template属性后面.
+
+//		如何在视图中引入组件?
+//			通过组件名构成的自定义标签来引入.
+
+		new Vue({
+			el:'#app',
+			data:{
+				msg:'哈哈哈'
+			},
+			components:{
+				'my-component':{
+					template:`
+						<ul>
+							<li>111</li>
+							<li>222</li>
+							<li>333</li>
+						</ul>
+					`
+				}
+			}
+		})
+
+	</script>
+</html>

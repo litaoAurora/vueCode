@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <input type="text" v-model="content">
+        <input type="button" value='插入li' @click="fn">
+        <my-section :mydata="arr"></my-section>
+        <div></div>
+    </div>
+</body>
+
+<script src="../js/vue.js"></script>
+<script>  
+    //每次点击按钮在section内插入一个checkbox和一个span。span的内容从文本框获取
+    //把app内的div写成组件,每勾选一个checkbox都将checkbox后span的内容显示到组件内
+
+    var vm = new Vue({
+        el : '#app',
+        data : {
+            content: "",
+            arr : []
+        },
+        methods : {
+            fn(){
+                this.arr.push( this.content );
+                this.content = '';
+            }
+        },
+//  者题存在着疑惑？？？ 
+        components : {
+            "mySection" : {
+                template : `
+                    <section>
+                        <input type="checkbox" v-for=" (item, i) in mydata " :value="i" v-model="childData" @click="iCl(item)"   />
+                        <span v-for="( one,i ) in mydata"  > {{ one  }} </span>
+                    </section>
+                `,
+                porps : ["mydata"],
+                data(){
+                    return { 'childData' : '', "one" : '' }
+                },
+                methods : {
+                    iCl(){
+
+                    }
+                }
+            }
+        }
+
+    })    
+</script>
+</html>

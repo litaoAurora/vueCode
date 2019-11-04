@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>			
+			<son v-for='d in arr'></son>	
+			<!--<son></son>-->
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		组件的模板必须有一个跟元素包裹，否则报错
+//		v-for不要写在组件的根元素上.
+
+		let son = {
+			template:`
+				<!--<div v-for='d in arr'>
+					<h3>11111</h3>
+					<h3>22222</h3>
+				</div>-->				
+				<div>
+					<h3>11111</h3>
+					<h3>22222</h3>
+				</div>				
+			`,
+//			data(){
+//				return {
+//					arr:[1,2,3]
+//				}
+//			}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			components:{son},
+			data:{
+				arr:[1,2,3]
+			}
+		})
+		
+	</script>
+</html>

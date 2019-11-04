@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			{{obj}}
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		$set -> 给一个数据设置初始值,并且设置数据监听。(手动给watcher添加依赖)
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				obj:{},
+				set:'哈哈'
+			},
+//			created(){
+//				局部方法(实例方法)
+//				这里的实例方法set需要在前面加$(因为需要跟实例的相应数据区分).
+//				vue实例默认的属性都是带$的.
+//				this.$set(this.obj,'name',5555);
+//			}
+		})
+
+//		全局的写法(静态方法)
+		Vue.set(vm.obj,'name',5555);
+		
+//		实例方法:
+//			通过实例来调用(访问)的方法.
+//		
+//		静态方法:
+//			通过构造函数(类)来调用的方法.
+		
+		let arr = [1,2,3];
+		
+//		push是实例方法。
+		arr.push();
+		
+//		from就是静态方法。
+//		Array.from();
+		
+//		实例可以访问类的原型的方法.
+//		实例不可以访问类的静态方法.
+		
+//		变量查找 -> 确定变量是哪个变量.(作用域链)
+//		属性查找 -> 确定这个属性能不能被方法.(原型链)
+//			1):写原型链.(arr -> Array.prototype -> Object.prototype)
+//			2):沿着这个原型链逐层检测,检测这个属性是不是当前对象的私有属性,如果是,停止查找.(就近原则).
+//			
+//			arr.hasOwnProperty('sex');
+//			Array.prototype.hasOwnProperty('sex');
+//			Object.prototype.hasOwnProperty('sex');
+			
+//		let arr = [];		
+//		arr.sex
+
+		
+	</script>
+</html>

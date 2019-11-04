@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<!--{{msg.toUpperCase()}}-->
+			<!--{{str.toUpperCase()}}-->
+			<!--{{msg}}
+			{{MSG}}-->
+			
+			{{msg | upper}}
+			{{str | abc}}
+			{{num | money}}
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		过滤器:
+//			数据显示时使用一种自定义的格式,数据本身没有变化.(把显示的格式封装成一个过滤器)
+
+//		过滤器写法:
+//			数据名 | 过滤器名称 (| -> 管道符)
+
+//		全局设置过滤器。第一个参数是过滤器名称，第二个参数是封装的过滤逻辑(回调函数)。
+//		回调函数的第一个参数就是当前使用过滤器的数据值.
+//		过滤得到的新的值,需要通过回调函数return出来.
+
+//		Vue.filter('upper',function(val){
+//			return val.toUpperCase();
+//		})
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				msg:'amazing',
+				str:'holyWater',
+				num:91892738912783
+			},
+			
+//			局部过滤器.			
+			filters:{
+				'upper':function(val){
+					return val.toUpperCase();
+				},
+				'abc':function(val){
+					return val.charAt(0).toUpperCase() + val.slice(1);
+				},
+				'money':function(val){
+					let re = /\B(?=(\d{3})+\b)/g;
+					console.log( re.exec(val+'') ) 
+// {
+// 	0: ""
+// 	1: "783"
+// 	groups: undefined
+// 	index: 2
+// 	input: "91892738912783"
+// 	length: 2
+// }
+
+					console.log((val + '').match( re ))
+// {
+// 	0: ""
+// 	1: ""
+// 	2: ""
+// 	3: ""
+// }
+					return (val+'').replace(re,',');
+				}, //  exec 是不够 match 好用的
+			}
+
+//		通过正则表达式,转换货币格式.
+	
+//			watch:{
+//				msg:{
+//					immediate:true,
+//					handler(){
+//						this.msg = this.msg.toUpperCase();
+//					}
+//				}
+//			},
+//			computed:{
+//				MSG(){
+//					return this.msg.toUpperCase();
+//				}
+//			}
+		})
+		
+	</script>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <input type="button" value='插入li' @click="fn">
+        <input type="text"  @blur="sBlue($event)"   />
+        <!-- <div></div> -->
+        <div is="child" :ata="arr">
+            {{}}
+        </div>
+    </div>
+</body>
+<script src="../js/vue.js"></script>
+<script>
+	
+	//组件 -> 数据共享
+	
+    //把app内的div变成子组件,每点击一次按钮,在组件内插入一个p,p的内容从父组件的文本框获取.
+
+    //   这一题 我的做法是会警告的 ⚠️ 的 所以。。。
+    // 是因为 我的 ata 原来是 Data 虽然 与 data  有大小写差别， 当时会警告。 
+    // 所以起名字尽量不要  与 原来框架内的 和 原生的 起冲突。
+    var vm = new Vue({
+        el : "#app",
+        data : {
+            content: '',
+            arr : []
+        },
+        methods : {
+            fn(){
+                this.arr.push(this.content);
+                this.content = '';
+            },
+            sBlue(val){
+                console.log(val)
+                
+                this.content = val.target.value;
+                console.log(this.content)
+            }
+        },
+        components : {
+            "child" : {
+                template : `
+                    <div id="childFather" > 
+                        <p v-for=" (item, i) in ata " > {{ item }} </p>
+                    </div>`,
+                props : ['ata'],
+                data (){
+
+                    return {   }
+                }
+            }
+        }
+    })
+
+</script>
+</html>

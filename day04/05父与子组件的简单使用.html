@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<vm id='app'></vm>
+		
+		<!--<div id='app'>
+			<p>{{msg}}</p>
+		</div>-->
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		com1就是根组件vm的选项配置.
+//		com2就是com1的子组件.
+
+//		组件A写在组件B的template内,则组件A就是组件B的子组件.
+
+		let com2 = {
+			template:`
+				<h3>哈哈哈啊</h3>
+			`
+		}
+
+		let com1 = {
+			el:'#app',
+			template:`
+				<div id='app'>
+					<p>{{msg}}</p>
+					<box></box>
+				</div>
+			`,
+			data:{
+				msg:'11111'
+			},
+			components:{
+				box:com2
+			}
+		}
+		
+		let vm = new Vue(com1);
+		
+	</script>
+</html>

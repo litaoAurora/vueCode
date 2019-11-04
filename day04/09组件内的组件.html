@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<box></box>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		oh3应该写在box的components内,因为这个组件是在box的视图内引入的
+
+//		什么样的模板应该封装成组件？
+//			没有标准,想怎么封就怎么封.(重复的就封,不重复的就不封)
+
+		let oh3 = {
+			template:`<h3>{{msg}}</h3>`,
+			data(){
+				return {msg:'哈哈哈哈'}
+			}
+		}
+		
+		let box = {
+			template:`
+				<div>
+					<oh3></oh3>
+				</div>
+			`,
+			components:{oh3}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			components:{box}
+		})
+		
+	</script>
+</html>
