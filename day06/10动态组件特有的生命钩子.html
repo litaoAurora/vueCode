@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="button" value='切换组件' @click='fn' />
+			
+			<keep-alive>
+				<div :is='com'></div>
+			</keep-alive>
+			
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		keep-alive -> 抽象组件 -> 页面渲染后不会出现在页面上. -> 用于缓存组件
+//		动态组件在切换时,使用了缓存则不会重复的创建和销毁,可以保留组件状态.
+		
+//		当一个动态组件被缓存时?如何知道组件发生了切换?
+		
+//		activated -> 当前组件激活(显示)时触发.
+//		deactivated -> 当前组件冻结(隐藏)时触发.
+		
+		let box1 = {
+			template:`
+				<div :style='{background:color}'>11111111111111</div>
+			`,
+			data(){
+				return {
+					color:''
+				}
+			},
+			activated(){
+				this.setColor();
+				console.log('box1激活');
+			},
+			deactivated(){
+				console.log('box1冻结');
+			},
+			created(){
+				this.setColor();
+			},
+			methods:{
+				setColor(){
+					let r = Math.floor(Math.random()*256);
+					let b = Math.floor(Math.random()*256);
+					let g = Math.floor(Math.random()*256);					
+					this.color = `rgb(${r},${b},${g})`;
+				}
+			}
+		}
+		
+		let box2 = {
+			template:`
+				<div :style='{background:color}'>22222222222</div>
+			`,
+			created(){
+				this.setColor();
+			},
+			activated(){
+				this.setColor();
+				console.log('box2激活');
+			},
+			deactivated(){
+				console.log('box2冻结');
+			},
+			data(){
+				return {
+					color:''
+				}
+			},
+			methods:{
+				setColor(){
+					let r = Math.floor(Math.random()*256);
+					let b = Math.floor(Math.random()*256);
+					let g = Math.floor(Math.random()*256);					
+					this.color = `rgb(${r},${b},${g})`;
+				}
+			}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			components:{box1,box2},
+			data:{
+				com:'box1'
+			},
+			methods:{
+				fn(){
+					this.com = (this.com == 'box1' ? 'box2' : 'box1');
+				}
+			}
+		})
+		
+	</script>
+</html>

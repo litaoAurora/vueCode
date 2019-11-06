@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="button" value='切换组件' @click='fn' />
+			<div :is='com'></div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		动态组件,视图上只有一个自定义组件标签,但是这个标签可以显示多个不同的组件.
+//		如何做到?
+//			通过动态绑定is属性的值.
+
+//		动态组件默认也是重复的创建和销毁.
+
+		let box1 = {
+			template:`
+				<div :style='{background:color}'>11111111111111</div>
+			`,
+			data(){
+				return {
+					color:''
+				}
+			},
+			created(){
+				let r = Math.floor(Math.random()*256);
+				let b = Math.floor(Math.random()*256);
+				let g = Math.floor(Math.random()*256);					
+				this.color = `rgb(${r},${b},${g})`;
+//				console.log('box1')
+			}
+		}
+		
+		let box2 = {
+			template:`
+				<div :style='{background:color}'>22222222222</div>
+			`,
+			created(){
+				let r = Math.floor(Math.random()*256);
+				let b = Math.floor(Math.random()*256);
+				let g = Math.floor(Math.random()*256);					
+				this.color = `rgb(${r},${b},${g})`;
+				console.log('box2')
+			},
+			data(){
+				return {
+					color:''
+				}
+			}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			components:{box1,box2},
+			data:{
+				com:'box1'
+			},
+			methods:{
+				fn(){
+					this.com = (this.com == 'box1' ? 'box2' : 'box1');
+				}
+			}
+		})
+		
+	</script>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			div>div{
+				width: 200px;
+				height: 200px;
+				border:1px solid #000;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div id='app'>
+			<input type="button" value='切换' @click='fn' />
+			<div v-if='flag'>
+				<input type="text" value="" key='a' />
+				<p key='c'>111111111</p>
+			</div>
+			<div v-else>
+				<input type="text" value="" key='b' />
+				<p key='d'>222222222</p>
+			</div>
+		</div>		
+	</body>
+	<script src="js/vue.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		vue在更新视图时,会尽可能的复用元素.(为了性能).
+//		以上视图，默认在切换时，显示的都是同一个input和同一个p
+//		如果不需要这样的缓存，可以给元素添加不相同的key属性。
+				
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				flag:true
+			},
+			methods:{
+				fn(){
+					this.flag = !this.flag;
+				}
+			}
+		})
+		
+	</script>
+</html>

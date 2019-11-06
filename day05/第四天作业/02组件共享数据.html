@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <input type="button" value='插入li' @click='addP'>
+        <input type="text" value="" v-model="msg" />
+        <div is='box' :arr = 'arr'></div>
+    </div> 
+</body>
+<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	
+	//组件 -> 数据共享
+	
+    //把app内的div变成子组件,每点击一次按钮,在组件内插入一个p,p的内容从父组件的文本框获取.
+    
+    let box = {
+    	template:`
+    		<div>
+    			<p v-for='d in arr'>{{d}}</p>
+    		</div>
+    	`,
+    	props:['arr']
+//  	data(){
+//  		return {
+//  			arr:[]
+//  		}
+//  	}
+    }
+    
+    let vm = new Vue({
+    	el:'#app',
+    	components:{box},
+    	data:{
+    		msg:'',
+    		arr:[]
+    	},
+    	methods:{
+    		addP(){
+    			this.arr.push(this.msg);
+//  			this.$children[0].arr.push(this.msg);
+    		}
+    	}
+    })
+    
+    
+</script>
+</html>

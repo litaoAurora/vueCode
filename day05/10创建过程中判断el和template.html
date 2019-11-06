@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'></div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		vue实例创建的过程中,会判断有没有el选项
+//			1):如果有,继续判断有没有template选项.
+//			2):如果没有,判断是否实例方法vm.$mount()被调用,如果也没有被调用,则实例化失败.(会终止)
+
+//		如果有el选项，会判断有没有template选项。
+//			1):如果有,就将template作为新视图模板(el的作用其实只是提供一个挂载点的作用)
+//			2):如果没有,就将el所表示的视图作为新视图模板.
+
+//		数据变化导致视图变化中的'视图'指的是新视图.
+//		vm.$el -> 新视图的根元素.
+
+		let vm = new Vue({
+//			el:'#app',
+			template:`
+				<p class='box'>
+					<span>{{msg}}</span>
+				</p>
+			`,
+			data:{
+				msg:'你好'
+			}
+		})
+		
+//		vm.$mount('#app')
+		
+	</script>
+</html>

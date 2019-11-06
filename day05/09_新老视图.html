@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<p>{{msg}}</p>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		生命周期(8个函数):
+//			1):vue实例创建阶段.
+//				a:给数据添加数据监听(setter和getter).
+//					beforeCreate(数据监听前),created(数据监听后).
+//				b:生成虚拟节点和生成视图
+//					boforeMount(挂载前),mounted(挂载后).
+//					
+//			2):vue实例运行阶段.
+//				a:如果发生了视图更新
+//					beforeUpdated(视图更新前),updated(视图更新后).
+//				b:如果实例被销毁
+//					beforedestroy(销毁前),destroyed(销毁后).
+
+//		b:生成虚拟节点和生成视图.
+//			通过el所表示的html模板生成虚拟节点,然后删除老视图,再通过虚拟节点生成真实节点,放回老节点所在的地方。
+//			新视图替换老视图 -> 挂载(mount)
+
+		let oDiv = document.getElementById("app");		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				msg:'活动的活动和'
+			}
+		})
+		
+	</script>
+</html>

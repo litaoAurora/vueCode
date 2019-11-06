@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<div is='box'></div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		render函数用于代替template选项来实现输入模板。
+//		template书写模板的好处是可以使用html的格式。写起来很方便，又直观。
+//		但是，html模板转换为虚拟节点,需要经过一个编译的过程,这个编译的过程需要消耗额外的资源和时间.
+//		利用render函数也可以提供html模板，好处是跳过了编译过程，坏处是书写特别麻烦。
+
+//		render函数接受一个参数，这个参数是一个回调函数createElement，这个回调函数createElement的作用是生成虚拟节点。
+//		这个createElement接受3个参数，分别是虚拟节点的三种主要描述，分别是标签名，属性列表，子节点列表
+
+//		虚拟节点用于描述真实的视图节点，是json对象，描述节点的标签名，属性列表，子节点列表
+
+		let box = {
+//			template:`
+//				<div class='active'>11111</div>
+//			`
+//			render(createElement){
+//				return createElement(标签名,属性列表,子节点列表);
+//			}
+			
+			render(createElement){
+				return createElement('div',{
+					attrs:{
+						class:'active'
+					}
+				},'11111');
+			}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			components:{box}
+		})
+		
+	</script>
+</html>

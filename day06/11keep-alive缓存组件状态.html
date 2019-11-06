@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.active{
+				width: 200px;
+				height: 200px;
+				overflow: auto;
+				border:3px solid #000;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="button" value='切换组件' @click='fn' />
+			<keep-alive>
+				<div :is='com'></div>
+			</keep-alive>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+
+//		缓存组件状态，一定需要通过缓存数据实现。
+
+		let box1 = {
+			template:`
+				<div class='active' ref='oP'>
+					阿斯蒂芬尽快哈萨克答复哈款到发货
+					阿斯蒂芬尽快哈萨克答复哈款到发货
+					阿斯蒂芬尽快哈萨克答复哈款到发货
+					阿斯蒂芬尽快哈萨克答复哈款到发货
+					阿斯蒂芬尽快哈萨克答复哈款到发货
+					阿斯蒂芬尽快哈萨克答复哈款到发货
+					阿斯蒂芬尽快哈萨克答复哈款到发货
+					阿斯蒂芬尽快哈萨克答复哈款到发货
+					阿斯蒂芬尽快哈萨克答复哈款到发货
+					阿斯蒂芬尽快哈萨克答复哈款到发货
+					阿斯蒂芬尽快哈萨克答复哈款到发货
+					阿斯蒂芬尽快哈萨克答复哈款到发货
+				</div>
+			`,
+			data(){
+				return {
+					height:0
+				}
+			},
+			mounted(){
+				//视图挂载，给视图添加一个滚动事件。每次拖动滚动条，记录当前的滚动条位置。
+				this.$refs.oP.onscroll = ()=>{
+					this.height = this.$refs.oP.scrollTop;
+				}
+			},
+			activated(){
+				//每次切换到当前组件时，把滚动条设置为上一次的位置。
+				this.$refs.oP.scrollTop = this.height;
+			}
+		}
+		
+		let box2 = {
+			template:`
+				<div>22222222222</div>
+			`,
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			components:{box1,box2},
+			data:{
+				com:'box1'
+			},
+			methods:{
+				fn(){
+					this.com = (this.com == 'box1' ? 'box2' : 'box1');
+				}
+			}
+		})
+		
+	</script>
+</html>

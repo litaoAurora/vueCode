@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<div id="box1">
+				<input type='text' v-model='msg' />
+				<button @click='sendData'>传递msg到box2</button>
+			</div>
+			<div id="box2">
+				str:{{str}}
+			</div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+	
+//		两个组件间共享数据的通用逻辑：
+//			出组件A需要组件B的数据，则可以在组件B内调用组件A的方法，并且传入组件B数据。
+
+//		1):把box1和box2写成两个组件.
+//		2):点击按钮时,把box1的msg传递给box2的str,并显示在box2内.
+//		3):尝试使用bus的逻辑实现.然后比较一下bus实现子传父的写法.
+		
+//		1):什么是生命周期.
+//		2):为什么要用它.
+//		3):怎么用,有什么问题.
+		
+	</script>
+</html>

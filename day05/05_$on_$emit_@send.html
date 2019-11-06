@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<p>{{msg}}</p>
+			<div is='box'></div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		this.$emit(事件名,传递给句柄的值) -> 主动触发当前组件的某个事件.
+//		this.$on(事件名,事件句柄) -> 给当前组件绑定一个自定义事件.
+
+//		必须先添加事件后触发事件(先on后emit);
+//		@send='getData' -> 给当前组件添加一个自定义事件send,句柄是getData.
+//		@send='getData' 等效于:this.$on('send',getData)
+
+		let box = {
+			template:`
+				<div>
+					<input type="text" v-model='str' />
+					<input type='button' value='传递数据给父组件' @click='sendData' />
+				</div>
+			`,
+			created(){
+				this.$on('send',this.$parent.getData);
+			},
+			data(){
+				return {
+					str:''
+				}
+			},
+			methods:{
+				sendData(){
+					this.$emit('send',this.str)
+				}
+			}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				msg:''
+			},
+			components:{box},
+			methods:{
+				getData(val){
+					this.msg = val
+				}
+			}
+		})		
+	</script>
+</html>

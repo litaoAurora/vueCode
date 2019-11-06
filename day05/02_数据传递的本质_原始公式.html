@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<p>{{msg}}</p>
+			<div is='box' @send='getData'></div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		子传父:
+//			1):父组件需要一个函数A接受子组件数据。
+//			2):子组件添加一个自定义事件B,让这个自定义事件B发生时,触发父组件的函数A。
+//			3):子组件在某个时候触发自定义事件B,并且传入子组件数据。
+		
+		let box = {
+			template:`
+				<div>
+					<input type="text" v-model='str' />
+					<input type='button' value='传递数据给父组件' @click='sendData' />
+				</div>
+			`,
+			data(){
+				return {
+					str:''
+				}
+			},
+			methods:{
+				sendData(){
+					this.$emit('send',this.str)
+				}
+			}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				msg:''
+			},
+			components:{box},
+			methods:{
+				getData(val){
+					this.msg = val
+				}
+			}
+		})
+
+//		-----------------------------------------------------------------------------------
+//		两个函数传递数据。
+//		函数fn需要函数show内的数据,则需要在show内调用fn,并且传入show内的数据
+
+//		function fn(val){
+//			let msg = val;
+//		}
+//		
+//		function show(){
+//			let str = 10;
+//			fn(str);
+//		}
+//		
+//		show();
+		
+
+		
+		
+	</script>
+</html>

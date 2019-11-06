@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="button" value='切换组件' @click='fn' />
+			<div is='box1' v-if='flag'></div>
+			<div is='box2' v-else></div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+	
+	//	组件用v-if切换时，默认是会重复的创建和销毁的。(隐藏created,mounted更会重复触发)
+	
+		let box1 = {
+			template:`
+				<div>11111111111111</div>
+			`,
+			created(){
+				console.log('box1被创建了');
+			}
+		}
+		
+		let box2 = {
+			template:`
+				<div>22222222222</div>
+			`
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			components:{box1,box2},
+			data:{
+				flag:true
+			},
+			methods:{
+				fn(){
+					this.flag = !this.flag
+				}
+			}
+		})
+		
+	</script>
+</html>

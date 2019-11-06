@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<p id='p' ref='pp'>1111111{{fn()}}</p>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		使用DOM操作，在页面运行时，将p的背景设置为红色。		
+//		this.$refs.pp -> 获取ref属性是pp的元素。
+		
+//		原生js获取p,通过插值表达式触发函数,p先变红,后变白
+//		通过实例的$refs属性获取p,通过插值表达式触发函数,直接报错.因为在fn执行时，this.$refs.pp是undefined
+
+//		这些问题必须对vue实例化的过程中发生的具体事情比较清楚才可以知道为什么。
+
+//		生命周期钩子函数 -> 就是可以让我们在vue实例化的过程中实现一些逻辑。
+//		(自己的逻辑需要在实例化的过程中的哪个阶段实现)
+
+//		人的生命周期 -> 婴儿期,幼儿期,儿童期,青少年期,青年,成年,中年,老年,挂了null.
+//		人不能再婴儿期谈恋爱。
+		
+//		vue实例的生命周期 -> 
+//			beforeCreate,created,beforeMount,mounted,beforeUpdate,updated,beforeDestroy,destroyed		
+//			this.$refs.pp -> 在mounted时期就不是undefined。
+		
+//		1):什么是生命周期?
+//			就是在vue实例化的过程中的各个阶段触发的函数.
+//		2):为什么需要用生命周期钩子函数?
+//			可以在vue实例化的过程中,正确的阶段做正确的事情.
+//		3):使用vue生命周期的遇到的问题,怎么解决.
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				color:'red'
+			},
+			mounted(){
+				this.$refs.pp.style.background = 'red';
+			},
+			methods:{
+				fn(){
+					let oP = document.getElementById("p");		
+					oP.style.background = this.color;
+					
+//					this.$refs.pp.style.background = 'red';
+				}
+			}
+		})
+		
+		
+	</script>
+</html>

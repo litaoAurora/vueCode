@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="button" value='切换组件' @click='fn' />
+			<div :is='com'></div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		//如果多个组件具有相同的选项部分,可以将这部分选项单独写成一个公共的对象A
+		//然后在需要使用这些选项的组件内,通过mixins:[A]引入相同的选项.
+		//如果组件的选项内有A部分冲突的选项,则以组件自身的选项为主.
+		
+		let publicPart = {
+			data(){
+				return {
+					color:'blue'
+				}
+			},
+			created(){
+//				this.fn();
+			},
+			methods:{
+				fn(){
+					let r = Math.floor(Math.random()*256);
+					let b = Math.floor(Math.random()*256);
+					let g = Math.floor(Math.random()*256);					
+					this.color = `rgb(${r},${b},${g})`;
+				}
+			}
+		}
+
+		let box1 = {
+			template:`
+				<div :style='{background:color}'>11111111111111</div>
+			`,			
+			data(){
+				return {
+					color:'red'
+				}
+			},
+			mixins:[publicPart],
+		}
+		
+		let box2 = {
+			template:`
+				<div :style='{background:color}'>22222222222</div>
+			`,
+			mixins:[publicPart]
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			components:{box1,box2},
+			data:{
+				com:'box1'
+			},
+			methods:{
+				fn(){
+					this.com = (this.com == 'box1' ? 'box2' : 'box1');
+				}
+			}
+		})
+		
+	</script>
+</html>

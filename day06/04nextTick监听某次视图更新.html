@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="button" value='随机背景色' @click='setBg' />
+			<!--<p ref='oP'>{{msg}}</p>-->
+			<p :style='{background:color}' ref='oP'>{{msg}}</p>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				msg:'哈哈哈',
+				color:''
+			},
+			methods:{
+				setBg(){					
+					let r = Math.floor(Math.random()*256);
+					let b = Math.floor(Math.random()*256);
+					let g = Math.floor(Math.random()*256);					
+					this.color = `rgb(${r},${b},${g})`;
+					
+//					this.$refs.oP.style.background = this.color;
+					console.log(this.color);
+					
+//					视图更新是一个异步操作.(数据变化不会马上导致视图变化)
+//					color变化导致视图变化,需要等待一段时间,这个时候视图没更新,这时候打印的背景色是更新前的背景色.
+//					console.log(this.$refs.oP.style.background);
+
+//					如何在当次color变化导致的视图更新之后才打印更新后的p背景色?
+					this.$nextTick(()=>{
+						console.log('视图更新后:'+this.$refs.oP.style.background);
+					})
+					
+//					什么时候用nextTick?
+//						某次数据变化导致视图变化,如果你想知道这次视图变化的某些结果,就一定是用nextTick.
+
+//					nextTick运行一次,回调函数就肯定触发一次,也只能触发一次.
+//					如果nextTick运行时,有视图正在更新,则nextTick会自动在本次视图更新完成之后才触发回调函数.
+
+				}
+			},
+			updated(){
+//				console.log(this.$refs.oP.style.background);
+			}
+		})
+		
+	</script>
+</html>

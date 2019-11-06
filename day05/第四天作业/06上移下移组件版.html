@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="text" value="" v-model='msg' />
+			<input type="button" value="发表" @click='add' />
+			<ul>
+				<li is='vli' v-for='(d,i) in arr' :i='i' :d='d' :arr='arr' :key='i'></li>
+			</ul>
+		</div>
+	</body>
+	<script src="../js/vue.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		arr.splice()来实现上移下移
+//		arr:[{content:1111,edit:true},{content:222222,edit:false}]
+		
+		let vli = {
+			template:`
+				<li>
+					<span>{{i+1}}:</span>
+					<span :contenteditable="d.edit" @blur='saveData($event,i)'>{{d.content}}</span>
+					<input type="button" value="上移" @click='up(i)'  />					
+					<input type="button" value="下移" @click='down(i)' />
+					<input type="button" value="删除" @click='del(i)' />
+					<input type="button" value="编辑" @click='edit(i)' />
+				</li>
+			`,
+			props:['i','d','arr'],
+			methods:{
+				up(i){
+					let prev = this.arr[i-1];
+					let now = this.arr[i];
+					if(i>0){
+						this.arr.splice(i-1,2,now,prev);
+					}					
+				},
+				down(i){				
+					let next = this.arr[i+1];
+					let now = this.arr[i];					
+					if(i<this.arr.length-1){
+						this.arr.splice(i,2,next,now);
+					}
+				},
+				del(i){				
+					this.arr.splice(i,1);
+				},
+				edit(i){
+					this.arr[i].edit = !this.arr[i].edit;
+				},
+				saveData(ev,i){
+					this.arr[i].content = ev.target.innerText;
+				}
+			}			
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				arr:[
+					{content:1111,edit:false},
+					{content:2222,edit:false},
+					{content:3333,edit:false},
+					{content:4444,edit:false},
+					{content:5555,edit:false}
+				],
+				msg:''
+			},
+			components:{vli},
+			methods:{
+				add(){
+					this.arr.push({
+						content:this.msg,
+						edit:false
+					})
+				}
+			}
+			
+		})
+		
+		
+	</script>
+</html>

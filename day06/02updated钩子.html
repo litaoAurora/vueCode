@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<p>{{msg}}</p>
+			<p>{{str}}</p>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		beforeUpdate和updated是视图更新的前后触发,可以触发很多次。
+
+//		watch和updated的区别:
+//			watch是数据更新时触发.
+//			updated是在视图更新后触发.
+//			watch先触发,updated后触发.
+
+//		watch可以监听某个数据变化，updated触发时无法知道当次视图更新是因为哪个数据变化导致的.
+//		如果希望操作更新后的视图,应该使用updated,不应该使用watch,因为watch触发时,视图没更新.
+				
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				msg:'1111',
+				str:'你好'
+			},
+			watch:{
+				msg(){
+					console.log('msg变化')
+				}
+			},
+			beforeUpdate(){
+				console.log('视图更新前')
+			},
+			updated(){
+				console.log('视图更新后')
+			}
+		})
+		
+	</script>
+</html>

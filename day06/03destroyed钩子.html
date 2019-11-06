@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<p>{{msg}}</p>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		当vm.$destroy()触发后,就自动触发两个钩子destroyed和beforeDestroy
+		
+//		一个vue实例销毁后有什么结果:
+//			销毁后的vue实例不再具备响应式的功能.(数据变化不会再导致视图变化)
+
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				msg:'1111'
+			},
+			watch:{
+				msg(){
+					console.log('msg变化')
+				}
+			},
+			destroyed(){
+				console.log('vm实例销毁后')
+			},
+			beforeDestroy(){
+				console.log('vm实例销毁前')
+			}
+		})
+		
+	</script>
+</html>

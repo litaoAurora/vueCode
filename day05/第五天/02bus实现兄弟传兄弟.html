@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<!-- <div id="box1">
+				{{str}}
+			</div> -->
+			<div is="box1"></div>
+			<div is="box2"></div>
+			<!-- <div id="box2">
+				{{msg}}
+			</div> -->
+		</div>
+	</body>
+	<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+	
+//		两个组件间共享数据的通用逻辑：
+//			出组件A需要组件B的数据，则可以在组件B内调用组件A的方法，并且传入组件B数据。
+
+//		1):把box1和box2写成两个组件.box2的msg的默认值是:'我是box2的默认msg'.
+//		2):运行页面,把box2的msg传递给box1的str,并显示在box1内.
+//   我把 题给改了。 两者只是交换 值， 而只是 一者传值。 而我现在的做法 依然是会有两次刷新。 
+
+	var bus = new Vue();
+
+	var box1 = {
+		template : `
+			<div id="box1">
+				{{str}}
+			</div>
+		`,
+		data(){
+			return {str: 'strbox1'}
+		},
+		created(){
+			// debugger;
+			console.log('box1')
+			bus.$on('send', (val)=>{
+				// var middle = val;
+				bus.$emit('twoSend', this.str);
+				this.str = val;
+			})
+		}, // mounted 之前
+		mounted(){
+			alert(' 页面刷新了多少次 ')
+		}
+
+	};
+	var box2 = {
+		template: `
+			<div id="box2">
+				{{msg}}
+			</div>
+		`,
+		data(){
+			return {
+				msg : '我是box2的默认msg'
+			}
+		},
+		created(){
+			console.log('box2')
+			bus.$on('twoSend', (val)=>{
+				this.msg = val;
+			})
+
+			bus.$emit('send', this.msg)
+		},
+
+	}
+
+	var vm = new Vue({
+		el : '#app',
+		
+		components: {
+			box1, box2
+		}
+	})
+	
+	</script>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="button" value='切换组件' @click='fn' />
+			
+			<keep-alive>
+				<div :is='com'></div>
+			</keep-alive>
+			
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		keep-alive -> 抽象组件 -> 页面渲染后不会出现在页面上. -> 用于缓存组件
+//		动态组件在切换时,使用了缓存则不会重复的创建和销毁,可以保留组件状态.
+//		
+//		组件状态-> 1):组件数据.2):组件视图.
+		
+		let box1 = {
+			template:`
+				<div :style='{background:color}'>11111111111111</div>
+			`,
+			data(){
+				return {
+					color:''
+				}
+			},
+			created(){
+				let r = Math.floor(Math.random()*256);
+				let b = Math.floor(Math.random()*256);
+				let g = Math.floor(Math.random()*256);					
+				this.color = `rgb(${r},${b},${g})`;
+//				console.log('box1')
+			}
+		}
+		
+		let box2 = {
+			template:`
+				<div :style='{background:color}'>22222222222</div>
+			`,
+			created(){
+				let r = Math.floor(Math.random()*256);
+				let b = Math.floor(Math.random()*256);
+				let g = Math.floor(Math.random()*256);					
+				this.color = `rgb(${r},${b},${g})`;
+				console.log('box2')
+			},
+			data(){
+				return {
+					color:''
+				}
+			}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			components:{box1,box2},
+			data:{
+				com:'box1'
+			},
+			methods:{
+				fn(){
+					this.com = (this.com == 'box1' ? 'box2' : 'box1');
+				}
+			}
+		})
+		
+	</script>
+</html>

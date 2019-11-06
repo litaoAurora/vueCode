@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			{{msg}}
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		工作中，数据一般不在data内书写具体的值，而是在created内赋值。例如这个数据需要通过服务器请求获得
+		
+		new Vue({
+			el:'#app',
+			data:{
+				msg:''
+			},
+			created(){
+//				this.msg = '100'
+				
+//				let xhr = new XMLHttpRequest();
+//				xhr.open('GET','url',true);
+//				xhr.send();
+//				xhr.onreadystatechange = ()=>{
+//					if(xhr.readyState == 4){
+//						if(xhr.status == 200){
+//							this.msg = xhr.responseText;
+//						}
+//					}
+//				}				
+			}
+		})
+		
+	</script>
+</html>

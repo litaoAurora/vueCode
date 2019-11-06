@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<div is='box'></div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		如果模板有嵌套标签，则createElement函数的第三个参数需要写成数组，并且每个元素又需要通过createElement来生成
+		
+		let box = {
+//			template:`
+//				<div class='active'>
+//					<p>11111</p>
+//					<div>222222</div>
+//				</div>
+//			`			
+			render(createElement){
+				return createElement('div',{
+					attrs:{
+						class:'active',
+						id:'wrap'
+					},
+					on:{
+						click:function(){
+							alert(100)
+						}
+					},
+					style:{
+						background:'red'
+					}
+				},[createElement('p',{},'1111'),createElement('div',{},'22222')]);
+			}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			components:{box}
+		})
+		
+	</script>
+</html>

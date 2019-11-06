@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<input type="text" value="" v-model='msg' />
+			<input type="button" value="发表" @click='add' />
+			<ul>
+				<li v-for='(d,i) in arr' :key='i'>
+					<span>{{i+1}}:</span>
+					<span :contenteditable="d.edit" @blur='saveData($event,i)'>{{d.content}}</span>
+					<input type="button" value="上移" @click='up(i)'  />					
+					<input type="button" value="下移" @click='down(i)' />
+					<input type="button" value="删除" @click='del(i)' />
+					<input type="button" value="编辑" @click='edit(i)' />
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script src="js/vue.js" charset="utf-8"></script>
+	<script type="text/javascript">
+
+//		这里上移下移，根本不会真正的移动li来匹配数据的变化。只是简单的更新了li内span的内容而已。(就地更新).
+//		假设真的希望li移动来匹配数据的更新。
+//			这里需要每个li都具备一个明确的,独有的不变的key值.
+
+//		以后工作记得在v-for的地方添加key属性.如果不加,就在模块化开发环境下报错.
+	
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				arr:[
+					{content:1111,edit:false,key:'a'},
+					{content:2222,edit:false,key:'b'},
+					{content:3333,edit:false,key:'c'},
+					{content:4444,edit:false,key:'d'},
+					{content:5555,edit:false,key:'e'}
+				],
+				msg:''
+			},
+			methods:{
+				up(i){
+					let prev = this.arr[i-1];
+					let now = this.arr[i];
+					if(i>0){
+						this.arr.splice(i-1,2,now,prev);
+					}					
+				},
+				down(i){				
+					let next = this.arr[i+1];
+					let now = this.arr[i];					
+					if(i<this.arr.length-1){
+						this.arr.splice(i,2,next,now);
+					}
+				},
+				del(i){				
+					this.arr.splice(i,1);
+				},
+				add(){
+					this.arr.push({
+						content:this.msg,
+						edit:false
+					})
+				},
+				edit(i){
+					this.arr[i].edit = !this.arr[i].edit;
+				},
+				saveData(ev,i){
+					this.arr[i].content = ev.target.innerText;
+				}
+			}
+		})
+		
+		
+	</script>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			
+			<div is='box2'></div>
+			<div is='box1'></div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		如果有子组件，则子组件需要先挂载到父组件的视图上,然后父组件再挂着到真实的DOM树内。
+		
+//		父组件beforeCreate
+//		父组件created
+//		父组件beforeMount
+
+//		子1组件beforeCreate
+//		子1组件created
+//		子1组件beforeMount
+
+//		子2组件beforeCreate
+//		子2组件created
+//		子2组件beforeMount
+
+//		子1组件mounted
+//		子2组件mounted
+//		父组件mounted		
+		
+		let box1 = {
+			template:`
+				<div></div>
+			`,
+			beforeCreate(){
+				console.log('1子组件beforeCreate');
+			},
+			created(){
+				console.log('1子组件created');
+			},
+			beforeMount(){
+				console.log('1子组件beforeMount');
+			},
+			mounted(){
+				console.log('1子组件mounted');
+			}
+		}
+		
+		let box2 = {
+			template:`
+				<div></div>
+			`,
+			beforeCreate(){
+				console.log('2子组件beforeCreate');
+			},
+			created(){
+				console.log('2子组件created');
+			},
+			beforeMount(){
+				console.log('2子组件beforeMount');
+			},
+			mounted(){
+				console.log('2子组件mounted');
+			}
+		}
+		
+		new Vue({
+			el:'#app',
+			components:{box1,box2},
+			beforeCreate(){
+				console.log('父组件beforeCreate');
+			},
+			created(){
+				console.log('父组件created');
+			},
+			beforeMount(){
+				console.log('父组件beforeMount');
+			},
+			mounted(){
+				console.log('父组件mounted');
+			}				
+		})
+		
+	</script>
+</html>

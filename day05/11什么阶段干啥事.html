@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<p ref='pp'>{{msg}}</p>
+			{{fn()}}
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		vue实例的数据获得值,可以在created内得到
+
+//		插值表达式是在beforeMount和mounted之间运行的。(在新视图挂载之前).
+
+//		什么时候可以访问$parent,什么时候可以访问$children.
+
+//		3:用构造函数会遇到什么问题.
+//			什么时候用什么钩子函数?
+//				如果需要默认情况下修改数据,使用created.
+//				如果需要默认情况下修改视图,使用mounted.
+
+//		beforeCreate,created,beforeMount,mounted是在vue实例创建阶段触发,因为每个vue实例只会被创建一次,
+//		因此每个vue实例的这4个钩子函数都只会触发一次.
+
+		new Vue({
+			el:'#app',
+			data:{msg:'哈哈'},
+			beforeCreate(){
+				console.log('beforeCreate:'+this.msg);//undefined
+			},
+			created(){
+				console.log('created:'+this.msg);//'哈哈'
+				console.log('created:',this.fn);//函数体
+			},
+			beforeMount(){
+				console.log('beforeMount:'+this.$refs.pp);//
+			},
+			mounted(){
+				console.log('mounted:',this.$refs.pp);//
+			},
+			methods:{
+				fn(){
+					console.log('fn被调用')
+				}
+			}
+		})
+		
+//		隐式转换.(该是这东西，实际又不是，就会有隐式转换)。
+		
+//		算术运算符的操作数应该是number,如果不是,就隐式转换为是.		
+//		true + 3		
+//		+如果有一个操作数是字符串,则另一个也应该是字符串,如果不是,就隐式转换为是		
+//		1 + '杨幂'
+		
+//		比较运算符的操作数应该是number,如果不是,就隐式转换为是.
+//		判断条件应该是布尔值，如果不是，隐式转换为是。
+
+//		alert()的参数应该是字符串,如果不是,隐式转换为是		
+//		alert(window)
+			
+		
+	</script>
+</html>

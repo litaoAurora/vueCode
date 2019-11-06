@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<p>{{msg}}</p>
+			<div is='box' :fn='getData'></div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+				
+//		两个组件间共享数据的通用逻辑：
+//			出组件A需要组件B的数据，则可以在组件B内调用组件A的方法，并且传入组件B数据。
+
+//		this.$parent -> 当前组件的父组件实例。
+//		this.$children -> 当前组件的子组件列表。
+
+		let box = {
+			template:`
+				<div>
+					<input type="text" v-model='str' />
+					<input type='button' value='传递数据给父组件' @click='sendData' />
+				</div>
+			`,
+			data(){
+				return {
+					str:''
+				}
+			},
+			props:['fn'],
+			methods:{
+				sendData(){
+//					this.fn(this.str);					
+					this.$parent.getData(this.str);
+				}
+			}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				msg:''
+			},
+			components:{box},
+			methods:{
+				getData(val){
+					this.msg = val
+				}
+			}
+		})
+	
+	</script>
+</html>

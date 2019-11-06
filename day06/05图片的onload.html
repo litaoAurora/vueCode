@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="button" id="btn" value="插入图片" />
+		<img src="" alt="" id='img' />
+	</body>
+	<script type="text/javascript">
+		
+		let oBtn = document.getElementById("btn");
+		let oImg = document.getElementById("img");
+		
+		oBtn.onclick = function(){
+			oImg.src = 'img/timg.jpg';
+			
+//			图片渲染时一个异步操作.如果马上打印图片的宽,显示时0,隐藏打印时,图片还没有渲染.
+//			console.log(oImg.offsetWidth);
+
+//			只能给图片渲染设置一个异步监听,当渲染结束自动触发.
+			oImg.onload = function(){
+				console.log(oImg.offsetWidth);
+			}
+		}
+		
+//		需要死记硬背什么是异步吗?
+//			只要是执行需要一段时间,又不应该让用户等待的操作,都是异步操作.
+			
+	</script>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+    	div>div>div{
+    		width:200px;
+    		height:200px;
+    		border:3px solid #000;
+    		display: none;
+    	}
+    	div.active{
+    		display: block;
+    	}
+    	input.active{
+    		background:red;
+    	}
+    </style>
+</head>
+ <body>
+     <address>
+         <a href="mailto:jim@rock.com">jim@rock.com</a>
+     </address>
+
+    <blockquote cite="https://www.huxley.net/bnw/four.html">
+        <p>Words can be like X-rays, if you use them properly—they’ll go through anything. You read and you’re pierced.</p>
+        <footer>-Aldous Huxley, <cite>Brave New World</cite></footer>
+    </blockquote>
+
+    <div id='app'>
+        <tab></tab>
+        <tab></tab>
+    </div>
+    
+</body>
+<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script>
+
+    //通过以下data数据实现两个选项卡.每个选项卡是一个组件.(tab1用news1,tab2用new2)
+    //选项卡的按钮数依据news的length决定.
+    
+    var data={
+        news1:[
+            {
+                btn:'新闻',
+                content:'杨幂离婚了卧槽'
+            },
+            {
+                btn:'号外',
+                content:'范冰冰分手了卧槽'
+            },
+            {
+                btn:'未解之谜',
+                content:'什么时候脱衣服'
+            },
+        ],
+        news2:[
+            {
+                btn:'新闻',
+                content:'杨幂离婚了卧槽'
+            },
+            {
+                btn:'号外',
+                content:'范冰冰分手了卧槽'
+            },
+            {
+                btn:'未解之谜',
+                content:'什么时候脱衣服'
+            },
+            {
+                btn:'世界性难题',
+                content:'工资达到800元'
+            },
+            {
+                btn:'傻傻分不清',
+                content:'先穿裤子还是先穿鞋子'
+            },
+        ],
+    };
+    
+    var mixins = {
+        template : `
+            <div> 
+                <input  type="button" 
+                        v-for=" (item, i) in arr "  
+                        :value="item.btn"  
+                        :class="flag == i? 'active' : '' "
+                        @click="fn(i)" />
+                <br>
+                <div :class="flag == i? 'active' : '' " v-for=" (item, i) in arr " >
+                    {{ item.content }}
+                </div>
+            </div>
+        `,
+        methods : {
+            fn(val){
+                this.flag = val; 
+            }
+        }
+    };
+    var tab1 = {
+
+        mixins : [ mixins ],  // 引用数组时， 是个数组， 因为 可以引用多个， 多继承。 
+        data(){
+            return { arr : data.news1 , flag: 0}
+        },
+    };
+    var tab2 = {
+
+        data(){
+            return { arr : data.news2, flag: 0 }
+        },
+        mixins : [mixins]
+    };
+
+//  根 组件的写法是  template 写出来的。  用原始的 render 来创建虚拟节点。  render 是个函数。 
+// 第一步是要 检查 data 数据源的类型 和 下一级的类型
+    var App = { 
+        template : `
+            <div id="#app">
+                <div is="tab1"> </div>
+                <div is="tab2"> </div>
+            </div>
+        `,
+        components : { tab1, tab2 }
+    }
+
+    var vm = new Vue({
+        el : '#app',
+        render: h=>h(App),
+        // components : { App }
+    })
+    
+</script>
+</html>

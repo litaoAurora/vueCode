@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <input type="text" v-model="msg">
+        <input type="button" value='插入li' @click='addContent'>
+        <section>
+        	<div v-for='d in arr'>
+        		<input type="checkbox" :value="d" v-model='arr1' />
+        		<span>{{d}}</span>
+        	</div>
+        </section>
+        <div is='box' :arr='arr1'></div>
+    </div>
+</body>
+<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script>  
+    //每次点击按钮在section内插入一个checkbox和一个span。span的内容从文本框获取
+    //把app内的div写成组件,每勾选一个checkbox都将checkbox后span的内容显示到组件内
+    
+    let box = {
+    	template:`
+    		<div>{{arr}}</div>
+    	`,
+    	props:['arr']
+    }
+    
+    let vm = new Vue({
+    	el:'#app',
+    	data:{
+    		msg:'',
+    		arr:[],
+    		arr1:[],
+    	},
+    	components:{box},
+    	methods:{
+    		addContent(){
+    			this.arr.push(this.msg)
+    		}
+    	}
+    })
+    
+</script>
+</html>
