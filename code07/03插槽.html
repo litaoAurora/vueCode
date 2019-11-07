@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<span id='app'></span>
+	</body>
+	<script src="js/vue.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		插槽 -> 用于内容分发
+
+//		<slot></slot> -> 插槽 -> 用于将组件默认的内容进行分发到相应的位置。
+//		slot会将组件的默认内容全部包含。(不管有多少个子节点)
+//		slot在布局比较复杂的页面时，可以提高开发效率。
+
+//		slot可以分发标签，文字，甚至是组件。
+
+		let publicCom = {
+			template:`
+				<div>
+					<p>1111111</p>
+					<span>22222</span>
+				</div>
+			`
+		}
+		
+		let box1 = {
+			template:`
+				<div>
+					<slot></slot>	
+					<h3>box1的标题</h3>>
+				</div>
+			`,
+		}
+		
+		let box2 = {
+			template:`
+				<div>
+					<slot></slot>	
+					<div>box2的内容</div>
+				</div>
+			`
+		}
+		
+		let App = {
+			template:`
+				<div id='app'>
+					<div is='box1'>
+						<div is='publicCom'></div>
+					</div>
+					<div is='box2'>
+						<div is='publicCom'></div>
+					</div>
+				</div>
+			`,
+			components:{box1,box2,publicCom}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			render:h=>h(App),
+			components:{App}
+		})
+		
+		
+	</script>
+</html>

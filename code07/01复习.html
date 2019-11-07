@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		
+	</body>
+	<script type="text/javascript">
+		
+		1):生命周期的另四个钩子
+			beforeUpdate,updated.
+				视图更新前后触发,无法知道本次视图更新是因为哪个数据变化导致.
+				如果需要只针对某个数据变化导致的视图更新,应该用vm.$nextTick(回调);
+			
+			beforeDestroy,destroyed
+				vm.$destroy()触发后.触发这两个钩子.
+				组件销毁后,就不再具备响应式效果.
+			
+			activated,deactivated
+				动态组件被缓存时,组件切换过程中触发.
+				
+		2):动态组件和缓存
+		
+			动态组件:
+				给组件动态绑定is属性,就可以让组件在不同时候显示不同的组件.
+			
+			缓存:
+				只能缓存组件,缓存后组件不会被销毁,组件内部的数据(状态)得到保留.			
+				keep-alive -> 抽象组件 -> 页面渲染后不会出现在DOM树内.
+			
+			key:
+				vue会最大限度的去复用组件.如果不希望复用,可以给标签添加不同的key值.
+				v-for时必须给每一项都添加key.不然模块化环境下回报错.
+			
+			组件混合:
+				用于提取多个组件相同的选项部分
+				
+				let 相同部分 = {
+					data(){},
+					methods:{}
+				}
+				
+				let box = {
+					mixins:[相同部分1,相同部分2....]
+				}
+		
+		3):render函数.
+		
+			render函数用于替代template选项,性能更好,但是书写更麻烦.
+				render(h){
+					return h(标签名,{属性离别},[子节点列表])
+				}
+			
+			根组件写法:
+			
+			let App = {
+				template:`
+					<div id='wrap'>
+						<div>1111111</div>
+					</div>
+				`
+			}
+			
+			new Vue({
+				el:'#app',
+//				template:'<App />',
+				render:h=>h(App),
+				components:{App}
+			})
+			
+			
+	</script>
+</html>

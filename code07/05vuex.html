@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<span id='app'></span>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--vuex是vue的插件,隐藏必须先引入vue,再引入vuex-->
+	
+	<script src="js/vuex.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/javascript">
+		
+//		vuex -> 状态管理器.(数据共享)
+//		任意两个组件间数据共享都能使用vuex.
+
+//		使用vuex共享数据的大概思路:
+//			1):需要一个数据容器(状态管理器).这个数据容器可以被多个组件共享访问.(挂载的位置)
+//			2):所有组件通过(this.$store.state.数据名)可以拿到需要的共享数据.(必须是计算属性)
+			
+			
+//		创建一个公共的数据容器，state内书写共享的数据。
+		let store = new Vuex.Store({
+			state:{msg:''}
+		});
+
+		let box1 = {
+			template:`
+				<div>
+					<input type='text' v-model='str' />
+					<input  type='button' value='传递数据' @click='sendData' />
+				</div>
+			`,
+			data(){
+				return {str:''}
+			},
+			methods:{
+				sendData(){
+					this.$store.state.msg = this.str
+				}
+			}
+		}
+		
+		let box2 = {
+			template:`
+				<div>
+					<p>box2:{{msg}}</p>
+				</div>
+			`,
+			computed:{
+				msg(){
+					return this.$store.state.msg
+				}
+			}
+		}
+		
+		let App = {
+			template:`
+				<div id='app'>
+					<div is='box1'></div>
+					<hr />
+					<div is='box2'></div>
+				</div>
+			`,
+			components:{box1,box2}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			render:h=>h(App),
+			components:{App},
+//			整个组件都可以使用store内的state数据。
+//			store写在哪个组件内，则只有该组件以及该组件的所有子组件可用共享数据。
+			store
+		})
+		
+		
+	</script>
+	
+</html>

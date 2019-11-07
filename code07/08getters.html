@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<span id='app'></span>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>	
+	<script src="js/vuex.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/javascript">
+		
+//		getters -> 如果state内的数据还需要经过计算得到一个需要共享的结果,可以使用getters
+//		可以把getters当做vuex的计算属性.
+
+//		如何在组件中获取共享的getters			
+//			在计算属性内return this.$store.getters.计算属性名.
+
+//		store就是vuex的实例.在组件中如何获取这个实例?
+//			store挂载到组件后,就可以通过this.$store获取这个vuex实例.
+
+		let store = new Vuex.Store({
+			strict:true,
+			state:{
+				count:10,
+				price:5
+			},
+			getters:{
+				total(state){
+					return state.count * state.price
+				}
+			}
+		});
+
+		let box1 = {
+			template:`
+				<div>
+					<p>总价:{{total}}</p>
+				</div>
+			`,
+			computed:{
+				total(){
+					return this.$store.getters.total
+				}
+			}
+		}
+		
+		let box2 = {
+			template:`
+				<div>
+					<h3>总价:{{total}}</h3>
+				</div>
+			`,
+			computed:{
+				total(){
+					return this.$store.getters.total
+				}
+			}
+		}
+		
+		let App = {
+			template:`
+				<div id='app'>
+					<div is='box1'></div>
+					<hr />
+					<div is='box2'></div>
+				</div>
+			`,
+			components:{box1,box2}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			render:h=>h(App),
+			components:{App},
+			store
+		})
+		
+		
+	</script>
+	
+</html>

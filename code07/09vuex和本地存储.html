@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<div id='login'>
+				<input type="text" placeholder="账号" value="" />
+				<input type="password" placeholder="密码" value='' />
+				<input type='button' value = '登录' />
+			</div>
+			<div>
+				<p>你登陆的账号是:{{userName}}</p>
+				<p>你登陆的密码是:{{password}}</p>
+			</div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vuex.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		function getUserData(name){
+			let data = localStorage.getItem(name);
+			if(data){
+				return data
+			}
+		}
+				
+		let store = new Vuex.Store({
+			strict:true,
+			state:{
+				userName:getUserData('un'),
+				password:getUserData('pd')
+			},
+			mutations:{
+				setData(state,[userName,password]){
+					state.userName = userName;
+					state.password = password;
+				}
+			},
+			actions:{
+				setData(store,val){
+					store.commit('setData',val)
+				}
+			}
+		})
+		
+		let login = {
+			template:`
+				<div id='login'>
+					<input type="text" placeholder="账号" v-model='userName' />
+					<input type="password" placeholder="密码" v-model='password' />
+					<input type='button' value = '登录' @click='saveData' />
+				</div>
+			`,
+			data(){
+				return {
+					userName:'',
+					password:''
+				}
+			},
+			methods:{
+				saveData(){
+					this.$store.dispatch('setData',[this.userName,this.password]);
+					this.saveTolocalStore();
+				},
+				saveTolocalStore(){
+					localStorage.setItem('un',this.userName);
+					localStorage.setItem('pd',this.password);
+				}
+			}
+		}
+		
+		let detail = {
+			template:`
+				<div>
+					<p>你登陆的账号是:{{userName}}</p>
+					<p>你登陆的密码是:{{password}}</p>
+				</div>
+			`,
+			computed:{
+				userName(){
+					return this.$store.state.userName
+				},
+				password(){
+					return this.$store.state.password
+				}
+			}
+		}
+		
+		let App = {
+			template:`
+				<div id="app">
+					<div is='login'></div>
+					<div is='detail'></div>
+				</div>
+			`,
+			components:{login,detail}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			render:h=>h(App),
+			components:{App},
+			store
+		})
+		
+		
+	</script>
+</html>

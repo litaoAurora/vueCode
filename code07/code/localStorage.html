@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vuex@3.1.1/dist/vuex.js"></script>
+<script>
+//  数据共享 +  本地存储
+
+    let login = {
+        template : `
+            <div id="login">
+                <input type="text" placeholder="账号" value="" v-model="userName" />
+                <input type="password" placeholder="账号" value="" v-model="password" />
+                <input type="button" value="登录" @click="fn">
+             </div>
+        `,
+        data(){
+            return {
+                userName: '',
+                password: ''
+            }
+        },
+        methods : {
+            fn(){
+
+            }
+        }
+
+    };
+    let detail = {
+        template : `
+             <div id="detail">
+                <p>账号是 : {{ userName }} </p>
+                <p>密码是: {{ userName }} </p>
+            </div>
+        `,
+    };
+
+
+</script>
+
+</html>

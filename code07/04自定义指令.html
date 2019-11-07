@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app"></div>
+	</body>
+	<script src="js/vue.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		自定义指令用于封装DOM操作.	
+
+//		el -> 添加了自定义指令的元素，原生标签
+//		binding -> 一个指令信息对象 -> binding.value -> 获取自定义指令后面的表达式的值.
+
+//		可以尝试封装一个拖拽指令.凡是添加了v-move指令的元素默认就可以拖拽.
+
+//		全局的自定义指令注册
+//		Vue.directive('background',function(el,binding){
+//			el.style.background = binding.value;
+//		});
+	
+		let App = {
+			template:`
+				<div id='app'>
+					<p v-background='color'>哈哈哈</p>
+					<!--<div v-move></div-->
+				</div>
+			`,
+			data(){
+				return {
+					color:'green'
+				}
+			},
+//			局部注册自定义指令.
+			directives:{
+//				'background':{
+//					inserted(el,binding){
+//						el.style.background = binding.value;
+//					}
+//				}
+
+//				简写
+				background(el,binding){
+					el.style.background = binding.value;
+				}
+			}
+		}
+	
+		let vm = new Vue({
+			el:'#app',
+			render:h=>h(App),
+			components:{App},
+		})
+			
+	</script>
+</html>

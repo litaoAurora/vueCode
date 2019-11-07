@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<span id='app'></span>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--vuex是vue的插件,隐藏必须先引入vue,再引入vuex-->
+	
+	<script src="js/vuex.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/javascript">
+		
+//		vuex -> 状态管理器.(数据共享)
+//		任意两个组件间数据共享都能使用vuex.
+
+//		对于共享数据的修改逻辑,应该全部集中写在mutations选项内.
+//		如果不这样做,严格模式下会报错.(工作中都是严格模式).
+
+//		mutations内应该包含所有共享数据的修改逻辑.
+//		mutations内不能包含异步操作.
+
+//		完整的vuex共享数据流程:
+//			获取共享数据:
+//				1):创建store对象
+//				2):挂载store对象.(挂到某个组件上)
+//				3):通过计算属性内return this.$store.state.数据名 来获取.
+//				
+//			修改共享数据:			
+//				1):点击时触发actions.
+//				2):actions触发mutations.
+//				3):mutations修改state数据.
+
+//			mutations内的方法的第一个参数是state数据对象.
+//			actions内的方法的第一个参数是store数据容器对象.
+
+//			commit是vuex的实例方法,用于触发mutations内的方法.
+//			dispatch是vuex的实例方法,用于触发actions内的方法.
+
+		let store = new Vuex.Store({
+			strict:true,
+			state:{msg:''},						
+			mutations:{
+				setMsg(state,val){
+//					setTimeout(function(){
+						state.msg = val
+//					},1000)
+				}
+			},
+			actions:{
+				aSetMsg(store,val){
+					setTimeout(function(){
+						store.commit('setMsg',val);
+					},1000)
+				}				
+			}
+		});
+
+		let box1 = {
+			template:`
+				<div>
+					<input type='text' v-model='str' />
+					<input  type='button' value='传递数据' @click='sendData' />
+				</div>
+			`,
+			data(){
+				return {str:''}
+			},
+			methods:{
+				sendData(){
+//					this.$store.commit('setMsg',this.str);
+					this.$store.dispatch('aSetMsg',this.str);
+				}
+			}
+		}
+		
+		let box2 = {
+			template:`
+				<div>
+					<p>box2:{{msg}}</p>
+				</div>
+			`,
+			computed:{
+				msg(){
+					return this.$store.state.msg
+				}
+			}
+		}
+		
+		let App = {
+			template:`
+				<div id='app'>
+					<div is='box1'></div>
+					<hr />
+					<div is='box2'></div>
+				</div>
+			`,
+			components:{box1,box2}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			render:h=>h(App),
+			components:{App},
+//			整个组件都可以使用store内的state数据。
+//			store写在哪个组件内，则只有该组件以及该组件的所有子组件可用共享数据。
+			store
+		})
+		
+		
+	</script>
+	
+</html>

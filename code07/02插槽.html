@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<span id='app'></span>
+	</body>
+	<script src="js/vue.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		插槽 -> 用于内容分发
+
+//		<slot></slot> -> 插槽 -> 用于将组件默认的内容进行分发到相应的位置。
+//		slot会将组件的默认内容全部包含。(不管有多少个子节点)
+
+		let box = {
+			template:`
+				<div>
+					<slot name='zou'></slot>
+					<p>{{msg}}</p>
+					<slot name='liu'></slot>
+				</div>
+			`,
+			data(){
+				return {msg:'boxbox'}
+			}
+		}
+		
+		let App = {
+			template:`
+				<div id='app'>
+					<div is='box'>
+						<span slot='zou'>其实不想走</span>
+						<span slot='liu'>其实我想留</span>
+					</div>
+				</div>
+			`,
+			components:{box}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			render:h=>h(App),
+			components:{App}
+		})
+		
+		
+	</script>
+</html>

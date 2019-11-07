@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			th{
+				width: 250px;
+			}
+			hr{
+				margin:30px 0;
+			}
+			td{
+				text-align: center;
+			}
+			tr{
+				line-height: 50px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='app'>
+		</div>
+	</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vuex@3.1.1/dist/vuex.js"></script>
+	
+<script type="text/javascript">
+	
+	//把.create和table做出两个组件.(还可以把一个tr做成组件).
+	//每次点击'添加数据',都在table内插入一条数据.
+	//点击删除,删除当条数据.
+	//刷新后保留当前的数据条数.
+
+	// vuex 共享数据
+	let store = new Vuex.Store({
+		state : {
+			arr : []
+		},
+		mutations : {
+			setData(state, val){
+				// 这里的参数这能是 state 里面的数据， 拿不到 getters 里 的数据。 
+				// 而且这里的return  在外面是那不到的。 
+				state.arr.push(val)
+				return 'aaa'
+			}, 
+			remove(state,i){
+				state.arr.splice(i,1)
+			}
+		},
+		actions : {
+			aSetData(state, val){
+				let a = state.commit('setData', val);
+
+			}
+		},
+		strict: true,
+		// getter  computed. 
+		
+		getters:{
+			arrd( state ){
+				//this.arrd.push(val)
+				return state.arr
+			}
+		}
+	})
+
+	let createInfo = {
+		template : `
+			<div class='create' >
+				<h3>保存数据，显示数据</h3>
+				<input type="text" id="user" placeholder="用户" v-model="user" />
+				<input type="text" id="age" placeholder="年龄" v-model="age" /><br />
+				<input type="radio" name="sex" value="男" checked  v-model="gender" />男
+				<input type="radio" name="sex" value="女"  v-model="gender" /> 女 <br />
+				<input type="button" id="btn" value="添加数据" @click="add" />
+				
+				<hr />
+			</div>
+		`,
+		data(){
+			return{
+				user : '', age : '', gender : ''
+			}
+		},
+		// computed : {
+		// 	user(){
+		// 		return this.user;
+		// 	},
+		// 	age(){
+
+		// 	},
+		// 	gender(){
+
+		// 	}
+		// },
+		
+		methods : {
+			add(){
+				console.log(this.$store)
+				this.$store.dispatch( 'aSetData', { user: this.user, gender : this.gender, age: this.age } )
+			}
+		}
+		
+	};
+
+	let infoTr = {
+		template : `
+			<tbody>
+				<tr v-for="(item,i) in arr " >
+					<td> {{ i }} </td>
+					<td> {{ item.user }} </td>
+					<td>  {{ item.age}} </td>
+					<td> {{ item.gender }} </td>
+					<td><a href="javascript:;" @click="remove(i)"  > 删除 </a></td>
+				</tr>
+			</tbody>
+		`,
+		// data (){
+		// 	return { arr : []}
+		// },
+		// compued 是在检测数据， 自己在调用的
+		computed : {
+			arr(){
+				console.log( this.$store.arr )
+				return this.$store.getters.arrd;
+			}
+		},
+		methods : {
+			remove(i){
+				
+				this.$store.commit('remove', i)
+			}
+		}
+
+	}
+
+	// 表格
+	let infoTable = {
+		template : `
+			<table border="1">
+				<thead>
+					<th>序号</th>
+					<th>姓名</th>
+					<th>年龄</th>
+					<th>性别</th>
+					<th>操作</th>
+				</thead>
+				<tbody is="infoTr"> </tbody>
+			</table>
+		`,
+		components : { infoTr }
+	}
+
+
+	let App = {
+		template : `
+			<div id="#app" >
+				<div is="createInfo"></div>
+				<div is="infoTable"></div> 
+			</div>
+		`,
+		components : { createInfo, infoTable }
+	};
+
+	// 创建根元素
+	let vm = new Vue({
+		el : '#app',
+		render : h=>h(App),
+		components :  { App },
+		store
+	})
+
+
+</script>
+</html>

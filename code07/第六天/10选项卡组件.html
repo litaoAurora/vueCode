@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+    	div>div>div{
+    		width:200px;
+    		height:200px;
+    		border:3px solid #000;
+    		display: none;
+    	}
+    	div.active{
+    		display: block;
+    	}
+    	input.active{
+    		background:red;
+    	}
+    </style>
+</head>
+<body>
+    <span id='app'></span>
+</body>
+<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script>
+
+    //通过以下data数据实现两个选项卡.每个选项卡是一个组件.(tab1用news1,tab2用new2)
+    //选项卡的按钮数依据news的length决定.
+    
+    var data={
+        news1:[
+            {
+                btn:'新闻',
+                content:'杨幂离婚了卧槽'
+            },
+            {
+                btn:'号外',
+                content:'范冰冰分手了卧槽'
+            },
+            {
+                btn:'未解之谜',
+                content:'什么时候脱衣服'
+            },
+        ],
+        news2:[
+            {
+                btn:'新闻',
+                content:'杨幂离婚了卧槽'
+            },
+            {
+                btn:'号外',
+                content:'范冰冰分手了卧槽'
+            },
+            {
+                btn:'未解之谜',
+                content:'什么时候脱衣服'
+            },
+            {
+                btn:'世界性难题',
+                content:'工资达到800元'
+            },
+            {
+                btn:'傻傻分不清',
+                content:'先穿裤子还是先穿鞋子'
+            },
+        ],
+    }
+   
+   	let tab = {
+   		template:`
+   			<div>
+   				<input 
+   					type='button' 
+   					:value='d.btn' 
+   					v-for='(d,i) in arr' 
+   					@click='fn(i)'
+   					:class='index==i?"active":""'
+   				/>
+   				<div 
+   					v-for='(d,i) in arr'
+   					:class='index==i?"active":""'
+   				>{{d.content}}</div>
+   			</div>
+   		`,
+   		data(){
+   			return {index:0}
+   		},
+   		props:['arr'],
+   		methods:{
+   			fn(i){
+   				this.index = i;
+   			}
+   		}
+   	}
+   
+   	let App = {
+   		template:`
+   			<div id='app'>
+		        <tab :arr='data.news1'></tab>
+		        <tab :arr='data.news2'></tab>
+		    </div>
+   		`,
+   		components:{tab},
+   		data(){
+   			return {data}
+   		}
+   	}
+   
+   	let vm = new Vue({
+   		el:'#app',
+   		template:'<App />',
+   		components:{App}
+   	})
+
+		
+    
+</script>
+</html>
