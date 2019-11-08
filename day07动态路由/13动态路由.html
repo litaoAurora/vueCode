@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='app'></div>
+					
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>	
+	<!--router是vue的插件，因此需要先引入vue，再引入router-->	
+	<script src="js/router.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		//如果多个路由视图的布局是一致的,只有内容不太一样,可以只写一个组件 -> 动态路由.
+		
+		//如果是动态路由,组件永远只有一个,(没有组件被隐藏,没有组件被显示,没有组件切换).
+		//没有组件切换,只是在跳转路由时动态改变组件的内容.
+		
+		//如果需要做到以上效果,需要知道路由何时发生了跳转.
+		//	可以通过监听$route.path的变化来捕捉路由的跳转.
+			
+		const home = {
+			template:`
+				<div>
+					<h3>{{title}}</h3>
+					<p>{{content}}</p>
+				</div>
+			`,
+			data(){
+				return {
+					title:'',
+					content:'',
+				}
+			},
+			props:['data'],
+			watch:{
+				//监听$route的变化来捕捉路由跳转.
+				'$route.path':{
+					immediate:true,
+					handler(){
+						let path = this.$route.path.substr(1);
+						this.title = this.data[path].title;
+						this.content = this.data[path].content;
+					}
+				}
+			}
+		}
+		
+		const router = new VueRouter({
+			routes:[
+				{
+					path:'/home',
+					component:home
+				},{
+					path:'/huodong',
+					component:home
+				},{
+					path:'/news',
+					component:home
+				},{
+					path:'/',
+					redirect:'/home'
+				}
+			]
+		})
+		
+		let App = {
+			template:`
+				<div id='app'>				
+					<router-link to='/home'>首页</router-link>
+					<router-link to='/huodong'>活动</router-link>
+					<router-link to='/news'>新闻</router-link>					
+					<router-view :data='data' />					
+				</div>
+			`,
+			created(){
+				console.log(this.$route)
+			},
+			data(){
+				return {
+					data:{
+						home:{
+							title:'首页标题',
+							content:'首页内容'
+						},
+						huodong:{
+							title:'活动标题',
+							content:'活动内容'
+						},
+						news:{
+							title:'新闻标题',
+							content:'新闻内容'
+						}
+					}
+				}
+			}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			template:'<App />',
+			components:{App},
+			router
+		})
+		
+	</script>
+</html>

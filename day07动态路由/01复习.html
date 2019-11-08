@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<div id='app' ></div>
+	</body>
+	<script type="text/javascript">
+		
+//		1):自定义指令,插槽
+//			a):插槽用于内容分发.
+//				<slot></slot>可以用于将组件默认的内容插入相应的地方.
+//				
+//				<p slot='s1'></p>
+//				<slot name='s1'></slot>
+//				
+//			b):自定义指令用于封装DOM操作.
+//				
+//				Vue.directive('指令名',{inserted(){}},fn);
+//				{
+//					directives:{
+//						'指令名':{
+//							inserted(){}
+//						}
+//					}
+//				}
+//		
+//		2):vuex -> 状态管理器 -> 数据共享
+//			
+//			怎么做共享 -> 用一个公共的数据容器存放共享数据,然后希望使用共享数据的组件之间获取.
+//			
+//			a):怎么获取共享数据
+//				1:先创建数据容器.let store = new Vuex.Store()
+//			`	2:把store挂载到某个组件上.
+//				3:利用计算属性return this.$store.state.数据名
+//				
+//			b):怎么修改共享数据(假设是点击修改共享数据)
+//				1:点击时触发actions
+//				2:actions触发mutations
+//				3:mutations修改state
+//			
+//			触发mutations需要使用实例的commit方法
+//			触发actions需要使用实例的dispatch方法
+//			
+//			共享数据不能再mutations的句柄之外修改.因此mutations不能处理异步操作.actions可以处理异步操作.
+			
+		
+	</script>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script src="js/axios.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		axios -> 第三方的ajax库 -> 一个专门用来发起服务器请求的工具.		
+//		fetch -> 原生的ajax替代方案.		
+//		ajax -> 一直是做填空题.-> 利用接口文档做填空题.
+
+//		axios请求成功统一在then里面触发。请求失败，统一在catch内触发。
+
+//		get请求:
+//			axios.get('data.json').then(function(data){
+//				console.log(data)
+//				console.log(data.data)
+//			})
+
+//			get请求并且发送数据.
+//			axios.get('data.json?fn=10').then(function(data){
+//				console.log(data)
+//				console.log(data.data)
+//			})
+
+//			get请求发送数据。可以写成第二个参数。
+//			axios.get('data.json',{params:{fn:10}}).then(function(data){
+//				console.log(data)
+//				console.log(data.data)
+//			})
+			
+//			post请求.			
+//			axios.post('data.json').then(function(data){
+//				console.log(data)
+//				console.log(data.data)
+//			})
+
+//			axios更通用的配置写法
+
+//			axios({
+//				method:'GET',
+//				url:'data1.json',
+//				params:{fn:10}
+//			}).then(function(data){
+//				console.log(data.data);
+//			}).catch(function(err){
+//				console.dir(err.response.status);
+//			})
+					
+	</script>
+</html>

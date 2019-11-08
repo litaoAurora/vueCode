@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			th{
+				width: 250px;
+			}
+			hr{
+				margin:30px 0;
+			}
+			td{
+				text-align: center;
+			}
+			tr{
+				line-height: 50px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='app'></div>
+	</body>
+	<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/vuex.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		//把.create和table做出两个组件.(还可以把一个tr做成组件).
+		//每次点击'添加数据',都在table内插入一条数据.
+		//点击删除,删除当条数据.
+		//刷新后保留当前的数据条数.
+		
+		let ud = localStorage.getItem('userData');		
+		let arr = [];
+		
+		if(ud){
+			arr = JSON.parse(ud);
+		}
+		
+		let store = new Vuex.Store({
+			strict:true,
+			state:{
+				userData:arr
+			},
+			mutations:{
+				saveData(state,val){
+					state.userData.push(val);
+					localStorage.setItem('userData',JSON.stringify(state.userData));
+				},
+				delData(state,i){
+					state.userData.splice(i,1);
+					localStorage.setItem('userData',JSON.stringify(state.userData))
+				}
+			},
+			actions:{
+				saveData(store,data){
+					store.commit('saveData',data)
+				},
+				delData(store,i){
+					store.commit('delData',i)
+				}
+			}
+		})
+		
+		let createData = {
+			template:`
+				<div class='create'>
+					<h3>保存数据，显示数据</h3>
+					<input type="text" id="user" placeholder="用户名" v-model='name' /><br />
+					<input type="text" id="age" placeholder="年龄" v-model='age' /><br />
+					<input type="radio" name="sex" value="男" v-model='sex' checked />男
+					<input type="radio" name="sex" value="女" v-model='sex' />女<br />
+					<input type="button" id="btn" value="添加数据" @click='saveData' />
+					<hr />
+				</div>	
+			`,
+			data(){
+				return {
+					name:'',
+					age:0,
+					sex:'男'
+				}
+			},
+			methods:{
+				saveData(){
+					this.$store.dispatch('saveData',{
+						name:this.name,
+						age:this.age,
+						sex:this.sex
+					})
+				}
+			}
+		}
+		
+		let tableData = {
+			template:`
+				<table border="1">
+					<thead>
+						<th>序号</th>
+						<th>姓名</th>
+						<th>年龄</th>
+						<th>性别</th>
+						<th>操作</th>
+					</thead>
+					<tbody>
+						<tr v-for='(d,i) in arr'>
+							<td>{{i+1}}</td>
+							<td v-for='w in d'>{{w}}</td>
+							<td>
+								<input type='button' value='删除' @click='del(i)' />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			`,
+			computed:{
+				arr(){
+					return this.$store.state.userData;
+				}
+			},
+			methods:{
+				del(i){
+					this.$store.dispatch('delData',i);
+				}
+			}
+		}
+		
+		let App = {
+			template:`
+				<div id='app'>
+					<div is='createData'></div>				
+					<table is='tableData'></table>
+				</div>
+			`,
+			components:{createData,tableData}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			template:"<App />",
+			components:{App},
+			store
+		})
+		
+	</script>
+</html>

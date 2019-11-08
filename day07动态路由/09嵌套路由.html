@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='app'></div>
+					
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>	
+	<!--router是vue的插件，因此需要先引入vue，再引入router-->	
+	<script src="js/router.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		//嵌套路由:
+		//	如果B路由视图组件内有另一个路由,则需要在B组件所在的路由选项内配置children属性.
+		//	然后在children内书写嵌套路由的路由选项.
+				
+		const phone = {
+			template:'<div>手机内容</div>'
+		}
+		
+		const nvzhuang = {
+			template:'<div>女装内容</div>'
+		}
+		
+		const good = {
+			template:'<div>古尔丹内容</div>'
+		}
+		
+		const home = {
+			template:`
+				<div>
+					<router-link to='/home/phone'>手机</router-link>
+					<router-link to='/home/nvzhuang'>女装</router-link>
+					<router-link to='/home/good'>古尔丹</router-link>					
+					<router-view />						
+				</div>
+			`
+		}
+		
+		const huodong = {
+			template:'<div>活动页内容</div>'
+		}
+		
+		const news = {
+			template:'<div>新闻内容</div>'
+		}
+		
+		const router = new VueRouter({
+			routes:[
+				{
+					path:'/home',
+					component:home,
+					children:[
+						{
+							path:'/home/phone',
+							component:phone,
+						},{
+							path:'/home/nvzhuang',
+							component:nvzhuang
+						},{
+							path:'/home/good',
+							component:good,
+						},{
+							path:'/',
+							redirect:'/home/phone'
+						}
+					]
+				},{
+					path:'/huodong',
+					component:huodong
+				},{
+					path:'/news',
+					component:news
+				},{
+					path:'/',
+					redirect:'/home'
+				}
+			]
+		})
+		
+		let App = {
+			template:`
+				<div id='app'>				
+					<router-link to='/home'>首页</router-link>
+					<router-link to='/huodong'>活动</router-link>
+					<router-link to='/news'>新闻</router-link>				
+					<router-view />					
+				</div>
+			`
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			template:'<App />',
+			components:{App},
+			router
+		})
+		
+	</script>
+</html>

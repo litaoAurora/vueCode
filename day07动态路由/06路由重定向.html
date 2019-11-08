@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='app'></div>
+					
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>	
+	<!--router是vue的插件，因此需要先引入vue，再引入router-->	
+	<script src="js/router.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		路由重定向:
+//			{
+//				path:'/',
+//				redirect:'/home'
+//			}
+			
+//		当路径只有'/'时,把路径切换成'/home'
+//		'*' -> 任意路径
+
+//		路径匹配的顺序和if-else判断条件的顺序一致(前面的匹配上了,后面的不匹配)
+
+		const home = {
+			template:'<div>首页内容</div>'
+		}
+		
+		const huodong = {
+			template:'<div>活动页内容</div>'
+		}
+		
+		const news = {
+			template:'<div>新闻内容</div>'
+		}
+		
+		const router = new VueRouter({
+			routes:[
+				{
+					path:'/home',
+					component:home
+				},{
+					path:'/huodong',
+					component:huodong
+				},{
+					path:'/news',
+					component:news
+				},{
+					path:'*',
+					redirect:'/home'
+				}
+			]
+		})
+		
+		let App = {
+			template:`
+				<div id='app'>
+					<a href="#home">首页</a>
+					<a href="#huodong">活动</a>
+					<a href="#news">新闻</a>
+					
+					<!--<router-view><router-view>-->
+					<router-view />					
+				</div>
+			`
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			template:'<App />',
+			components:{App},
+			router
+		})
+		
+	</script>
+</html>

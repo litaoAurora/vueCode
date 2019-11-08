@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='app'></div>
+					
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>	
+	<!--router是vue的插件，因此需要先引入vue，再引入router-->	
+	<script src="js/router.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		//可以通过实例的push或者replace方法进行路由跳转。(在没有router-link的情况下)
+		//push会有上一条历史纪律,replace没有.
+		//如果有一些跳转操作是不可逆的,应该用replace.(例如登录成功的后退).
+		
+		const home = {
+			template:'<div>首页内容</div>'
+		}
+		
+		const huodong = {
+			template:'<div>活动页内容</div>'
+		}
+		
+		const news = {
+			template:'<div>新闻内容</div>'
+		}
+		
+		const router = new VueRouter({
+			routes:[
+				{
+					path:'/home',
+					component:home,
+					name:'home'
+				},{
+					path:'/huodong',
+					component:huodong,
+					name:'huodong'
+				},{
+					path:'/news',
+					component:news,
+					name:'news'
+				},{
+					path:'/',
+					redirect:'/home'
+				}
+			]
+		})
+		
+		let App = {
+			template:`
+				<div id='app'>					
+					<!--<input type='button' value='首页' @click='fn("/home")' />
+					<input type='button' value='活动' @click='fn("/huodong")' />
+					<input type='button' value='新闻' @click='fn("/news")' />-->
+					
+					<input type='button' value='首页' @click='fn("home")' />
+					<input type='button' value='活动' @click='fn("huodong")' />
+					<input type='button' value='新闻' @click='fn("news")' />				
+					<router-view />					
+				</div>
+			`,
+			methods:{
+				fn(name){
+//					this.$router.push(path);
+//					this.$router.push({name:name});
+					
+					this.$router.replace({name:name});
+				}
+			}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			template:'<App />',
+			components:{App},
+			router
+		})
+		
+	</script>
+</html>

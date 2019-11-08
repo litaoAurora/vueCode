@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='app'></div>
+					
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>	
+	<!--router是vue的插件，因此需要先引入vue，再引入router-->	
+	<script src="js/router.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		工作中需要使用router-link来代替a标签
+//		router-link不写href属性,而是写to属性.
+//		to属性不写'#',而是写'/'路径
+
+		const home = {
+			template:'<div>首页内容</div>'
+		}
+		
+		const huodong = {
+			template:'<div>活动页内容</div>'
+		}
+		
+		const news = {
+			template:'<div>新闻内容</div>'
+		}
+		
+		const router = new VueRouter({
+			routes:[
+				{
+					path:'/home',
+					component:home,
+					name:'home'
+				},{
+					path:'/huodong',
+					component:huodong,
+					name:'huodong'
+				},{
+					path:'/news',
+					component:news,
+					name:'news'
+				},{
+					path:'/',
+					redirect:'/home'
+				}
+			]
+		})
+		
+		let App = {
+			template:`
+				<div id='app'>									
+					<router-link :to='{name:"home"'>首页</router-link>
+					<router-link :to='{name:"huodong"}'>活动</router-link>
+					<router-link :to='{name:"news"}'>新闻</router-link>				
+					<router-view />					
+				</div>
+			`
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			template:'<App />',
+			components:{App},
+			router
+		})
+		
+	</script>
+</html>

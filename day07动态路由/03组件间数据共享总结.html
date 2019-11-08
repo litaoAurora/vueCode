@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		
+//		组件间数据共享:
+
+//			1):父传子.(一个数据,只有父和子使用,别的组件不使用)
+//			2):子传父.(同上)
+//			3):bus数据共享.(两个关系偏远的组件共享同一个数据,可以用bus)
+//			4):vuex.(多个组件,频繁的使用同一个共享数据,用vuex);
+
+//			5):本地存储共享数据.(只能共享number,string类型的数据.如果共享对象,会有存和取不是同一个对象的问题)
+//				A组件存本地存储数据,B组件取本地存储数据.
+//				
+//				存对象:
+//					A组件内存:
+//						localStorage.setItem('data',JSON.stringify({name:'yyyy'}));
+//					
+//					B组件内取:
+//						let data = JSON.parse(localStorage.getItem('data'));
+
+
+//			---------------------------------------------------------------------------------------------------
+//				深拷贝,浅拷贝.				
+//				let oYm = {
+//					name:'杨幂',
+//					exhusband:{
+//						name:'凯威'
+//					}
+//				}
+				
+				//最简单的深拷贝。(当前浏览器对象必须支持JSON)
+				//let obj = JSON.parse(JSON.stringify(oYm));
+				
+
+	</script>
+</html>

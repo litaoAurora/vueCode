@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<span id='app'></span>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>	
+	<script src="js/vuex.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/javascript">
+		
+//		共享数据获取为什么必须是计算属性?
+//			使用计算属性,可以让共享数据个组件视图具有响应式的变化关系
+			
+		let store = new Vuex.Store({
+			strict:true,
+			state:{msg:'111111'},						
+			mutations:{
+				setMsg(state,val){
+					state.msg = val
+				}
+			}
+		});
+
+		let box1 = {
+			template:`
+				<div>
+					<input type='text' v-model='str' />
+					<input  type='button' value='传递数据' @click='sendData' />
+				</div>
+			`,
+			data(){
+				return {str:''}
+			},
+			methods:{
+				sendData(){
+					this.$store.commit('setMsg',this.str);
+				}
+			}
+		}
+		
+		let box2 = {
+			template:`
+				<div>
+					<p>box2:{{msg}}</p>
+				</div>
+			`,
+//			data(){
+//				return {msg:''}
+//			},
+
+			computed:{
+				msg(){
+					return this.$store.state.msg
+				}
+			}
+			
+//			created(){
+//				this.msg = this.$store.state.msg
+//			},
+//			watch:{
+//				'$store.state.msg':{
+//					handler(newVal){
+//						this.msg = newVal
+//					}
+//				}
+//			}
+		}
+		
+		let App = {
+			template:`
+				<div id='app'>
+					<div is='box1'></div>
+					<hr />
+					<div is='box2'></div>
+				</div>
+			`,
+			components:{box1,box2}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			render:h=>h(App),
+			components:{App},
+//			整个组件都可以使用store内的state数据。
+//			store写在哪个组件内，则只有该组件以及该组件的所有子组件可用共享数据。
+			store
+		})
+		
+		
+	</script>
+	
+</html>
