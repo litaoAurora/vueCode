@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/router.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		跳转路由 -> 跳转页面
+//		路由拦截 -> 不让页面跳转.
+//		什么时候不能页面跳转?
+//			例如:登录时,账号密码不对,这时如果点击登录,则拦截路由跳转到个人信息页.
+//			例如:注册时,没写手机号码,这时如果点击注册,则拦截路由跳转到注册成功页.
+		
+//		对于登陆拦截:
+//			可以在登陆也设置离开拦截.beforeRouteLeave;
+//			也可以在信息页(info)设置进入拦截.beforeRouteEnter;
+//			
+//			共同的拦截逻辑都是有条件的执行next();
+		
+		const login = {
+			template:`
+				<div class='login'>
+					<input type="text" placeholder="账号" v-model='un'/>
+					<input type="password" placeholder="密码" v-model='pd'/>
+					<input type="button" value='登录' @click='fn' />
+				</div>
+			`,
+			data(){
+				return {
+					un:'',
+					pd:''
+				}
+			},
+//			beforeRouteLeave(to,from,next){
+//				//如果un和pd都不为空，就进行下一步跳转。
+//				if(this.un && this.pd){					
+//					next();
+//				}else{
+//					alert('账号密码不能为空')
+//				}
+//			},
+			methods:{
+				fn(){
+					//点击登录跳转到信息(info)页
+					this.$router.push('/info');
+				}
+			},
+			watch:{
+				un:{
+					handler(){
+						localStorage.setItem('userName',this.un);
+					}
+				},
+				pd:{
+					handler(){
+						localStorage.setItem('password',this.pd);
+					}
+				}
+			}
+		}
+		
+		const info = {
+			template:`
+				<div class='info'>
+					<h3>个人信息</h3>
+					<p>姓名:杨幂</p>
+				</div>
+			`,
+			data(){
+				return {
+					msg:'info组件的数据'
+				}
+			},
+			
+			//不！能！获取当前的组件实例this。因为beforeRouteEnter触发时，组件实例还没有被创建。
+			//如果真的想在钩子函数内获取当前组件实例，可以给next传递一个回调，这个回调的形参就是当前组件的实例。
+			//next的回调函数是在整个路由跳转的最后一个阶段触发的。
+			
+			beforeRouteEnter(to,from,next){
+				
+				console.log('进入info');
+				console.log(this);
+				
+				let un = localStorage.getItem('userName');
+				let pd = localStorage.getItem('userName');
+				
+				if(un&&pd){
+					next(function(vm){
+						console.log(vm.msg);
+					});
+				}else{
+					alert('账号密码不能为空')
+				}
+			},
+		}
+		
+		const router = new VueRouter({
+			routes:[
+				{
+					path:'/login',
+					component:login
+				},
+				{
+					path:'/info',
+					component:info
+				},
+				{
+					path:'/',
+					redirect:'/login'
+				}
+			]
+		})
+
+		const App = {
+			template:`
+				<div id='app'>
+					<router-view />
+				</div>
+			`
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			render:h=>h(App),
+			components:{App},
+			router
+		})
+		
+		
+		
+	</script>
+</html>

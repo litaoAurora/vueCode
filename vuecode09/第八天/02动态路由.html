@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'></div>
+</body>
+<script src="../js/axios.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/router.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    //使用动态路由实现以上效果。
+    //路由内组件的数据通过data.json获取
+    
+    const App = {
+    	template:`
+    		<div id='app'>	        	        
+		        <router-link :to='{path:"/"+i}' v-for='(d,i) in data' :key='i'>{{d.title}}</router-link>		        
+		        <router-view :data='data' />
+    		</div>
+    	`,
+    	data(){
+    		return {
+    			data:{title:''},
+    		}
+    	},
+    	created(){
+    		axios.get('data.json').then((data)=>{
+    			this.data = data.data;
+    		})
+    	},
+    }
+    
+    const home = {
+    	template:`
+    		<div>
+	            <h3>{{title}}</h3>
+	            <p>{{content}}<span>{{date}}</span></p>
+	        </div>
+    	`,
+    	data(){
+    		return {
+    			title:'',
+    			content:'',
+    			date:''
+    		}
+    	},
+    	props:['data'],
+    	watch:{
+    		'$route.path':{
+    			handler(){
+    				this.setData();
+    			}
+    		},
+    		'data':{
+    			handler(){
+    				this.setData();
+    			}
+    		}
+    	},
+    	methods:{
+    		setData(){
+    			console.log(this.data);
+    			this.title = this.data[this.$route.params.path].title;
+    			this.content = this.data[this.$route.params.path].content;
+    			this.date = this.data[this.$route.params.path].date;
+    		}
+    	}
+    }
+        
+    const router = new VueRouter({
+    	routes:[
+    		{
+    			path:'/:path',
+    			component:home
+    		},
+    		{
+    			path:'/',
+    			redirect:'/home'
+    		}
+    	]
+    })
+    
+    let vm = new Vue({
+    	el:'#app',
+    	render:h=>h(App),
+    	components:{App},
+    	router
+    })
+    
+    
+    
+</script>
+</html>

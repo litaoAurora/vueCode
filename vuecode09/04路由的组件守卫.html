@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='app'></div>
+					
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>	
+	<!--router是vue的插件，因此需要先引入vue，再引入router-->	
+	<script src="js/router.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		//动态路由监听路由切换,activated和created都不行.
+		//可以通过watch监听$route.path的变化来实现监听路由切换.
+		//也可以通过路由专门的路由钩子函数(路由守卫)(路由拦截)来实现.
+				
+		const home = {
+			template:`
+				<div>
+					<h3>{{title}}</h3>
+					<p>{{content}}</p>
+				</div>
+			`,
+			data(){
+				return {
+					title:'',
+					content:'',
+				}
+			},
+			props:['data'],
+						
+			//next -> 继续路由跳转必须填写的一个回调函数.如果不调用这个回调,则路由跳转都会失败.
+			//to -> 目标路由选项.(路由跳到哪个路由选项).
+			//from -> 上一个路由选项.(路由跳到哪个路由选项).
+			//在beforeRouteUpdate里this.$route实际上就是from(上一个路由选项).
+			
+			beforeRouteUpdate(to,from,next){
+				console.log(to);
+				console.log(from);
+//				let path = to.params.path;
+//				this.title = this.data[path].title;
+//				this.content = this.data[path].content;
+				
+				let path = this.$route.params.path;
+				this.title = this.data[path].title;
+				this.content = this.data[path].content;
+				next();
+			}
+		}
+		
+		const router = new VueRouter({
+			routes:[
+				{
+					path:'/:path',
+					component:home
+				},{
+					path:'/',
+					redirect:'/home'
+				}
+			]
+		})
+		
+		let App = {
+			template:`
+				<div id='app'>				
+					<router-link to='/home'>首页</router-link>
+					<router-link to='/huodong'>活动</router-link>
+					<router-link to='/news'>新闻</router-link>
+					<router-view :data='data' />
+				</div>
+			`,
+			created(){
+				console.log(this.$route)
+			},
+			data(){
+				return {
+					data:{
+						home:{
+							title:'首页标题',
+							content:'首页内容'
+						},
+						huodong:{
+							title:'活动标题',
+							content:'活动内容'
+						},
+						news:{
+							title:'新闻标题',
+							content:'新闻内容'
+						}
+					}
+				}
+			}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			template:'<App />',
+			components:{App},
+			router
+		})
+		
+	</script>
+</html>

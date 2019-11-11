@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='app'></div>
+					
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>	
+	<!--router是vue的插件，因此需要先引入vue，再引入router-->	
+	<script src="js/router.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		//动态路由的视图只有一个组件，切换时只有组件内容发生了变化，组件本身没有切换(没有显示和隐藏的过程).
+		//因此,动态路由里即使使用keep-alive缓存了组件,activated也不会频繁触发.
+			// keep-alive 标签来缓存组件。 
+			// activated 激活   deactivated 冻结  缓存组件的激活与冻结 时调用。 
+
+		const home = {
+			template:`
+				<div>
+					<h3>{{title}}</h3>
+					<p>{{content}}</p>
+				</div>
+			`,
+			data(){
+				return {
+					title:'',
+					content:'',
+				}
+			},
+			props:['data'],
+			activated(){
+				console.log(this.$route.path);
+				let path = this.$route.params.path;
+				this.title = this.data[path].title;
+				this.content = this.data[path].content;
+			}
+		}
+		
+		const router = new VueRouter({
+			routes:[
+				{
+					path:'/:path',
+					component:home
+				},{
+					path:'/',
+					redirect:'/home'
+				}
+			]
+		})
+		
+		let App = {
+			template:`
+				<div id='app'>				
+					<router-link to='/home'>首页</router-link>
+					<router-link to='/huodong'>活动</router-link>
+					<router-link to='/news'>新闻</router-link>
+					<keep-alive>
+						<router-view :data='data' />
+					</keep-alive>
+				</div>
+			`,
+			created(){
+				console.log(this.$route)
+			},
+			data(){
+				return {
+					data:{
+						home:{
+							title:'首页标题',
+							content:'首页内容'
+						},
+						huodong:{
+							title:'活动标题',
+							content:'活动内容'
+						},
+						news:{
+							title:'新闻标题',
+							content:'新闻内容'
+						}
+					}
+				}
+			}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			template:'<App />',
+			components:{App},
+			router
+		})
+		
+	</script>
+</html>

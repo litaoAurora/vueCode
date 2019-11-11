@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='app'></div>
+					
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>	
+	<!--router是vue的插件，因此需要先引入vue，再引入router-->	
+	<script src="js/router.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		//beforeRouteUpdate -> 只能在动态路由内使用。
+		
+		const home = {
+			template:`
+				<div>
+					首页内容
+					<input type='text' />
+				</div>
+			`,
+			beforeRouteUpdate(to,from,next){
+				console.log('首页组件切换到');
+				next();
+			}
+		}
+		
+		const huodong = {
+			template:`
+				<div>
+					活动内容
+					<input type='text' />
+				</div>
+			`,
+			beforeRouteUpdate(to,from,next){
+				console.log('活动组件切换到');
+				next();
+			}
+		}
+		
+		const news = {
+			template:`
+				<div>
+					新闻内容
+					<input type='text' />
+				</div>
+			`,
+			beforeRouteUpdate(to,from,next){
+				console.log('新闻组件切换到');
+				next();
+			}
+		}
+		
+		const router = new VueRouter({
+			routes:[
+				{
+					path:'/home',
+					component:home
+				},{
+					path:'/huodong',
+					component:huodong
+				},{
+					path:'/news',
+					component:news
+				},{
+					path:'/',
+					redirect:'/home'
+				}
+			]
+		})
+		
+		let App = {
+			template:`
+				<div id='app'>
+					<router-link to='/home'>首页</router-link>
+					<router-link to='/huodong'>活动</router-link>
+					<router-link to='/news'>新闻</router-link>
+					<keep-alive>
+						<router-view />
+					</keep-alive>
+				</div>
+			`
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			template:'<App />',
+			components:{App},
+			router
+		})
+		
+	</script>
+</html>

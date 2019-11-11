@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		
+		1):路由
+			路由用于实现单页应用.
+			单页应用 -> 一个网站就一个html页面. -> 分页都是组件.
+			
+			写路由实现单页应用:
+				
+				写路由选项,然后挂载路由实例到vm选项上				
+					const router = new VueRouter({
+						routes:[
+							{
+								path:'/home',
+								component:'首页'
+							},
+							{
+								path:'/w3cnote',
+								component:'菜鸟笔记'
+							},
+							{
+								path:'/manual',
+								component:'参考手册'
+							},
+							{
+								path:'/',
+								redirect:'/home'
+							}
+						]
+					})
+					
+					new Vue({
+						el:'#app',
+						router
+					})
+									
+				写路有选项对应的组件.						
+					let 首页 = {template:首页模板}
+					let 菜鸟笔记 = {template:菜鸟笔记模板}
+					let 参考手册 = {template:参考手册}
+					
+					路由的切换时通过动态组件来实现的.
+					系统提供的这个动态组件默认叫router-view.(可以是单标签也可以是双标签)
+					
+				
+				写嵌套路由.
+					
+					const router = new VueRouter({
+						routes:[
+							{
+								path:'/home',
+								component:'首页'
+							},
+							{
+								path:'/news',
+								component:'新闻',
+								children:[
+									{
+										path:'/news/home111',
+										component:home111
+									},
+									{
+										path:'/news额news222',
+										component:news222
+									},
+									{
+										path:'/',
+										redirect:'/home'
+									}
+								]
+							},
+							{
+								path:'/',
+								redirect:'/home'
+							}
+						]
+					})
+					
+					<a>首页</a>
+					<a>新闻</a>
+					
+					<div>首页</div>
+					<div>
+						<a>首页1111</a>
+						<a>新闻2222</a>
+						<div>11111</div>
+						<div>222222</div>
+					</div>
+				
+				动态路由:
+					多个路由视图拥有相同的html结构,但是内容不同.这时候可以用动态路由书写路由组件.
+					
+					a):怎么把多个组件写成一个组件.
+						第一个问题:如何让一个组件在路由切换时候显示不同的内容.
+						第二个问题:如何捕捉路由切换?
+							监听$route.path,当它的值发生变化,证明路由发生了切换.(路由守卫也可以做到这点)
+													
+					b):怎么把多个路由选项写成一个.
+						如何用一个变量来表示不同的路径?
+						{
+							path:'/:path',
+							component:home
+						},
+						
+						这里path叫路由参数,每次路由切换,path都会被当前的路径赋值.
+						如何获取路由参数(如何获取当前的路由路径)?
+							$route.params.path
+				
+				路由跳转:
+					路由跳转有两个方法,push,replace,这两个方法都是路由实例router的方法.
+					
+					this.$router.push('/home');
+					this.$router.push({path:'/home'});
+					this.$router.push({name:'home'});					
+					this.$router.replace({name:'home'});					
+					push和replace的区别.replace不会吧当前跳转的路径放入histroy.(replace没有上一步).
+				
+				router-link:
+					用于代替a标签.
+					
+					<router-link to='/home'>首页</router-link>
+					<router-link :to='{path:"/home"}'>首页</router-link>
+					<router-link :to='{name:"home"}'>首页</router-link>
+				
+	</script>
+</html>

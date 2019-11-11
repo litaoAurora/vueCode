@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='app'></div>
+					
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>	
+	<!--router是vue的插件，因此需要先引入vue，再引入router-->	
+	<script src="js/router.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		//动态路由监听路由切换,activated和created都不行.
+		//可以通过watch监听$route.path的变化来实现监听路由切换.
+		//也可以通过路由专门的路由钩子函数(路由守卫)(路由拦截)来实现.
+				
+		const home = {
+			template:`
+				<div>
+					<h3>{{title}}</h3>
+					<p>{{content}}</p>
+				</div>
+			`,
+			data(){
+				return {
+					title:'',
+					content:'',
+				}
+			},
+			props:['data'],
+						
+			//动态路由的beforeRouteEnter只触发一次。beforeRouteLeave不触发。
+			//beforeRouteEnter路由进入前触发。beforeRouteLeave路由离开前触发。
+			//beforeRouteEnter和beforeRouteLeave在非动态路由中使用。(用于做路由跳转的拦截)
+			//他们的参数to,from,next和beforeRouteUpdate的参数意义一致.
+			
+			beforeRouteEnter(to,from,next){
+				console.log('路由进入');
+				next();
+			},
+			beforeRouteLeave(to,from,next){
+				console.log('路由离开');
+				next();
+			},			
+			beforeRouteUpdate(to,from,next){
+				console.log(to);
+				console.log(from);				
+				let path = this.$route.params.path;
+				this.title = this.data[path].title;
+				this.content = this.data[path].content;
+				next();
+			}
+		}
+		
+		const router = new VueRouter({
+			routes:[
+				{
+					path:'/:path',
+					component:home
+				},{
+					path:'/',
+					redirect:'/home'
+				}
+			]
+		})
+		
+		let App = {
+			template:`
+				<div id='app'>				
+					<router-link to='/home'>首页</router-link>
+					<router-link to='/huodong'>活动</router-link>
+					<router-link to='/news'>新闻</router-link>
+					<router-view :data='data' />
+				</div>
+			`,
+			created(){
+				console.log(this.$route)
+			},
+			data(){
+				return {
+					data:{
+						home:{
+							title:'首页标题',
+							content:'首页内容'
+						},
+						huodong:{
+							title:'活动标题',
+							content:'活动内容'
+						},
+						news:{
+							title:'新闻标题',
+							content:'新闻内容'
+						}
+					}
+				}
+			}
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			template:'<App />',
+			components:{App},
+			router
+		})
+		
+	</script>
+</html>

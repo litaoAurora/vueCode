@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script src="js/axios.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		全局请求拦截:多个请求在请求发送前额外需要做的相同逻辑,封装成一个请求拦截.(回调函数).
+//		全局响应拦截:多个请求在得到响应时额外需要做的相同逻辑,封装成一个响应拦截.(回调函数).
+
+//		请求拦截，在请求发生前，触发一个回调函数，处理一些相同的逻辑，有多少个ajax请求，就会触发多少次。
+//		return config -> 不能少,少了,请求会中断.
+//		config -> 请求配置,请求选项配置. -> url,data -> 没有请求配置的请求,自然无法完成.
+
+		axios.interceptors.request.use(function(config){
+		  //在请求发出之前进行一些操作
+		  console.log('有数据发生请求了');
+		  return config;
+		},function(err){
+		  //Do something with request error
+		  return Promise.reject(error);
+		});
+
+//		响应拦截，在得到服务器的响应前，触发一个回调函数，处理一些相同的逻辑，有多少个ajax请求，就会触发多少次。
+//		return res 不能少，少了就拿不到响应数据。
+//		这里的res实际上就是服务器返回的结果.需要return作为then的回调函数的实参.
+
+		axios.interceptors.response.use(function(res){
+		  //在这里对返回的数据进行处理
+		  console.log('有数据接受到了');
+		  return res;
+		},function(err){
+		  //Do something with response error
+		  return Promise.reject(error);
+		})
+
+//		--------------------------------------------------------------------------------------------
+		axios.get('data1.json').then(function(data){
+			console.log(data);
+		})
+		
+		axios({
+			method:"GET",
+			url:'data1.json',
+			data:{
+				params:{fn:10}
+			},
+			
+			//局部的请求拦截.(对本次请求有效)
+			transformRequest: [function (data, headers) {
+				// 对 data 进行任意转换处理
+				console.log('全写的请求拦截')
+			    return data;
+			 }],
+			
+			//局部的响应拦截.(对本次响应有效)
+			// `transformResponse` 在传递给 then/catch 前，允许修改响应数据
+			transformResponse: [function (data) {
+			    // 对 data 进行任意转换处理
+			    console.log('全写的响应拦截')
+			    return data;
+			}]
+			 
+		}).then(function(data){
+			console.log(data);
+		})
+		
+		axios.get('data2.json').then(function(data){
+			console.log(data);
+		})
+		
+		axios.get('data2.json').then(function(data){
+			console.log(data);
+		})
+		
+				
+		
+	</script>
+</html>

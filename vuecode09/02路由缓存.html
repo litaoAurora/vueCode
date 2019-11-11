@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='app'></div>
+					
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>	
+	<!--router是vue的插件，因此需要先引入vue，再引入router-->	
+	<script src="js/router.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		//路由切换视图,默认是通过动态组件实现的.
+		//动态组件切换时会重复的创建和销毁
+		//路由如果需要缓存组件状态,就是给<router-view />包裹<keep-alive />
+		//缓存路由组件之后，可以使用activated来监听路由切换。
+		
+		const home = {
+			template:`
+				<div>
+					首页内容
+					<input type='text' />
+				</div>
+			`,
+			activated(){  // 者个东西是用来 切换 缓存组件的。   
+				console.log(this.$route.path)
+			}
+		}
+		
+		const huodong = {
+			template:`
+				<div>
+					活动内容
+					<input type='text' />
+				</div>
+			`,
+			activated(){
+				console.log(this.$route.path)
+			}
+		}
+		
+		const news = {
+			template:`
+				<div>
+					新闻内容
+					<input type='text' />
+				</div>
+			`,
+			activated(){
+				console.log(this.$route.path)
+			}
+		}
+		
+		const router = new VueRouter({
+			routes:[
+				{
+					path:'/home',
+					component:home
+				},{
+					path:'/huodong',
+					component:huodong
+				},{
+					path:'/news',
+					component:news
+				},{
+					path:'/',
+					redirect:'/home'
+				}
+			]
+		})
+		
+		let App = {
+			template:`
+				<div id='app'>
+					<router-link to='/home'>首页</router-link>
+					<router-link to='/huodong'>活动</router-link>
+					<router-link to='/news'>新闻</router-link>
+					
+					<keep-alive>
+						<router-view />					
+					</keep-alive>
+				</div>
+			`
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			template:'<App />',
+			components:{App},
+			router
+		})
+		
+	</script>
+</html>

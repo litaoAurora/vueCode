@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<form action="" enctype="application/x-www-form-urlencoded"></form>
+	</body>
+	<script src="js/axios.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		--------------------------------------------------------------------------------------------
+
+//		全局的请求头配置。默认值就是application/x-www-form-urlencoded
+//		所有请求都使用这个请求头。
+//		也可以局部配置，局部配置会覆盖全局配置。
+//		axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+//		baseURL -> 多个url共同部分,书写时可以省略这一部分，将它配置成baseURL。
+//		axios.defaults.baseURL = 'http://192.168.4.171:8020/1316vue09/';
+		
+		axios({
+			method:"POST",
+			url:'data1.json',
+			headers:{
+				"content-type":'application/x-www-form-urlencoded'
+			}
+		}).then(function(data){
+			console.log(data)
+		})
+		
+		axios({
+			method:"POST",
+			url:'data2.json',
+//			headers:{
+//				content-type:'application/x-www-form-urlencoded'
+//			}
+		}).then(function(data){
+			console.log(data)
+		})
+		
+		
+				
+		
+	</script>
+</html>

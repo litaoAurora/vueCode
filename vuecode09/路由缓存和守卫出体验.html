@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+1） 动态路由的缓存切换
+2)  路由拦截 :
+        不让页面跳转， 什么时候不让页面跳转 ？？？？ 例如登录时账后密码不对。。
+3)  全局的路由拦截 
+        和 mixin 一样。   用到想用的拦截逻辑时 可以用 全局的逻辑拦截。 
+4)  请求拦截 ， 响应拦截   
+        ( 拦截的概念是： 类似于流水线的 毛坯 在这个流程 中到某个时刻，某个部门 该为这个毛坯添加，修改点什么。  )
+        ( 那么此时此刻 就只有你可以操做 这个毛坯， 应该就是拦截的最简单的 构建 )
+        ( 根据这个逻辑 return 是不能少的。  )
+        ： 多个请求， 响应在请求， 得到响应时要做的响应的 逻辑。 
+
+// 组件的切换时 不断的创建和销毁的 .  那么 路由呢??  router  一样的， 
+// 路由也是动态组件。  
+// 监听路由的变化 可可用 created 等生命钩子来 监听。   
+// 如何缓存？？ ：   keep-alive抽象标签  保持生命。 
+        // 当缓存了之后如何监听 路由的变化 如何监听？？？  
+        //  路由就不再销毁和创建了。 又如何监听路由的切换呢  ???  1)  监听值得变化也可以 watch 
+        //   activaed 缓存切换钩子
+        // 动态路由视图 组件只有一个。 没有组件被隐藏， 没有组件被 切换。 activaed 的钩子就没有意义了。 
+                // 只是内容改变了， 组件没有切换。 
+        // 我自己还有一个问题， 那么 keep-alive 还有意义吗？？ 
+//   路由的导航守卫就出来了。 。 。  就是路由的生命钩子函数
+//   守卫的意思就就 切换路由时 能缓存 数据。 也能做一些格外的格外的事情。 
+    // beforeRouterEnter ( to, form, next )     路由且换之前 ,  此时注意事项 :  this window
+            next( function(self){  self 是当前组件的实例。  } )
+    // beforeRouterUpdate    路由改变， 且组件复用是调用Update.  ( 一般来说 组件都是复用的， 因为动态路由都是只有一个组件。   )
+                // 此 钩子只在 监听路由里存在。 
+    // beforeRouterleave     路由离开时 . 通常用来禁止用户在还未保存修改前突然离开
+
+        // to : Route
+        // form : Route
+        // next : function 必须是有手动跳转路由的。 当调用了 beforeRouter...,  不然是会跳转不了的
+//  注意： enter Update leave 的触发时机， 顺序是有点怪
+//  真正用在动态路由里面的 只有  beforeUpdate 这个钩子。   beforRouterEnter ， beforeRouterLeave： 只触发一次， 有于路由的拦截里面的。  
+
+2)  路由拦截 : 可能拦截， 重定向路由。  用于逻辑判断， 检查某些信息。 
+        专门就是用来拦截的 逻辑， 不用  next 是跳转不了的。 
+        不让页面 ( 组件 ) 跳转， 什么时候不让页面跳转 ？？？？ 例如登录时账后密码不对。。
+
+beforeEnter  
+    next( function( self ){} )  里的回调函数是在 组件渲染完成的最后阶段才触发。  self 是当前路由的本身。 
+                为什么是在最后才触发 ???   self 是实例， 在 next调用时 self 实例还没有 创建好。 
+
+
+看一下  完整的导航流程。 
+
+// 全局的 路由拦截
+
+用 router 实例来写
+// router.afterEach()  没一个前  
+
+4） 请求拦截
+5） 全局的配置
+
+6） 什么是 token  ？？？  令牌。 
+        用来记录是否是登录状态的。 
+        用于用户的验证的。 真正的用户的认证不是根据 账号来认证的 而是 根据 token 来认证的。 
+    token 是一个 字符串。 
+后端是在 验证 token , 来验证是否在登录状态。 携带与 请求头中
+    axios.defaults.headers.Authorization = 'token fjds2kk3jk4kjgfdgfdg52fd2g1fdg1';
+
+
+第一次生成， 
+
+
+</script>
+</html>

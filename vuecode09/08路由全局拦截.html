@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/router.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		组件守卫 -> 拦截效果对当前组件有效.
+//		全局守卫 -> 对所有的路由跳转都能起到拦截效果.
+
+//		beforeEach -> 全局前置守卫.
+//		afterEach -> 全局后置守卫.(没有next回调).
+
+		const login = {
+			template:`
+				<div class='login'>
+					<input type="text" placeholder="账号11" v-model='un'/>
+					<input type="password" placeholder="密码22" v-model='pd'/>
+					<input type="button" value='登录' @click='fn' />
+				</div>
+			`,
+			data(){
+				return {
+					un:'',
+					pd:''
+				}
+			},
+			methods:{
+				fn(){
+					//点击登录跳转到信息(info)页
+					this.$router.push('/info');
+				}
+			}
+		}
+		
+		const info = {
+			template:`
+				<div class='info'>
+					<h3>个人信息</h3>
+					<p>姓名:杨幂</p>
+				</div>
+			`,
+			data(){
+				return {
+					msg:'info组件的数据'
+				}
+			},
+		}
+		
+		const router = new VueRouter({
+			routes:[
+				{
+					path:'/login',
+					component:login
+				},
+				{
+					path:'/info',
+					component:info
+				},
+				{
+					path:'/',
+					redirect:'/login'
+				}
+			]
+		})
+		
+		router.afterEach(function(to,from){
+			console.log('有路由离开');
+		})
+		
+		router.beforeEach(function(to,from,next){
+			console.log('有路由进入');
+			next();
+		})
+		
+		const App = {
+			template:`
+				<div id='app'>
+					<router-view />
+				</div>
+			`
+		}
+		
+		let vm = new Vue({
+			el:'#app',
+			render:h=>h(App),
+			components:{App},
+			router
+		})
+		
+		
+		
+	</script>
+</html>

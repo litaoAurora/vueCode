@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script src="js/axios.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+//		token -> 用于用户验证.
+//		用户账号对应用户信息 -> 用户的验证是通过账号来实现的。
+//		token是一个字符串,前端把token发送给服务器，服务器在数据库内进行检索，
+//		如果有匹配的token，则发送与这个token相对应的数据给前端。
+
+//		用户第一次输入账号和密码，系统会根据账号和密码生成一个token字符串发送给服务器记录。
+//		后续登录每次也都需要发送token给服务器,这样服务器才能进行检索匹配。
+
+//		前端发送token给服务器，服务器也会对token进行更新，再发送回给前端，前端需要记录起来。(记录在本地存储或者cookie内).
+//		记录token是为了记录登录的状态,每次登录请求都需要判断token有没有过期,过期需要重新登录,没过期则直接显示登录后的页面.
+
+//		只要有登录功能的网站,都会使用token.
+//		每次请求根用户相关的数据,都必须发送token到服务器,以比较是不是应该重新登录.
+//		怎么发送?
+//			一般都是在请求头内设置一个自定义字段,这个字段一般都叫Authorization,后面接token字符串.
+
+//		全局配置发送token。
+//		axios.defaults.headers.Authorization = 'token asdf76as7df6f234sdfjhasdf723asdf78as6d723xcvsdfg';
+
+//		每次发送token，应该是从本地存储或者cookie内取出token发送给服务器。
+		axios.defaults.headers.Authorization =	localStorage.getItem('token');
+		
+		axios({
+			method:'GET',
+			url:'data1.json',
+//			headers:{
+//				Authorization:'token asdf76as7df6f234sdfjhasdf723asdf78as6d723xcvsdfg'
+//			}
+		}).then(function(data){
+			console.log(data);
+			if(token过期){
+				localStorage.setItem('token',token新数据字段)
+			}			
+		})
+		
+		axios({
+			method:'GET',
+			url:'data2.json',
+//			headers:{
+//				Authorization:'token asdf76as7df6f234sdfjhasdf723asdf78as6d723xcvsdfg'
+//			}
+		}).then(function(data){
+			console.log(data)
+		})
+		
+
+	</script>
+</html>
