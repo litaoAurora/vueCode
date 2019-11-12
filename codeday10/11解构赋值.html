@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	
+	</body>
+	<script type="text/javascript">
+		
+		//数组结构赋值。按位置匹配。
+		//let [x,y] = [10,20];
+		
+		//对象的结构赋值。按键名匹配。
+		//let {name,age} = {age:200,name:100};
+		
+//		结构赋值的匹配规则:
+//			左边是什么,右边就应该是什么.
+
+//		左边是数组，右边是字符串，但是字符串也可以当成数组来处理。['你','好','呀']
+//		let [x,y] = '你好呀';
+
+//		左边是对象，右边是函数，但是函数本身也是object。事件上就是 let {name} = alert.name
+//		把右边的alert当成对象，然后找到这个对象身上的name属性赋值给左边的name变量。
+//		let {name} = alert
+		
+//		let [x] = document.getElementsByTagName('body');
+		
+//		什么情况下会用解构赋值?
+//			但凡涉及赋值的地方,都可以用解构赋值.
+//			例如:实参给形参赋值
+		
+//		function fn(x){
+//			console.log(x)
+//		}
+		
+//		fn({name:'哈哈哈'})
+
+//		fn([10,20,30])
+		
+//		实参给形参赋值。
+//		x = {name:'哈哈哈'}
+		
+//		改成解构赋值		
+//		{name} = {name:'哈哈哈'}
+		
+		//这个形参的解构赋值意思是提取实参的name属性。
+//		function fn({name}){
+//			console.log(name);
+//		}
+
+//		提取实参的前3个元素
+//		function fn([x,y,z]){
+//			console.log(x,y,z);
+//		}
+		
+		let oYm = {
+			exhusband:{
+				name:'刘恺威',
+				age:40,
+				sex:'who cares'
+			}
+		}
+		
+//		let prop = oYm.exhusband
+//		let {name} = oYm.exhusband
+
+//		Object.entries(对象A) -> 返回一个二维数组,每个数组的元素是这个对象的属性键值对.
+//		Object.keys(对象A) -> 返回一个数组,这个数组内的所有元素都是这个对象的键名.
+//		Object.values(对象A) -> 返回一个数组,这个数组内的所有元素都是这个对象的键值.
+
+//		for(var i of Object.entries(oYm.exhusband)){
+//			console.log(i)
+//		}
+		
+//		for(var prop in oYm){
+//			console.log(prop)
+//		}
+		
+		
+	</script>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<!--模块化环境下的导入导出-->
+		
+		A页面引入B页面 -> A页面导入B页面
+		
+		A页面导入B页面，实际上只是为了是一个某个变量，例如App.
+		
+		这时B页面需要导出App变量。
+		
+		例如：
+				03页面导入了main.js,main.js导出了vm变量
+				03页面导入了router.js,router.js导出了router变量。
+				03页面导入了store.js,store.js导出了store变量.
+				
+				router.js需要home,huodong,news这3个变量
+				则router.js就需要导入这3个组件.
+				
+		总结一句话:需要的导入,被需要的导出.
+		
+		从components里面的home.vue内导入home变量
+		import home from '@components/home'
+		
+		导出home变量
+		export default home
+				
+	</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		单文件组件包含3个部分:
+			<template>
+				组件的模板部分
+			</template>
+			
+			<script>
+				组件的逻辑部分.
+			</script>
+			
+			<style type="text/css">
+				组件的样式部分
+			</style>
+		
+		脚手架会默认把组件的模板部分导出,不需要手写export default		
+		style可以添加一个scoped(作用域)属性,添加了这个属性之后,样式只会对当前组件有效.
+		
+		scoped -> 给所有当前的组件标签添加一个随机的自定义属性,然后给所有的私有样式添加这个属性选择器.
+		
+		
+		
+	</body>
+</html>

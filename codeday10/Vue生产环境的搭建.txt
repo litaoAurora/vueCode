@@ -1,0 +1,62 @@
+1. 安装Node.js
+从官网下载稳定版的Node.js, 双击next->next安装，建议不要修改安装路径
+
+检验Node.js是否安装：
+    打开命令行(Mac终端):
+        node -v
+    提示了版本则表示安装成功
+
+Node.js集成了npm(node package manager)：
+    打开命令行(Mac终端):
+        npm -v
+    提示了版本则表示集成的npm也安装成功
+
+查看npm的仓库地址：(即npm的资源下载地址)
+在命令行中输入：
+    npm config get registry
+
+为了提升npm的下载速度，可以修改npm的仓库地址：
+    修改方式1：
+        npm config set registry https://registry.npm.taobao.org
+    
+    修改方式2：（不改npm,新增专门的淘宝镜像命令）
+       sudo npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+        验证cnpm是否安装成功：
+            在命令行中输入：cnpm -v
+            如果提示版本号，则表示安装成功
+
+2. 安装Vue脚手架：官方的脚手架vue-cli
+在命令行中输入：
+    cnpm install vue-cli -g
+
+检验vue-cli是否安装成功：
+    在命令行中输入：vue -V
+     如果提示版本号，则表示安装成功
+
+3.拉取项目
+    1）新建文件夹，用于放在拉取的项目
+    2）在新建文件夹下来打开命令行(Mac终端)
+    3）在打开的命令行中输入：
+           vue init webpack my-project
+    
+        上面命令的解释：
+            vue init： 初始化项目
+            webpack：初始化的项目模版
+            my-project: 项目名称，由我们自己取名
+
+掌握简单DOS命令(Mac是Linux命令)：
+    cd 某个文件夹  ： 进入当前所在在文件夹内在某个文件夹
+    dir(Mac电脑输入的是ls)：列出当前所在的文件夹内的所有文件及文件夹
+    cd..  : 返回上一级目录
+
+4. 安装项目依赖
+当项目文件夹(不是第三步新建的文件夹)中，如果没有node_modules文件夹，则需要执行这一步
+   1）将命令进入在项目文件夹
+      在命令行中输入：  cd my-project
+   2) 在命令行中输入：  cnpm install   ; 把全局的 node_modules  这个文件荡下来依赖文件拉到当前来。 
+这一步需要花点时间
+
+5. 运行项目
+   1）将命令进入在项目文件夹，在项目文件夹打开命令行
+   2) 在命令行中输入：npm run dev    ; 编译并打开服务器。 也可能只是打开服务器而已。 

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		
+		1):导航守卫
+			a):全局的
+				beforeEach,afterEach,beforeResolve
+				
+			b):路由独占
+				beforeEnter
+				
+			c):组件内的
+				beforeRouteEnter(to,from,next)
+					非动态路由进入前拦截				
+					to -> 目标路由
+					from -> 上一个路由
+					next -> 路由继续下一步跳转必须填写					
+					beforeRouteEnter内不能使用组件this(因为beforeRouteEnter触发时组件还没创建)
+					但是可以通过next的回调的形参来获取组件this.(回调在路由切换的最后阶段触发,这时可以获取组件实例了)
+					next(function(vm){
+						console.log(vm)
+					})
+					
+				beforeRouteUpdate(to,from,next)
+					动态路由中能触发.监听动态路由的路由切换.
+				
+				beforeRouteLeave(to,from,next)
+					非动态路由离开前拦截
+					如果想让路由跳转终止:
+						就是有条件的执行next();
+						next(false) -> 终止跳转.
+		
+			d):钩子的先后顺序.				
+				beforeRouteLeave
+				beforeEach
+				beforeRouteUpdate(如果有)
+				beforeEnter			
+				beforeRouterEnter
+				beforeResolve
+				afterEach
+				beforeRouterEnter内next的回调.
+		
+		2):请求拦截,响应拦截,全局配置.
+			
+			全局请求拦截(return config)
+			axios.interceptors.request.use(function(config){
+				//某些事情
+				return config
+			},function(err){
+				return Promise.reject(err);
+			})
+			
+			全局响应拦截(必须return res)
+			axios.interceptors.response.use(function(res){
+				//某些事情
+				return res;
+			},function(err){
+				return Promise.reject(err)
+			})
+			
+			transformRequest:[
+				function(){},
+			]
+			
+			transformResponse:[
+				function(){},
+			]
+			
+			全局配置:
+				axios.defaults.headers['Content-type'] = 'application/x-www-form-urlencoded';
+				axios.defaults.BaseURL = '.......'
+		
+		3):token.
+			
+			每次请求都发送token到服务器.
+			怎么发?
+				在请求头内配置Authorization:'token asdfasdfasdfasdf8sd7f8asdf7a78sdf8asd7f8asd7f8as'
+			
+			服务器每次发送回token,我们都必须存入本地存储或者cookie.
+			为什么要存?
+				因为前段必须检测登录状态.
+			
+		
+	</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		引入node_modules内的原文件:
+			import Vue from 'vue'
+			import Vuex from 'vuex'
+			import VueRouter from 'vue-router'
+			
+			如果插件是vue的插件,需要通过vue.use()来明确使用该插件.
+			
+			import axios from 'axios'
+			axios不是vue的插件,因此不需要使用vue.use
+		
+		引入自定义文件
+			
+			./ -> 当前文件夹
+			../ -> 上一级文件
+			@/ -> src/
+			
+			.js.vue后缀名可以在引入时省略.
+			
+			如果一个js文件名叫index,那么这个index文件名也可以省略
+			
+			
+		
+	</body>
+</html>

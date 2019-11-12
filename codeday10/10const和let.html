@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		
+//		let和var的区别:
+//			
+//			1):let没有提升,var有提升
+//			2):let认识块级作用域,var不认识
+//			3):let声明的变量不会变成window的属性,var声明的变量会.
+//			4):let不能重复声明,var可以.
+		
+//		let y = 100;		
+//		alert(window.y);
+//		
+//		var x = 200;		
+//		alert(window.x);
+		
+//		let a = 10;
+//		var oYm = {a:20};
+//		var oFb = {
+//			a:30,
+//			fn:function(){
+//				return this.a;
+//			}
+//		};
+//		var fn = oYm.fn = oFb.fn;
+//		oYm.a = fn() ? oYm.fn() : oFb.fn();
+//		var num = fn.call(oYm);
+//		console.log(num);
+		
+		function A(){};
+		function B(){};
+		
+		A.prototype.sayname = function(){console.log("a")};
+		B.prototype.sayname = function(){console.log("b")};
+		Object.prototype.sayname = function(){console.log("c")};
+		
+		var oA = new A();
+		oA.sayname();
+		
+		var oB = new B();
+		B.prototype=oA;
+		oB.sayname();
+		new B().sayname();
+		
+		var oC = {};
+		oA = oC;
+		new B().sayname();
+		oB.sayname();
+		oA.sayname();
+
+//		1):引用类型
+//		2):原型链的属性访问
+		
+		
+	</script>
+</html>
