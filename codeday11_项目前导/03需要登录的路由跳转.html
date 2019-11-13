@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<div id='app'></div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/router.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/axios.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/javascript">
+		
+		//有登录功能的页面，默认重定向到登录页还是内容页？
+		//可以默认重定向到内容页，然后设置路由守卫来判断如何跳转。
+		//在进入内容页时，判断有没有登录，如果有，继续跳转，如果没有，跳转到登录页。
+		
+		const login = {
+			template:`
+				<div id='login'>
+					<input type="text" value="" placeholder="token" v-model='token'/>
+					<input type="button" value="登录" @click='signIn' />
+				</div>
+			`,
+			data(){
+				return {
+					token:''
+				}
+			},
+			methods:{
+				signIn(){
+					//记录登录状态
+					localStorage.setItem('token',this.token);
+					
+					axios.defaults.headers.Authorization = 'token '+ this.token;
+					axios.defaults.baseURL = 'https://api.github.com/';
+					
+					axios.get('user/repos').then((data)=>{
+						//跳转到个人信息页
+						this.$router.push({path:'/content'});
+						console.log(data);
+					})					
+				}
+			}
+		}
+		
+		const content = {
+			template:`
+				<div id='content'>
+					<h3>个人信息</h3>
+					<hr />
+					<p>哈哈哈哈<button @click='logout'>退出</button></p>
+				</div>
+			`,
+			methods:{
+				logout(){
+					localStorage.removeItem('token');
+					this.$router.push({path:'/login'});
+				}
+			}
+		}
+		
+		let item = {
+			template:`
+				<div>
+					<h3>我只是一个商品展示页</h3>
+					<hr />
+					<p>双11已经过了</p>
+				</div>
+			`
+		}
+				
+		const router = new VueRouter({
+			routes:[
+				{
+					path:'/login',
+					component:login,
+					meta:{requireLogin:false}
+				},{
+					path:'/content',
+					component:content,
+					meta:{requireLogin:true}
+				},{
+					path:'/item',
+					component:item,
+					meta:{requireLogin:false}
+				},{
+					path:'/',
+					redirect:'/content'
+				}
+			]
+		})
+		
+		router.beforeEach(function(to,from,next){
+			
+			let token = localStorage.getItem('token');				
+			
+			//如果页面需要登录,则判断是否已经登录,如果不需要登录,则直接跳转.
+			if(to.meta.requireLogin){
+				//如果登录过,继续跳转,没有登录过,跳到登录页
+				if(token){
+					next();
+				}else{
+					next({path:'/login'});
+				}
+			}else{
+				next();
+			}			
+		})
+		
+		let App = {
+			template:`
+				<div id='app'>
+					<router-view />	
+				</div>
+			`
+		}
+		
+		new Vue({
+			el:'#app',
+			render:h=>h(App),
+			components:{App},
+			router
+		})
+		
+	</script>
+	
+	
+</html>
