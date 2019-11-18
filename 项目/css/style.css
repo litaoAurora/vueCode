@@ -1,0 +1,50 @@
+
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    background:#eeeeee
+}
+
+body,html,#app,#app>div{
+    height: 100%;
+}
+
+#app>div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    line-height: 100%;
+}
+
+#app>div p{
+    line-height: 2rem;
+    font-size:0.3rem;
+    color:#8ccf5e
+}
+
+#app>div img{
+    width:7rem
+}
+
+#app>div li img{
+    z-index: 1000;
+    width:1rem;
+    position:absolute;
+    right: 0.5rem;
+    top: 0.65rem;
+}
+
+ul,ol,dt,dd{
+    list-style: none
+}
+
+#app .el-textarea__inner{
+    height: 15rem;
+}
+
+.main{
+    padding:0 15%;
+}
