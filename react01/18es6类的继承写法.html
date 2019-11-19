@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		
+		//es6生命类需要使用class关键字.
+		//constructor -> 类的私有属性.内部的this指向实例.(可以不写)
+		//实例化时也需要使用new.
+		//typeof Person -> function
+		
+		//类的共有方法不应该通过类的原型来添加。直接写在constructor先就可以了。
+		
+		//私有属性除了写在constructor内。还可以直接写在类内。用=号链接。
+		
+		//子类继承父类使用extends。
+		//	子类的实例可以默认访问父类的共有方法和私有属性.
+		//	父类的私有属性继承后子类也拥有相同的私有属性.
+		
+		//如果子类继承了父类,并且书写了constructor构造函数,必须在子类构造函数内调用super,super必须写在第一行.
+		//super的作用实际上就是为了调用父类构造函数,目的是继承父类的私有属性.
+		
+		class Person{
+			constructor(name){
+				this.name = name;
+//				this.age = 21
+			}
+			
+//			私有属性age			
+			age = 21
+			
+			eat(){
+				alert('我喜欢吃饭')
+			}
+		}
+
+//		子类继承父类。
+		class Beauty extends Person{
+			constructor(height){
+				super('超越妹妹');
+//				es5继承父类私有属性的写法.				
+//				Person.call(this);
+				this.height = height
+			}
+			
+			show(){
+				alert('我喜欢逛街')
+			}
+		}
+			
+//		给Person添加共有方法。
+//		Person.prototype.eat = function(){
+//			alert('我喜欢跳舞')
+//		}
+		
+		let cymm = new Beauty('168cm');
+		
+		
+	</script>
+</html>

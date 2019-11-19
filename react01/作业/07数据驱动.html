@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div>div{
+            width: 200px;
+            height: 200px;
+            border:1px solid #000;
+            display: none;
+        }
+        div.active{
+            display: block
+        }
+        input.active{
+            display: none
+        }
+    </style>
+</head>
+<body>
+    <div id='Root'>
+        <!-- <input type="button" v-for='d in arr' :value="d">
+        <div v-for='d in arr'>{{d}}</div> -->
+    </div>
+</body>
+<script src="../js/react@15.4.2.js"></script>
+<script src="../js/react-dom@15.4.2.js"></script>
+<script src="../js/babel.js"></script>
+<script type="text/babel">
+
+	//用组件根据这个arr写出选项卡。
+	//不用组件根据这个arr写成选项卡。
+	
+   // arr:['111','222','333']
+
+    class Root extends React.Component {
+        constructor(){
+            super(); // super 和 class 是配套使用的。 
+            this.arr = ['111','222','333'];
+            this.index = 0;
+        }
+
+        // 一个类组件必须要有一个 render 函数
+
+        render(){
+
+            return (
+                <div id='Root'>
+                    {
+                        this.arr.map( (item, i)=>{ 
+                                return ( <input type="button" value={item} key={i} onClick={this.changeClass.bind( this,i )} /> ) 
+                            } ) 
+                    }
+                    <br />
+                    {
+                        this.arr.map( (item, i)=>{ return ( <div key={i} className={ this.index == i? 'active' : ''  } >{ item }</div> ) } )
+                    }
+                </div>
+            )
+        }
+
+        changeClass(i){
+            // 看看 bind 是否能传参
+
+            this.index= i;
+            // 改变数据后 重新渲染
+            this.forceUpdate();
+        }
+
+    }
+
+    ReactDOM.render( <Root />, document.getElementById('Root') )
+    
+</script>
+</html>

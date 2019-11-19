@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<div id='app'></div>
+	</body>
+	
+	<!--这个文件是用来生成虚拟节点。(完全不处理视图)-->
+	<script src="js/react@15.4.2.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--这个文件专门处理视图.(需要有虚拟节点)(因此需要后引入)-->
+	<script src="js/react-dom@15.4.2.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--这个插件是用来将字符串模板编译成虚拟节点.(自动用React.createElement进行转换虚拟节点)-->
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--type="text/babel" -> 必须这样设置,否则无法转换模板为虚拟节点-->
+	<script type="text/babel">
+
+//		可以通过这个方法创建所有的模板。缺点就是太繁琐。
+
+//		这个el通过babel转换,自动变成一个虚拟节点.
+//		这种不需要字符串就能写的模板 -> JSX语法.(布局怎么写,模板就怎么写,不用加'')
+
+		let el = (
+			<div id='wrap'>
+				<p>222222222222</p>
+			</div>
+		)
+			
+//		这个ReactDOM.render -> 把虚拟节点挂载到页面上生成新视图。
+		ReactDOM.render(el,document.getElementById('app'));
+
+//		编程风格:
+//			{选项1:值1,选项2:值2} -> 配置式(Vue的风格)
+//			delete oYm.name -> 命令式(操作符).
+//			delete(oYm.name) -> 函数式.(react的风格,更趋向于原生js的风格,更灵活,更强大,可控性更强).
+
+	</script>
+</html>

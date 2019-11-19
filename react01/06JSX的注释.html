@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<div id='app'></div>
+	</body>
+	
+	<!--这个文件是用来生成虚拟节点。(完全不处理视图)-->
+	<script src="js/react@15.4.2.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--这个文件专门处理视图.(需要有虚拟节点)(因此需要后引入)-->
+	<script src="js/react-dom@15.4.2.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--这个插件是用来将字符串模板编译成虚拟节点.(自动用React.createElement进行转换虚拟节点)-->
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--type="text/babel" -> 必须这样设置,否则无法转换模板为虚拟节点-->
+	<script type="text/babel">
+		
+		let msg = '哈哈哈'
+		
+//		JSX的注释:
+//			1:需要把注释写在{}内
+//			2:需要使用/**/的注释.
+		
+		let el = (
+			<div id='wrap'>
+				<p>{msg}</p>
+				{
+					/*<span>1111</span>
+					<span>22222</span>
+					<span>333333</span>*/
+				}
+				
+			</div>
+		)
+			
+		ReactDOM.render(el,document.getElementById('app'));
+
+	</script>
+</html>

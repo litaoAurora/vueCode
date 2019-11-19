@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<div id='app'>
+			<li>
+				<span>111</span>
+				<span>111</span>
+				<span>111</span>
+			</li>
+			<li>
+				<span>111</span>
+				<span>111</span>
+				<span>111</span>
+			</li>
+			<li>
+				<span>111</span>
+				<span>111</span>
+				<span>111</span>
+			</li>
+		</div>
+	</body>
+	
+	<!--这个文件是用来生成虚拟节点。(完全不处理视图)-->
+	<script src="js/react@15.4.2.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--这个文件专门处理视图.(需要有虚拟节点)(因此需要后引入)-->
+	<script src="js/react-dom@15.4.2.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--这个插件是用来将字符串模板编译成虚拟节点.(自动用React.createElement进行转换虚拟节点)-->
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--type="text/babel" -> 必须这样设置,否则无法转换模板为虚拟节点-->
+	<script type="text/babel">
+		
+//		react列表渲染的条件:
+//			1:{}内必须是一个数组.
+//			2:这个数组的元素必须是虚拟节点.
+
+//		如果循环的是对象，需要取出键名和键值，需要用到es6的3个方法。
+
+//		Object.values(对象);
+//		Object.keys(对象);
+//		Object.entries(对象);
+		
+//		这三个方法都返回一个数组。entries	返回的是一个二维数组。
+		
+		let el = null;		
+//		let arr = [[1111,22222,3333],[1111,22222,3333],[1111,22222,3333]];
+		let arr = [{name:1111,sex:'女',age:21},{name:2222,sex:'女',age:21},{name:3333,sex:'女',age:21}];
+						
+		function render(){
+			el = (
+				<div id='wrap'>
+					<ul>
+						{							
+							/*arr.map((d,i)=>(
+								<li key={i}>
+								{
+									d.map((item,j)=>
+										<span key={j}>{item}</span>
+									)
+								}
+								</li>
+							))*/
+							
+							arr.map((d,i)=>(
+								<li key={i}>
+								{
+									Object.values(d).map((item,j)=>
+										<span key={j}>{item}</span>
+									)
+								}
+								</li>
+							))
+						}
+					</ul>
+				</div>
+			)
+			ReactDOM.render(el,document.getElementById('app'));
+		}
+		
+		render();		
+				
+		
+	</script>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<div id='app'></div>
+	</body>
+	
+	<!--这个文件是用来生成虚拟节点。(完全不处理视图)-->
+	<script src="js/react@15.4.2.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--这个文件专门处理视图.(需要有虚拟节点)(因此需要后引入)-->
+	<script src="js/react-dom@15.4.2.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--这个插件是用来将字符串模板编译成虚拟节点.(自动用React.createElement进行转换虚拟节点)-->
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--type="text/babel" -> 必须这样设置,否则无法转换模板为虚拟节点-->
+	<script type="text/babel">
+
+//		JSX添加事件 on事件名={函数}。注意事件的第一个字母大写。
+//		事件句柄内的this默认不会指向被点击的标签。
+
+//		如何给事件句柄传参:
+//			1:onClick={function(){句柄(实参)}}
+//			2:onClick={()=>{句柄(实参)}}
+//			3:onClick={句柄.bind(null,100)}}
+//			4:onClick={函数(100)}(函数必须返回另一个函数.)
+
+//		JSX事件句柄内使用事件对象根原生js一致。
+//		如果使用 -> 句柄.bind(null,100)} 进行句柄传参，则事件对象需要写成最后一个参数。
+
+//		let fn = function(){alert(200)};
+//		let fn = function(){console.log(this)};
+//		let fn = function(ev){console.log(ev.target)};
+//		let fn = function(){
+//			return function(ev){
+//				console.log(ev.target);
+//			}
+//		}
+		
+		let fn = function(x,ev){
+			alert(x);
+			console.log(ev.target);
+			console.log( 'haha', this )
+		}
+		
+		let el = (
+			<div id='wrap'>
+				{/*<button onClick={function(){alert(100)}}>按钮</button>*/}
+				{/*<button onClick={()=>{fn(100)}}>按钮</button>*/}
+				<button onClick={fn.bind(null,100)}>按钮</button>
+				<button onClick={ fn }>看看this</button>
+			</div>
+		)
+			
+		ReactDOM.render(el,document.getElementById('app'));
+		
+//		oDiv.onclick = show.bind(null,100);		
+//		
+//		function show(x){
+//			alert(x)
+//			console.log(this)
+//		}
+//		
+//		show(100);
+		
+	</script>
+</html>

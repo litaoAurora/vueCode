@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<div id='app'></div>
+	</body>
+	
+	<!--这个文件是用来生成虚拟节点。(完全不处理视图)-->
+	<script src="js/react@15.4.2.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--这个文件专门处理视图.(需要有虚拟节点)(因此需要后引入)-->
+	<script src="js/react-dom@15.4.2.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--这个插件是用来将字符串模板编译成虚拟节点.(自动用React.createElement进行转换虚拟节点)-->
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--type="text/babel" -> 必须这样设置,否则无法转换模板为虚拟节点-->
+	<script type="text/babel">
+		
+//		react列表渲染的条件:
+//			1:{}内必须是一个数组.
+//			2:这个数组的元素必须是虚拟节点.
+
+//		如果希望连续循环多个数组，应该吧这每个数组写在不同的{}内，而不应该写在同一个{}内
+				
+		let el = null;		
+		let arr = [111,222,333];
+		let sister = ['超越妹妹','奶茶妹妹','迪丽热巴妹妹'];
+				
+		function render(){
+			//更新虚拟节点
+			el = (
+				<div id='wrap'>
+					<ul>
+						{
+							arr.map((d,i) => (<li>{i}:{d}</li>))
+						}{
+							sister.map((d,i) => (<li>{i}:{d}</li>))
+						}
+					</ul>
+				</div>
+			)
+			ReactDOM.render(el,document.getElementById('app'));
+		}
+		
+		render();		
+		
+//		表达式:
+//			1:原始表达式 单个的变量和常量
+//			2:复合表达式 原始表达式+操作符.
+//			3:函数调用表达式
+		
+	</script>
+</html>

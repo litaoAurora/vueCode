@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<div id='app'></div>
+	</body>
+	
+	<!--这个文件是用来生成虚拟节点。(完全不处理视图)-->
+	<script src="js/react@15.4.2.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--这个文件专门处理视图.(需要有虚拟节点)(因此需要后引入)-->
+	<script src="js/react-dom@15.4.2.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--这个插件是用来将字符串模板编译成虚拟节点.(自动用React.createElement进行转换虚拟节点)-->
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--type="text/babel" -> 必须这样设置,否则无法转换模板为虚拟节点-->
+	<script type="text/babel">
+		
+		//JSX不管是给属性插入变量还是给内容插入变量,统一都是些一个{}。
+		//JSX{}内可以写任意表达式,但是不能写plain Object,但是可以放函数和数组。
+		
+		//如果绑定style时,必须写对象.(特殊的)
+		//如果绑定class,希望绑定数组,需要原生方法辅助.
+		
+		let ss = {background:'red'};
+		let haha = 'background : red'
+		let arr = ['box','active'];
+				
+		let el = (
+			<div id='wrap' className={ arr }>
+				<p style={ ss }>1111111</p>
+			</div>
+		)
+			
+		ReactDOM.render(el,document.getElementById('app'));
+
+	</script>
+</html>

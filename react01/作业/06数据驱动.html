@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .odd {
+            background: red;
+        }
+        .even {
+            background: greenyellow;
+        }
+    </style>
+</head>
+<body>
+    <div id='Root'>
+        <!-- <input type="button" value="插入li">
+        <ul></ul> -->
+    </div>
+</body>
+<script src="../js/react@15.4.2.js"></script>
+<script src="../js/react-dom@15.4.2.js"></script>
+<script src="../js/babel.js"></script>
+<script type="text/babel">
+    //每点击一次按钮,给ul插入一个新的li.li的内容随机取1-10的随机整数
+    //奇数li背景红,偶数li背脊绿(可以配合样式类)
+    console.log( React.Component )
+
+    class Root extends React.Component {
+        constructor(){
+            super();
+            this.arr = []
+        }
+
+        addLi(){
+            this.arr.push( Math.floor( Math.random() * 10 ) )
+            
+
+            // 在视图更新之后 从新渲染。 
+            this.forceUpdate();
+            console.log(this.arr)
+        }
+
+        render(){
+            return (
+                
+                <div id='app'>
+                    <input type="button" value="你好世界" onClick={this.addLi.bind(this)} />
+                    <ul>
+                        { this.arr.map( (item,i)=>{ return ( <li className={ item % 2 == 0? 'even' : 'odd' } key={i}> {item} </li> ) } ) }
+                    </ul>
+                </div>
+            )
+        }
+
+    }
+
+    ReactDOM.render( <Root />, document.getElementById('Root') )
+
+
+</script>
+</html>
