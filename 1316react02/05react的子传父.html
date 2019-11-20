@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='div'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type='text/babel'>
+		
+//		组件B需要传递数据给组件A,则需要组件B调用组件A的一个函数.并且传入数据
+//		
+//		1):父组件声明一个方法用于接收子组件数据.
+//		2):父组件传递该方法给子组件触发.
+//		3):必须保证该方法在调用时,永远是通过父组件调用的.
+
+		class Box extends React.Component{
+			
+			str = '钟'
+			
+			fn(){
+				this.props.getData(this.str);
+			}
+			
+			render(){
+				console.log(this.props)
+				return (
+					<React.Fragment>
+						<input type='button' onClick={this.fn.bind(this)} value='给爸爸' />
+						<p>我要给爸爸送{this.str}</p>
+					</React.Fragment>
+				)
+			}
+		}
+				
+		class Root extends React.Component{
+			
+			str = ''
+			
+			getData(str){
+				this.str = str;
+				this.forceUpdate();
+			}
+			
+			render(){
+				return (
+					<ul>
+						<h3>今天儿子给我送来了:{this.str}</h3>
+						<Box getData={this.getData.bind(this)} />
+					</ul>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("div"))
+		
+	</script>
+</html>

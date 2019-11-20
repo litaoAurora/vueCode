@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='div'>
+        <input type="button" value="插入li">
+        <ul></ul>
+    </div>
+</body>
+<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/babel.js" type="text/javascript" charset="utf-8"></script>
+<script type='text/babel'>
+	
+    //每点击一次按钮,给ul插入一个新的li.li的内容随机取1-10的随机整数
+    //奇数li背景红,偶数li背脊绿(可以配合样式类)
+    
+    class Root extends React.Component{
+    	
+    	arr = []
+    	
+    	fn(){
+    		let num = Math.floor(Math.random()*10)+1;
+    		this.arr.push(num);
+    		this.forceUpdate();
+    	}
+    	
+    	render(){
+    		return (
+    			<div id='div'>
+			        <input type="button" onClick={this.fn.bind(this)} value="插入li" />
+			        <ul>
+			        {
+			        	this.arr.map((d,i)=>(
+			        		<li key={i} style={{background:i%2==0?"red":"green"}}>{d}</li>
+			        	))
+			        }
+			        </ul>
+			    </div>
+    		)
+    	}
+    }
+    
+    ReactDOM.render(<Root />,document.getElementById('div'))
+    
+    
+</script>
+</html>

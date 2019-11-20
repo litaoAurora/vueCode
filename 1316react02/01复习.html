@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		
+		引子:
+		如果挂载react视图.
+			a):写模板(虚拟节点)React.createElement(标签名,属性列表,子节点列表)
+			b):挂载点.ReactDOM.render(虚拟节点(组件),挂载点)
+		
+		1):JSX
+			
+			JSX插入内容变量和插入属性变量都使用单{},{}内可以写任意表达式.
+			
+			插内容,
+				不能插纯对象,可以插入函数和数组.
+				
+			插属性,
+				这里属性插{}不需要引号
+				style必须插对象
+				style={{background:"red"}}
+				
+			插事件,
+				on事件名,事件的首字母大写.
+				事件内的this默认不指向被点击的标签.
+				
+				onClick = {function(ev){}}
+				onClick = {fn}
+				onClick = {show.bind(null,200)}
+				
+				function fn(ev){};
+				function show(x,ev){console.log(x)};
+			
+			JSX内的注释问题				
+				{/*啊哈哈哈哈哈哈哈哈*/}
+				
+			
+		2):列表渲染
+		
+			a):{}内,必须是数组.{}内的表达式的返回值是数组即可.
+			b):这个数组的元素都必须是虚拟节点.
+			
+			循环数组
+			let arr = [1,2,3]
+			
+			{
+				arr.map((item,i)=>(
+					<li>{item}</li>
+				));
+			}
+				
+			循环对象
+			let obj = {name:'妹妹',age:21}
+			
+			Object.keys(数组) -> 返回一个包含所有键名的数组.
+			Object.values(数组) -> 返回一个包含所有键值的数组.
+			Object.entries(数组) -> 返回一个包含键名和键值的二维数组.
+			
+			{
+				Object.entries(arr).map((d,i)=>(
+					<li key={i}>{d}</li>
+				))
+			}
+					
+		3):组件
+				
+			函数组件	
+				组件名就是函数名,首字母大写.
+				组件模板需要return.
+				function Box(){
+					let msg = '哈哈'
+					return <div>{msg}</div>
+				}
+				
+			类组件
+				类组件的模板必须通过render函数返回.
+				类组件的数据就是这个类的私有属性.
+				类的方法就是这个类的共有方法.
+				
+				类组件方法内的this默认不指向当前组件实例.(根vue不一样的地方)
+				
+				let Box = {
+					template:`<div>aahahah</div>`,
+					data(){
+						return {
+							msg:999,
+							age:100
+						}
+					},
+					methods:{
+						fn(){
+							console.log(this.msg)
+						}
+					}
+				}
+				
+				class Box extends React.Component{
+					
+					constructor(){
+						super();
+						this.age = 100
+					}
+					
+					msg='999'
+					
+					fn(){
+						console.log(this.msg)
+					}
+					
+					show = function(){
+						console.log(this)
+					}
+					
+					render(){
+						return (
+							<div onClick={()=>{this.fn(8000)}}>aahahah</div>							
+							<div onClick={this.fn.bind(this,8000)}>aahahah</div>
+							<div onClick={this.show}>aahahah</div>
+						)
+					}
+				}
+				
+				
+			
+		
+	</script>
+</html>

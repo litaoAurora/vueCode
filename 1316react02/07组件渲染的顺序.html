@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='root'></div>
+		
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/javascript">
+		
+//		父组件视图刷新，会不会刷新子组件视图。
+
+//		如果父组件刷新,并且传递了数据给子组件,则父组件视图刷新也会导致子组件视图刷新.
+//		这里显示子组件的updated先触发,再到父组件的updated触发.(子组件先挂载,父组件后挂载)
+
+		const Box = {
+			props:['msg'],			
+			template:`
+				<div>
+					<h3>{{msg}}</h3>
+				</div>
+			`,
+			updated(){
+				console.log('子组件视图刷新')
+			}
+		}
+		
+		const App = {			
+			data(){
+				return {
+					msg:'55555555'
+				}
+			},			
+			template:`
+				<div>
+					<button @click='fn'>按钮</button>
+					<p>{{msg}}</p>
+					<Box :msg='msg' />
+				</div>
+			`,
+			components:{Box},
+			methods:{
+				fn(){
+					this.msg = Math.random();
+				}
+			},
+			updated(){
+				console.log('父组件视图刷新')
+			}
+		}
+		
+		new Vue({
+			el:'#root',
+			components:{App},
+			render:h=>h(App)
+		})
+		
+	</script>
+</html>

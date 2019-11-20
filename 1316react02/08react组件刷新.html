@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='root'></div>
+		
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/babel">
+		
+//		react内，父组件刷新，一定会导致子组件也跟着刷新。
+		
+//		1):this.forceUpdate()更新当前Root
+//		2):重新执行Root的render函数
+//		3):render内的模板重新解析.
+//		4):子组件会重新生成.
+//		5):子组件的render重复触发.
+				
+//		react的视图更新是自上而下的。
+//		例如，先更新根组件，根组件更新会触发根组件的子组件更新。。。。。
+				
+		class Box extends React.Component{
+			render(){
+				console.log('box刷新啦')
+				return (
+					<React.Fragment>						
+						<p>{this.props.num}</p>
+					</React.Fragment>
+				)
+			}
+		}
+		
+		class Root extends React.Component{
+			
+			num = 0
+			
+			fn(){
+				this.num = Math.floor(Math.random()*10)+1;
+				//更新当前组件。
+				this.forceUpdate();
+			}
+			
+			render(){
+				console.log('Root刷新啦')
+				return (
+					<React.Fragment>
+						<button onClick={this.fn.bind(this)}>按钮</button>
+						<h3>{this.num}</h3>
+						<Box></Box>
+					</React.Fragment>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>

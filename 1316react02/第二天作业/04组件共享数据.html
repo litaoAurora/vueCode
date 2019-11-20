@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <!-- <input type="text">
+        <input type="button" value='插入li'>
+        <section></section>
+        <div></div> -->
+    </div>
+</body>
+<script src="../js/react.development.js"></script>
+<script src="../js/react-dom.development.js"></script>
+<script src="../js/babel.js"></script>
+
+<script type="text/babel">
+     //每次点击按钮在section内插入一个checkbox和一个span。span的内容从文本框获取
+    //把app内的div写成组件,每勾选一个checkbox都将checkbox后span的内容显示到组件内
+
+    class Top extends React.Component{
+        constructor(){
+            super();
+            // this.props = []
+            // 不用声明。 
+        }
+
+        render(){
+            
+            return (
+                <div id='header'>
+                    {
+                        this.props.children 
+                    }
+                </div>
+            )
+        }
+    }
+
+    class Root extends React.Component {
+        constructor(){
+            super();
+        }
+        arr = []
+        text = ''
+
+        addP(){
+            this.arr.push( this.text )
+            this.forceUpdate();
+        }
+
+        changeText(val){
+            this.text = val.target.value;
+        }
+
+        check(index,ev){
+            console.dir( ev.target )
+        }
+
+        render(){
+
+            return (
+                <React.Fragment>
+                    
+                    <input type="button" value='插入li' onClick={this.addP.bind(this)} />
+                    <input type="text" onInput={ this.changeText.bind(this) } />
+                     <section>
+                        {
+                            this.arr.map( (item,i)=>{
+                                return (
+                                    <React.Fragment key={i} >
+                                        <input key={i} type="checkbox" onClick={this.check.bind(this, i)} />
+                                        <span> { item } </span>
+                                    </React.Fragment>
+                                )
+                            } )
+                        }
+                     </section>
+                    <Top  > 
+                        {
+                            this.arr.map( (item,i)=>{
+                                return (
+                                    <p key={i} > { item } </p>
+                                )
+                            } )
+                        }
+                    </Top>
+                </React.Fragment>
+            )
+        }
+    }
+
+    ReactDOM.render( <Root />, document.getElementById('app') )
+</script>
+
+</html>

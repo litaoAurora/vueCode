@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='div'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type='text/babel'>
+		
+//		父传子,需要把传递的数据存入一个props对象.这个props对象子组件可以访问
+//		这里的props不是父组件。
+		
+		class Box extends React.Component{			
+			up(i){
+				if(i>0){
+					let prev = this.props.arr[i-1];
+					let now = this.props.arr[i];
+					this.props.arr.splice(i-1,2,now,prev);
+				}
+				ReactDOM.render(<Root />,document.getElementById('div'));
+			}
+			
+			down(i){
+				console.log(this.props.arr);
+				if(i<this.props.arr.length-1){
+					let next = this.props.arr[i+1];
+					let now = this.props.arr[i];
+					this.props.arr.splice(i,2,next,now);
+				}
+				console.log(this.props.arr)
+				ReactDOM.render(<Root />,document.getElementById('div'));
+			}
+			
+			del(i){
+				this.props.arr.splice(i,1);
+				ReactDOM.render(<Root />,document.getElementById('div'));
+			}
+			
+			render(){
+				return (
+					<li>
+						<span>{this.props.i+1}:</span><span>{this.props.d}</span>
+						<input type="button" value="上移" onClick={this.up.bind(this,this.props.i)} />					
+						<input type="button" value="下移" onClick={this.down.bind(this,this.props.i)} />
+						<input type="button" value="删除" onClick={this.del.bind(this,this.props.i)} />
+					</li>
+				)
+			}
+		}
+				
+		class Root extends React.Component{
+			
+			arr = [111,2222,333]
+								
+			render(){
+				return (
+					<ul>
+					{
+						this.arr.map((d,i)=>(
+							<Box key={i} arr={this.arr} i={i} d={d} />
+						))
+					}
+					</ul>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("div"))
+		
+	</script>
+</html>

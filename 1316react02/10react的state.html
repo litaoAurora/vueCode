@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='root'></div>
+		
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/babel">
+		
+//		react的视图在数据变化时,不会自动更新.
+//		如果是用state来声明数据，默认就会有响应式的效果。
+
+//		声明响应式数据。state = {msg:1111}
+//		获取响应式数据。this.state.msg
+
+//		修改响应式数据。不能直接修改。例如不能 this.state.msg = '新的值'
+//		修改响应式数据。只能通过setState(新的state)来修改.否则就没有响应式效果.
+
+		class Box extends React.Component{
+			
+			state = {msg:''}
+			
+			fn(){
+				this.setState({
+					msg:Math.random()
+				})
+//				this.state.msg = Math.random();
+//				this.forceUpdate();
+			}
+			
+			render(){
+				return (
+					<React.Fragment>						
+						<h3>{this.state.msg}</h3>
+						<button onClick={this.fn.bind(this)}>按钮</button>
+					</React.Fragment>
+				)
+			}
+		}
+		
+		class Root extends React.Component{
+			render(){
+				return (
+					<React.Fragment>
+						<Box />
+					</React.Fragment>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>

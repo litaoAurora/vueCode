@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='root'></div>
+		
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/babel">
+		
+//		setState修改数据是一个异步操作.如果需要在数据变化完成之后自动触发某个逻辑,可以使用第二个参数(回调函数).
+		
+		class Box extends React.Component{
+			
+			state = {msg:'1111'}
+			
+			fn(){
+				this.setState({
+					msg:Math.random()
+				},()=>{
+					console.log(this.state.msg);
+				})
+				
+//				setState是异步操作。因此这里打印的是变化之前的值。
+//				console.log(this.state.msg)//1111
+				
+//				setTimeout(()=>{
+//					console.log(this.state.msg)
+//				},0)
+				
+			}
+			
+			render(){
+				return (
+					<React.Fragment>						
+						<h3>{this.state.msg}</h3>
+						<button onClick={this.fn.bind(this)}>按钮</button>
+					</React.Fragment>
+				)
+			}
+		}
+		
+		class Root extends React.Component{
+			render(){
+				return (
+					<React.Fragment>
+						<Box />
+					</React.Fragment>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>

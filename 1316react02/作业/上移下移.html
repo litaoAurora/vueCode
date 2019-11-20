@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='div'></div>
+	</body>
+	<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type='text/babel'>
+		
+		
+		class Root extends React.Component{
+			
+			arr = [111,2222,333]
+			
+			up(i){
+				if(i>0){
+					let prev = this.arr[i-1];
+					let now = this.arr[i];
+					this.arr.splice(i-1,2,now,prev);
+				}
+				this.forceUpdate();
+			}
+			
+			down(i){
+				if(i<this.arr.length-1){
+					let next = this.arr[i+1];
+					let now = this.arr[i];
+					this.arr.splice(i,2,next,now);
+				}
+				this.forceUpdate();
+			}
+			
+			del(i){
+				this.arr.splice(i,1);
+				this.forceUpdate();
+			}
+						
+			render(){
+				return (
+					<ul>
+					{
+						this.arr.map((d,i)=>(
+							<li key={i}>
+								<span>{i+1}:</span><span>{d}</span>
+								<input type="button" value="上移" onClick={this.up.bind(this,i)} />					
+								<input type="button" value="下移" onClick={this.down.bind(this,i)} />
+								<input type="button" value="删除" onClick={this.del.bind(this,i)} />
+							</li>
+						))
+					}
+					</ul>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("div"))
+		
+	</script>
+</html>

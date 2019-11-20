@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <!-- <input type="button" value='插入li'>
+        <input type="text">
+        <div></div> -->
+    </div>
+</body>
+<script src="../js/react.development.js"></script>
+<script src="../js/react-dom.development.js"></script>
+<script src="../js/babel.js"></script>
+
+<script type="text/babel">
+   //把app内的div变成子组件,每点击一次按钮,在组件内插入一个p.
+    //p的内容从text文本框获取
+
+    class Top extends React.Component{
+        constructor(){
+            super();
+            // this.props = []
+            // 不用声明。 
+        }
+
+        render(){
+            
+            return (
+                <div id='header'>
+                    {
+                        this.props.children 
+                    }
+                </div>
+            )
+        }
+    }
+
+    class Root extends React.Component {
+        constructor(){
+            super();
+        }
+        arr = []
+        text = ''
+
+        addP(){
+            this.arr.push( this.text )
+            this.forceUpdate();
+        }
+
+        changeText(val){
+            this.text = val.target.value;
+        }
+
+        render(){
+
+            return (
+                <React.Fragment>
+                    
+                    <input type="button" value='插入li' onClick={this.addP.bind(this)} />
+                    <input type="text" onInput={ this.changeText.bind(this) } />
+                    <Top  > 
+                        {
+                            this.arr.map( (item,i)=>{
+                                return (
+                                    <p key={i} > { item } </p>
+                                )
+                            } )
+                        }
+                    </Top>
+                </React.Fragment>
+            )
+        }
+    }
+
+    ReactDOM.render( <Root />, document.getElementById('app') )
+</script>
+
+<script>
+    
+</script>
+</html>

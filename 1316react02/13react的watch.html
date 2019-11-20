@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+
+		<div id='root'></div>
+		
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/babel">
+		
+		class Root extends React.Component{
+			
+			state = {
+				total:0
+			}
+			
+			count=0			
+			price=0
+			
+			fn(prop,ev){
+				
+				this[prop] = ev.target.value;						
+				this.setState({
+					total:this.count*this.price
+				})
+				
+			}
+			
+			render(){
+				return (
+					<React.Fragment>						
+						<input type='text' placeholder='单价' onInput={this.fn.bind(this,'price')} />					
+						<input type='text' placeholder='数量' onInput={this.fn.bind(this,'count')} />						
+						<h3>总价:{this.state.total}</h3>						
+					</React.Fragment>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+	
+</html>

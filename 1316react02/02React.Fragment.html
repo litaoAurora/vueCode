@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div>div{
+            width: 200px;
+            height: 200px;
+            border:1px solid #000;
+            display: none;
+        }
+        div.active{
+            display: block
+        }
+        input.active{
+            background:red
+        }
+    </style>
+</head>
+<body>
+    <div id='div'>
+        <input type="button" v-for='d in arr' :value="d">
+        <div v-for='d in arr'>{{d}}</div>
+    </div>
+</body>
+
+<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+<script type='text/babel'>
+
+	//react组件和vue组件一样，需要一个根组件包裹所有的标签。
+	//React.Fragment -> 抽象组件，最终不会渲染在页面上。用于包裹组件标签。(16版本以上才可以使用)
+	
+	class Tab extends React.Component{
+		
+		arr=['111','222','333']
+		 
+		index=0
+		
+		fn(i){
+			this.index = i;
+			this.forceUpdate();
+		}
+		
+		render(){
+			return (
+				<React.Fragment>
+					{
+						this.arr.map((d,i)=>(
+							<input 
+								key={i} 
+								onClick={this.fn.bind(this,i)} 
+								type="button" 
+								className={i==this.index?"active":''} 
+								value={d} 
+							/>
+						))
+					}{
+						this.arr.map((d,i)=>(
+							<div key={i} className={i==this.index?"active":''}>{d}</div>
+						))
+					}
+				</React.Fragment>				
+			)
+		}
+	}
+	
+	class Root extends React.Component{
+		render(){
+			return (
+				<React.Fragment>
+					<Tab />
+				</React.Fragment>			
+			)
+		}
+	}
+	
+	ReactDOM.render(<Root />,document.getElementById('div'))
+
+
+</script>
+</html>
+

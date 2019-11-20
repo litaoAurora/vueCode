@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <!-- <input type="button" value='插入li'>
+        <div></div> -->
+    </div>
+</body>
+<script src="../js/react.development.js"></script>
+<script src="../js/react-dom.development.js"></script>
+<script src="../js/babel.js"></script>
+
+<script type="text/babel">
+    //组件 -> 数据共享
+	
+    //把app内的div变成子组件,每点击一次按钮,在组件内插入一个p,p的内容随意.
+    //子组件数据使用父组件数据,或者父组件使用子组件的数据。
+
+
+    class Top extends React.Component{
+        constructor(){
+            super();
+            // this.props = []
+            // 不用声明。 
+        }
+
+        render(){
+            
+            return (
+                <div id='header'>
+                    {
+                        this.props.arr && this.props.arr.map((item,i)=>{
+                            return (
+                                <p key={i} > { item } </p>
+                            )
+                        })
+                    }
+                </div>
+            )
+        }
+    }
+
+    class Root extends React.Component {
+        constructor(){
+            super();
+        }
+        arr = []
+
+        addP(){
+            this.arr.push( Math.random() * 10 + 1 )
+            this.forceUpdate();
+        }
+
+        render(){
+
+            return (
+                <React.Fragment>
+                    <input type="button" value='插入li' onClick={this.addP.bind(this)} />
+                    <Top arr={this.arr} />
+                </React.Fragment>
+            )
+        }
+    }
+
+    ReactDOM.render( <Root />, document.getElementById('app') )
+</script>
+
+</html>

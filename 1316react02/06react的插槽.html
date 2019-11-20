@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id='root'></div>
+		
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/babel">
+		
+//		组件插槽获取:
+//			this.props.children，这是一个位数组。里面的每一项，就是一个插槽内容。
+//
+		
+		class Box extends React.Component{
+			render(){
+				return (
+					<React.Fragment>						
+						<h3>我是子组件</h3>
+						{this.props.children[1]}
+						<hr />
+						{this.props.children[0]}
+					</React.Fragment>
+				)
+			}
+		}
+		
+		class Root extends React.Component{
+			render(){
+				return (
+					<React.Fragment>						
+						<Box>
+							<span>44444444444</span>
+							<span>33333333333</span>
+						</Box>
+					</React.Fragment>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+		
+		<div></div>
+		<div></div>
+		
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/babel">
+		
+//		用setState来修改数据，应该赋值一个新的值。
+//		如果是引用类型，需要赋值一个新的引用。(让响应式数据前后不是同一个对象)
+		
+		class Root extends React.Component{
+			
+			constructor(){
+				super();
+				this.state = {
+					arr:[1111,2222,3333]
+				}
+			}
+			
+//			state = {
+//				arr:[111,2222,333]
+//			}
+			
+			fn(){
+				
+//				修给arr push新的元素
+//				this.state.arr.push('我是新来的');
+				
+//				再通过setState来更新响应式数据，从而更新视图。
+//				this.setState({
+//					arr:this.state.arr
+//				})
+
+//				更好的方式
+//				this.setState({
+//					arr:[...this.state.arr]
+//				})
+				
+				this.setState({
+					arr:[...this.state.arr,'我是新来的']
+				})
+			}
+						
+			render(){
+				return (
+					<React.Fragment>
+						
+						<button onClick={this.fn.bind(this)}>插入新闻</button>
+						
+						<ul>
+						{
+							this.state.arr.map((d,i)=>(
+								<li key={i}>{d}</li>
+							))
+						}
+						</ul>
+						
+					</React.Fragment>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>
