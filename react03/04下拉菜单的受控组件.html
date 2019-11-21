@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/babel">
+		
+//		react的select组件不能使用selected这个属性.
+//		想要默认显示某个选项,可以设置value(受控组件)
+//		如果不想设置为受控组件,可以设置defaultValue.(非受控)
+		
+		class Root extends React.Component{
+			
+			state = {msg:'222222'}
+			
+			fn(ev){
+				this.setState({msg:ev.target.value})
+			}
+			
+			render(){
+				return (
+					<React.Fragment>
+					
+						<h3>{this.state.msg}</h3>
+						<select value={this.state.msg} onChange={this.fn.bind(this)}>
+							<option value="111111">111111</option>
+							<option value="222222">222222</option>
+							<option value="333333">333333</option>
+						</select>
+					
+					</React.Fragment>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>

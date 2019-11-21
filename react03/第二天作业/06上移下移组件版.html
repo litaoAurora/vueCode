@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='div'></div>
+	</body>
+	<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type='text/babel'>
+		
+//		父传子,需要把传递的数据存入一个props对象.这个props对象子组件可以访问
+//		这里的props不是父组件。
+
+//		在子组件内触发父组件的setState，
+//		父组件的setState触发会更新父组件，父组件更新会重新render，传递新的数组到子组件。
+//		父组件重新render，子组件也重新render，子组件重新render则列表渲染重新执行。
+//		父组件传递了更新后的数组到子组件，子组件重新列表渲染显示最新的结果。
+
+
+		class Box extends React.Component{			
+			up(i){
+				if(i>0){
+					this.props.up(i)
+				}
+			}
+			
+			down(i){
+				if(i<this.props.arr.length-1){
+					this.props.down(i)
+				}
+			}
+			
+			del(i){
+				this.props.del(i)
+			}
+			
+			render(){
+				return (
+					<li>
+						<span>{this.props.i+1}:</span><span>{this.props.d}</span>
+						<input type="button" value="上移" onClick={this.up.bind(this,this.props.i)} />					
+						<input type="button" value="下移" onClick={this.down.bind(this,this.props.i)} />
+						<input type="button" value="删除" onClick={this.del.bind(this,this.props.i)} />
+					</li>
+				)
+			}
+		}
+				
+		class Root extends React.Component{
+			
+			state = {
+				arr:[111,222,333]
+			}
+			
+			//输入框输入的数据。
+			str = ''
+						
+			up(i){				
+				let {arr} = this.state;				
+				this.setState({
+					arr:[
+						...arr.slice(0,i-1),
+						arr[i],arr[i-1],
+						...arr.slice(i+1)
+					]
+				})
+			}
+						
+			down(i){				
+				let {arr} = this.state;				
+				this.setState({
+					arr:[
+						...arr.slice(0,i),
+						arr[i+1],arr[i],
+						...arr.slice(i+2)
+					]
+				})
+			}
+			
+			del(i){				
+				let {arr} = this.state;				
+				this.setState({
+					arr:[
+						...arr.slice(0,i),
+						...arr.slice(i+1)
+					]
+				})
+			}
+			
+			add(){
+				let {arr} = this.state;		
+				this.setState({
+					arr:[
+						...arr,
+						this.str
+					]
+				})
+			}
+			
+			saveData(ev){
+				this.str = ev.target.value
+			}
+			
+			render(){
+				return (
+					<React.Fragment>
+						<input type='text' onInput={this.saveData.bind(this)}/>
+						<input type='button' value='发表' onClick={this.add.bind(this)}/>
+						<ul>
+						{
+							this.state.arr.map((d,i)=>(
+								<Box 
+									key={i} 
+									arr={this.state.arr} 
+									i={i} 
+									d={d}
+									up = {this.up.bind(this)}
+									down = {this.down.bind(this)}
+									del = {this.del.bind(this)}
+								/>
+							))
+						}
+						</ul>
+					</React.Fragment>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("div"))
+		
+	</script>
+</html>

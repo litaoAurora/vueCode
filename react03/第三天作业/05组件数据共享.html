@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='wrap'>
+        
+    </div>
+</body>
+<script src="../js/react.development.js"></script>
+<script src="../js/react-dom.development.js"></script>
+<script src="../js/babel.js"></script>
+
+<script type="text/babel">
+    //看效果图,可以不做全选效果.
+    //把商品所在的li做成组件.
+
+    
+
+class Box extends React.Component{
+    constructor(){
+        super();
+        this.goods = [
+                {
+                    name : '海蓝之谜浓缩护眼',
+                    price : '1700',
+                    quantity :  0,
+                    total : 0
+                },
+                {
+                    name : 'LA M保湿',
+                    price : '1100',
+                    quantity :  0,
+                    total : 0
+                },
+                {
+                    name : 'LA MER 面霜',
+                    price : '3900',
+                    quantity :  0,
+                    total : 0
+                }
+            ];
+         this.state = {
+            price : this.goods.map((item)=>{ return item.price })
+        };
+
+    }
+
+    fn(){
+
+    }
+
+    add(i){
+        // this.setState({
+        //     price : []
+        // })
+        // console.log(this.state)
+        this.goods[i].quantity++;
+        this.goods[i].total = this.goods[i].quantity *  this.goods[i].price;
+        this.forceUpdate();
+    }
+
+    substract(i){
+        if( this.goods[i].quantity <= 0  ) return false;
+        this.goods[i].quantity--;
+        this.goods[i].total = this.goods[i].quantity *  this.goods[i].price;
+        this.forceUpdate();
+    }
+
+    render(){
+
+        return (
+            
+            <React.Fragment>
+                {
+                    this.goods.map((item, i)=>{
+                        return (
+                            <li key={i} >
+                                <input type="checkbox"   />
+                                <span>商品名称 ：</span>
+                                <span> { item.name } </span>
+                                <span> { item.price } </span>
+                                <span> { item.p } </span>
+                                <span>
+                                    <input type="button" value="-" onClick={this.substract.bind(this,i)} />  
+                                    <input size="50" type="number" value={item.quantity} onChange={this.fn} />
+                                    <input type="button" value="+" onClick={this.add.bind(this,i)} />
+                                </span>
+                                <span> 总价 :  { item.total  } </span>
+                                <input type="button" value="删除" />
+                            </li>
+                        )
+                    })
+                }
+            </React.Fragment>
+        )
+    }
+}
+
+class Root extends React.Component{
+    constructor(){
+        super();
+    }
+
+    render(){
+        console.log( 'fj' )
+        return (
+            <React.Fragment>
+                <ul>
+                    <Box />
+                </ul>
+            </React.Fragment>
+        )
+    }
+}
+
+ReactDOM.render( <Root />, document.getElementById('wrap') )
+</script>
+</html>

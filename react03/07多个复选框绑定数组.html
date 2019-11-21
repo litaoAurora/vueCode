@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/babel">
+		
+//		复选框绑定state中的布尔值,需要给checked设置受控.不是value.
+//		复选框的状态变化.(勾选状态的变化),依然通过onChange事件触发.
+
+		class Root extends React.Component{
+			
+			state = {
+				fvs:[]
+			}
+			
+			checkeds = ['唱歌','跳舞','rap','篮球']
+			
+			fn(ev){
+				
+				let {fvs} = this.state;
+				
+				//找当前复选框的value在fvs内的下标。
+				let i = fvs.indexOf(ev.target.value);
+								
+				if(ev.target.checked){
+					this.setState({fvs:[
+						...fvs,
+						ev.target.value
+					]})
+				}else{
+					this.setState({fvs:[
+						...fvs.slice(0,i),
+						...fvs.slice(i+1)
+					]})
+				}
+			}
+						
+			render(){
+				return (
+					<React.Fragment>					
+						<h3>{this.state.fvs}</h3>
+						{
+							this.checkeds.map((d,i)=>(
+								<React.Fragment key={i} >
+									<input type='checkbox' onChange={this.fn.bind(this)} value={d} />{d}
+								</React.Fragment>
+							))
+						}					
+					</React.Fragment>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/babel">
+		
+//		vue的生命周期:
+//			vue实例的创建阶段.(只触发一次)
+//				数据创建的前后
+//				beforeCreate,created
+//				视图挂载的前后
+//				beforeMount mounted
+//				
+//			运行阶段
+//				视图更新的前后.
+//				beforeUpdate,updated,
+//				(updated内是无法知道当前的视图更新是因为哪个数据变化导致的)
+//				nextTick(回调函数)->本次视图更新完成之后,回调函数自动触发,只触发一次.
+//				
+//				实例销毁的前后.(不再具备响应式)
+//				beforeDestroy,destroyed
+		
+//		React的生命周期。
+//			视图挂载阶段
+//				constructor,componentWillMount,render,componentDidMount
+//			运行阶段
+//				componentWillReceiveProps,shouldComponentUpdate,componentWillUpdate,render,componentDidUpdate				
+//			销毁
+//				componentWillUnmount
+			
+//			视图挂载阶段的4个钩子:
+//				constructor -> 
+//					执行时,已经可以访问组件的一般数据和state数据(类似于vue的Created)(这里不能通过this访问props)
+//				componentWillMount -> 
+//					编译模板前 (习惯在此函数内请求服务器数据)
+//				render -> 
+//					编译模板(根据JSX模板生成虚拟节点)
+//					挂载阶段触发一次,但是运行阶段,但凡组件更新都会重复触发render
+//					不要在render内修改组件的state状态。这会导致死循环。(视图更新无法停止)
+					
+//				componentDidMount -> 
+//					视图挂载后.(类似于vue的mounted)(ref指代的元素只能在DidMount内获取,和vue一致)
+				
+			class Root extends React.Component{
+				
+				constructor(){
+					super();
+					console.log('constructor运行')
+					console.log(this.msg)
+					console.log(this.state.str)
+					console.log('Ref',this.ele.current)
+				}
+				
+				msg = '1111'
+				ele = React.createRef()
+				state = {str:'2222'}
+				
+				componentWillMount(){
+					console.log('componentWillMount运行')
+					console.log('Ref',this.ele.current)
+				}
+				
+				render(){
+//					不能在render内修改state状态.					
+//					this.setState({str:Math.random()});
+					return (
+						<div>
+							<h3>{this.msg}</h3>
+							<p ref={this.ele}>{this.state.str}</p>
+						</div>
+					)
+				}
+				
+				componentDidMount(){
+					console.log('componentDidMount运行')
+					console.log('Ref',this.ele.current)
+				}
+				
+			}
+			
+			ReactDOM.render(<Root />,document.getElementById("root"));
+			
+			
+		
+	</script>
+</html>

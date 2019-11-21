@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/babel">
+		
+//		react更新阶段的钩子:
+//			componentWillReceiveProps(props发生改变时触发)(将传入的props进行二次加工处理)
+//			shouldComponentUpdate(每次视图发生更新时,最先触发)(用于控制视图什么时候更新什么时候不更新)
+//			componentWillUpdate(如果视图应该更新,则前置触发,类似于vue的beforeUpdate)
+//			render(重新编译模板,请求求值)(每次视图更新都会重新render)
+//			componentDidUpdate(更新完成之后触发,类似于vue的updated)
+
+//		shouldComponentUpdate用于判断组件是否应该更新(性能优化)
+//			父组件更新视图默认会让子组件也更新视图.(有可能会造成性能的浪费)
+						
+		class Box extends React.Component{
+			
+			state = {msg:'老子天下第一'}
+
+//			每次视图更新之前都需要触发。
+//			如果函数return true则继续更新，触发后续的componentWillUpdate,render,componentDidUpdate
+//			如果return false 则停止更新视图.不会触发后续的componentWillUpdate,render,componentDidUpdate
+
+//			如何判断组件不应该更新:判断更新前后的state是不是一样的.
+//			如何获取更新前后的state.
+
+			shouldComponentUpdate(nextProps,nextState){
+				
+				//不能再shouldComponentUpdate内修改任何的state,否则死循环.
+				//this.setState({msg:Math.random()})
+				
+				//console.log('判断是否更新视图中...')
+				
+				//props更新前的值
+				//console.log(this.props.str);//1111
+				//props更新后的值
+				//console.log(nextProps.str);//2222
+				
+				//更新前的state
+				//console.log(this.state.msg)
+				//更新后的state
+				//console.log(nextState.msg)
+				
+				//如果前后的state数据一致就不更新视图。如果不一致，就更新视图
+				if(nextState.msg == this.state.msg){
+					return false
+				}else{
+					return true
+				}				
+			}
+			
+			changeState(){
+				this.setState({msg:'1111111111'})
+			}
+			
+			render(){
+				console.log('子组件的render触发')
+				return (
+					<div>
+						<input type='button' value='更新子组件state' onClick={this.changeState.bind(this)} />
+						<p>{this.state.msg}</p>
+					</div>
+				)
+			}
+		}
+
+		class Root extends React.Component{
+			
+			constructor(){
+				super();
+				console.log('父组件constructor执行')
+			}
+			
+			msg = '1111'
+			
+			componentWillMount(){
+				console.log('父组件componentWillMount运行')
+			}
+			
+			updata(){
+				
+				this.msg = '2222'
+				
+				//点击按钮更新父组件。
+				this.forceUpdate();
+			}
+			
+			render(){
+				console.log('父组件的render触发')
+				return (
+					<div>
+						<h3>{this.msg}</h3>
+						<input type='button' value='更新父组件' onClick={this.updata.bind(this)} />
+						<Box str={this.msg} />
+					</div>
+				)
+			}
+			
+			componentDidMount(){
+				console.log('父组件componentDidMount运行')
+			}
+			
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+			
+			
+		
+	</script>
+</html>

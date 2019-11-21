@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/babel">
+		
+//		文本域的受控设置方式和输入框一样
+		
+		class Root extends React.Component{
+			
+			state = {
+				msg:'默认数据',
+				color:'red'
+			}
+			
+			fn(ev){
+				this.setState({msg:ev.target.value})
+			}
+			
+			setColor(ev){
+				this.setState({color:ev.target.value})
+			}
+			
+			render(){
+				return (
+					<React.Fragment>					
+						<h3 style={{background:this.state.color}}>{this.state.msg}</h3>
+						<textarea value={this.state.msg} onChange={this.fn.bind(this)}></textarea>
+						<input type='color' value={this.state.color} onChange={this.setColor.bind(this)} />					
+					</React.Fragment>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>

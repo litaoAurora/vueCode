@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="text" name="" id="text" value="" />
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/babel">
+		
+//		react表单组件
+		
+//			1:受控组件.(加了value表单)
+//				通过表单是输入来控制组件state的状态.(state的状态通过表单是输入来更新).
+//				受控组件与Vue内的绑定了v-model的标签意义接近.
+//				绑定了v-model的vue表单,输入的表单内容直接就会更新组件的数据.
+//				
+//				受控组件输入的内容会如果需要更新组件的state数据.需要手动添加修改的逻辑.				
+//				受控组件的value值如果不写逻辑修改,永远固定不变.				
+//				受控组件的value值修改应该用onChange数据.
+
+//				受控组件为什么需要在发生输入行为后还手动填写修改数据的逻辑？
+//				这样可以为每次修改数据提供单独的修改逻辑。
+
+//				如果受控组件的value绑定的值是null或者undefined，则该组件就变成不受控了。
+				
+//			2:非受控组件.(没加value的表单)
+//				非受控组件输入的内容不会更新state数据.
+		
+		class Root extends React.Component{
+			
+			state = {msg:''}
+			
+			saveVal(ev){
+//				this.setState({msg:ev.target.value})
+				this.setState({msg:ev.target.value.toUpperCase()})
+			}
+			
+			render(){
+				return (
+					<div>
+						<input type='text' 
+							value={this.state.msg} 
+							onChange={this.saveVal.bind(this)} 
+						/>
+						<div>{this.state.msg}</div>
+					</div>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>

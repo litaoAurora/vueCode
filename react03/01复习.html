@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		
+		1):组件间数据共享
+			父传子
+				a):需要在组件标签上 msg={this.msg}
+				b):子组件通过this.props.msg获取父组件共享的数据.				
+				props是父组件共享的数据对象,如果有共享数据,这个props就会多一个属性,没有共享数据,props就没有属性.
+				
+			子传父
+				a):父组件需要一个函数来接受子组件的数据.
+				b):需要把这个函数传递给子组件调用,并且传入子组件数据\
+				c):一定保证这个函数在被调用时,是通过父组件调用的. getData = {this.getData.bind(this)}
+				
+			插槽
+				
+				this.props.children -> 插槽列表
+				this.props.children[0] -> 第一个插槽内容
+				this.props.children[1] -> 第二个插槽内容
+				
+				<box>
+					<span>1111</span>
+					<span>2222</span>
+				</box>
+			
+		2):state响应式数据
+				
+				react的响应式数据,需要state声明				
+				constructor(){
+					super()
+					this.state = {数据1，数据2}
+				}				
+				state = {数据1，数据2}
+				
+				获取共享数据
+				{this.state.数据1}
+				
+				修改共享数据.如果数据值是引用类型,需要给这个属性赋值一个新的引用.
+				fn(){
+					this.setState({
+						数据名:新的数据值
+					})
+				}
+				
+				state修改状态(数据)是异步的.如果希望在修改数据成功之后自动触发某个逻辑,可以使用第二参数(回调)
+				
+				回调函数fn什么时候触发?在msg变成111之后触发.msg变成1111是一个异步操作.
+				
+				this.setState({msg:111},回调函数fn)
+		
+		
+	</body>
+</html>

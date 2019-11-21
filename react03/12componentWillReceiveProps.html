@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/babel">
+		
+//		如果我们希望通过父组件的props来更新子组件的state，
+//      则可以componentWillReceiveProps内对传递的props进行2次加工
+
+		class Box extends React.Component{
+			
+			constructor(props){
+				super(props);
+//				不能再constructor内通过this访问props。但是可以通过constructor的形参访问。				
+//				console.log(props.msg)
+				
+//				this.setState({msg:props.msg})
+			}
+			
+			state = {msg:'老子天下第一'}
+			
+			componentWillReceiveProps(nextProps,nextState){				
+				console.log('子组件的componentWillReceiveProps触发');
+				let str = nextProps.msg.split('').reverse().join('');
+				this.setState({msg:str})
+			}
+			
+			render(){
+				console.log('子组件的render触发')
+				return (
+					<div>
+						<p>{this.state.msg}</p>
+						<p>{this.props.msg}</p>
+					</div>
+				)
+			}
+		}
+
+		class Root extends React.Component{
+			
+			
+			msg = '老子天下第二'
+			
+			updata(){
+				
+				this.msg = '老子天下第三';
+				
+				//点击按钮更新父组件。
+				this.forceUpdate();
+			}
+			
+			render(){
+				console.log('父组件的render触发')
+				return (
+					<div>
+						<input type='button' value='更新父组件' onClick={this.updata.bind(this)} />
+						<Box msg={this.msg} />
+					</div>
+				)
+			}
+			
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+			
+			
+		
+	</script>
+</html>

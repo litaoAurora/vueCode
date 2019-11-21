@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/babel">
+		
+//		react更新阶段的钩子:
+//			componentWillReceiveProps(props发生改变时触发)(将传入的props进行二次加工处理)
+//			shouldComponentUpdate(每次视图发生更新时,最先触发)(用于控制视图什么时候更新什么时候不更新)
+//			componentWillUpdate(如果视图应该更新,则前置触发,类似于vue的beforeUpdate)
+//			render(重新编译模板,请求求值)(每次视图更新都会重新render)
+//			componentDidUpdate(更新完成之后触发,类似于vue的updated)
+
+//		componentWillReceiveProps父组件传递的props发生变化时触发。(子组件触发)
+//			父组件更新视图默认会让子组件也更新视图.(有可能会造成性能的浪费)
+
+//		实际上componentWillReceiveProps触发不依赖于props，只要父组件的render触发，就一定会触发子组件的
+//		componentWillReceiveProps。
+
+//		如果我们希望通过父组件的props来更新子组件的state，
+//      则可以componentWillReceiveProps内对传递的props进行2次加工
+
+		class Box extends React.Component{
+			
+			state = {msg:'老子天下第一'}
+			
+			changeState(){
+				this.setState({msg:'1111111111'})
+			}
+			
+			componentWillReceiveProps(nextProps,nextState){
+				
+				console.log('子组件的componentWillReceiveProps触发')
+				
+				//props变化前的值
+				//console.log(this.props.str)
+				
+				//props变化后的值.
+				//console.log(nextProps.str)				
+			}
+			
+			shouldComponentUpdate(nextProps,nextState){
+				console.log('子组件的shouldComponentUpdate')
+				return true
+			}
+			
+			render(){
+				console.log('子组件的render触发')
+				return (
+					<div>
+						<input type='button' value='更新子组件state' onClick={this.changeState.bind(this)} />
+						<p>{this.state.msg}</p>
+					</div>
+				)
+			}
+		}
+
+		class Root extends React.Component{
+			
+			constructor(){
+				super();
+				console.log('父组件constructor执行')
+			}
+			
+			msg = '1111'
+			
+			componentWillMount(){
+				console.log('父组件componentWillMount运行')
+			}
+			
+			updata(){
+				
+				this.msg = '1111';
+				
+				//点击按钮更新父组件。
+				this.forceUpdate();
+			}
+			
+			render(){
+				console.log('父组件的render触发')
+				return (
+					<div>
+						<h3>{this.msg}</h3>
+						<input type='button' value='更新父组件' onClick={this.updata.bind(this)} />
+						<Box />
+					</div>
+				)
+			}
+			
+			componentDidMount(){
+				console.log('父组件componentDidMount运行')
+			}
+			
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+			
+			
+		
+	</script>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <input type="button" value='插入P'>
+        <div></div>
+    </div>
+</body>
+<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/babel.js" type="text/javascript" charset="utf-8"></script>
+<script type='text/babel'>
+	
+	//组件 -> 数据共享
+	
+    //把app内的div变成子组件,每点击一次按钮,在组件内插入一个p,p的内容随意.
+    //子组件数据使用父组件数据,或者父组件使用子组件的数据。
+    
+    class Box extends React.Component{
+    	render(){
+    		return (
+    			<div>
+    			{
+    				this.props.arr.map((d,i)=>(
+    					<p key={i}>{d}</p>
+    				))
+    			}
+    			</div>
+    		)
+    	}
+    }
+    
+    class Root extends React.Component{
+    	
+    	arr = []
+    	
+    	fn(){
+    		this.arr.push(Math.random());
+    		this.forceUpdate();
+    	}
+    	
+    	render(){
+    		return (
+    			<React.Fragment>
+					<input type="button" value='插入P' onClick={this.fn.bind(this)} />
+				    <Box arr={this.arr} />
+				</React.Fragment>
+    		)
+    	}
+    }
+    
+    ReactDOM.render(<Root />,document.getElementById("app"))
+    
+    
+</script>
+</html>
