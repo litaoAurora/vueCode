@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/redux.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/babel">
+		
+		//redux是第三方的状态管理插件。(和react没有关系)。
+		
+		//1):创建一个数据容器。store;
+		//2):把修改数据的封装逻辑写好.(mutations);
+		//3):如何获取共享数据.store.getState();
+		//4):如何修改共享数据.store.dispatch来触发mutation;
+		
+		//数据容器.
+		let store = Redux.createStore(setData);
+		
+		//redux的共享数据发生变化时,视图不会跟着更新.
+		//redux有一个数据变化的监听器,subscribe(回调).回调函数在数据发生变化时自动触发.
+		//只需要在这个监听器中写入刷新视图的逻辑,即可实现响应式变化.(共享数据变化,视图也跟着变化)
+		
+		function setData(state=100,actions){
+			if(actions.type=='ADD'){
+				return ++state
+			}else if(actions.type=='REDUCE'){
+				return --state
+			}else{
+				return state
+			}
+		}
+				
+		class Box1 extends React.Component{
+			
+			add(){
+				store.dispatch({
+					type:'ADD'
+				})
+			}
+			
+			reduce(){
+				store.dispatch({
+					type:'REDUCE'
+				})
+			}
+			
+			render(){
+				return (
+					<div>
+						<input type='button' value="+" onClick={this.add.bind(this)} />
+						<span>{store.getState()}</span>						
+						<input type='button' value="-" onClick={this.reduce.bind(this)}/>
+					</div>
+				)
+			}
+		}
+		
+		class Box2 extends React.Component{
+			
+			add(){
+				store.dispatch({
+					type:'ADD'
+				})
+			}
+			
+			reduce(){
+				store.dispatch({
+					type:'REDUCE'
+				})
+			}
+			
+			//获取redux内的共享数据.
+			render(){
+				return (
+					<div>
+						<input type='button' value="+" onClick={this.add.bind(this)} />
+						<span>{store.getState()}</span>						
+						<input type='button' value="-" onClick={this.reduce.bind(this)} />
+					</div>
+				)
+			}
+		}
+		
+		class Root extends React.Component{
+			render(){
+				return (
+					<div>
+						<Box1 />
+						<hr />
+						<Box2 />
+					</div>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"))
+		
+		//每次共享数据变化,刷新整个根组件.以达到响应式的目的.
+		store.subscribe(function(){
+			ReactDOM.render(<Root />,document.getElementById("root"))
+		})
+		
+	</script>
+	
+</html>

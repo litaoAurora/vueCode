@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/redux.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/babel">
+		
+		//共享多少个数据，就需要多少个store，多少个reducer(mutations)
+		
+		function newData(state=[111,222,333],actions){			
+			if(actions.type == 'ADD'){
+				state.push(actions.newItem)
+				return state
+			}else{
+				return state
+			}
+		}
+				
+		function newLength(state=3,actions){
+			if(actions.type == 'plus'){
+				return ++state
+			}else{
+				return state
+			}
+		}
+		
+		let newStore = Redux.createStore(newData);
+		let lengthStore = Redux.createStore(newLength);
+			
+		class Box1 extends React.Component{
+						
+			render(){
+				return (
+					<div>
+						<ul>
+						{
+							newStore.getState().map((d,i)=>(
+								<li key={i}>{d}</li>
+							))
+						}
+						</ul>
+					</div>
+				)
+			}
+		}
+		
+		class Box2 extends React.Component{
+			
+			//获取redux内的共享数据.
+			render(){
+				return (
+					<div>
+						<p>总的数据条数:{lengthStore.getState()}</p>
+					</div>
+				)
+			}
+		}
+		
+		class Root extends React.Component{
+			render(){
+				return (
+					<div>
+						<Box1 />
+						<hr />
+						<Box2 />
+						<hr />
+						<input type='button' value='新增数据' onClick={this.setData.bind(this)} />
+					</div>
+				)
+			}
+			
+			setData(){
+				
+				newStore.dispatch({
+					type:'ADD',
+					newItem:Math.random()
+				})
+				
+				lengthStore.dispatch({
+					type:'plus',
+				})
+			}
+			
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"))
+		
+		//每次共享数据变化,刷新整个根组件.以达到响应式的目的.
+		newStore.subscribe(function(){
+			ReactDOM.render(<Root />,document.getElementById("root"))
+		})
+		
+		lengthStore.subscribe(function(){
+			ReactDOM.render(<Root />,document.getElementById("root"))
+		})
+		
+	</script>
+	
+</html>

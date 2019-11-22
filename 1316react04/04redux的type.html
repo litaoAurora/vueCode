@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/redux.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/babel">
+		
+		//redux是第三方的状态管理插件。(和react没有关系)。
+		
+		//1):创建一个数据容器。store;
+		//2):把修改数据的封装逻辑写好.(mutations);
+		//3):如何获取共享数据.store.getState();
+		//4):如何修改共享数据.store.dispatch来触发mutation;
+		
+		//数据容器.
+		let store = Redux.createStore(setData);
+		
+		//如果用户的操作是'+'的操作，返回共享数据+1
+		//如果用户的操作是"-"的操作,返回共享数据-1
+		//默认情况,没有用户操作,返回共享数据初始值.
+		
+		function setData(state=100,actions){
+			if(actions.type=='ADD'){
+				return ++state
+			}else if(actions.type=='REDUCE'){
+				return --state
+			}else{
+				return state
+			}
+		}
+				
+		class Box1 extends React.Component{
+			
+			add(){
+				store.dispatch({
+					type:'ADD'
+				})
+				ReactDOM.render(<Root />,document.getElementById("root"))
+			}
+			
+			reduce(){
+				store.dispatch({
+					type:'REDUCE'
+				})
+				ReactDOM.render(<Root />,document.getElementById("root"))
+			}
+			
+			render(){
+				return (
+					<div>
+						<input type='button' value="+" onClick={this.add.bind(this)} />
+						<span>{store.getState()}</span>						
+						<input type='button' value="-" onClick={this.reduce.bind(this)}/>
+					</div>
+				)
+			}
+		}
+		
+		class Box2 extends React.Component{
+			
+			add(){
+				store.dispatch({
+					type:'ADD'
+				})
+				ReactDOM.render(<Root />,document.getElementById("root"))
+			}
+			
+			reduce(){
+				store.dispatch({
+					type:'REDUCE'
+				})
+				ReactDOM.render(<Root />,document.getElementById("root"))
+			}
+			
+			//获取redux内的共享数据.
+			render(){
+				return (
+					<div>
+						<input type='button' value="+" onClick={this.add.bind(this)} />
+						<span>{store.getState()}</span>						
+						<input type='button' value="-" onClick={this.reduce.bind(this)} />
+					</div>
+				)
+			}
+		}
+		
+		class Root extends React.Component{
+			render(){
+				return (
+					<div>
+						<Box1 />
+						<hr />
+						<Box2 />
+					</div>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"))
+		
+	</script>
+	
+</html>

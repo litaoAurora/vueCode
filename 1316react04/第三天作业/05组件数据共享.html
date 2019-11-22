@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+</body>
+<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/babel.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/babel">
+    
+    class Goods extends React.Component{
+    	render(){
+    		let {d,i} = this.props;
+    		return (
+    			<li>
+    				<input type='checkbox' checked={d.checked} onChange={this.choose.bind(this,i)} />
+    				<span>商品名称:{d.name}</span>
+    				<span>单价:${d.price}</span>
+    				<input type='button' value='-' onClick={this.reduce.bind(this,i)} />
+    				<input type='text' value={d.count} onChange={this.setCount.bind(this,i)} />
+    				<input type='button' value='+' onClick={this.add.bind(this,i)} />
+    				<span>总价:${d.price*d.count}</span>
+    				<input type='button' value='删除' onClick={this.del.bind(this,i)} />
+    			</li>
+    		)
+    	}
+    	
+    	choose(i,ev){
+    		this.props.choose(i,ev.target.checked);
+    	}
+    	
+    	setCount(i,ev){
+    		this.props.setCount(i,ev.target.value)
+    	}
+    	
+    	reduce(i){
+    		this.props.reduce(i)
+    	}
+    	
+    	add(i){
+    		this.props.add(i)
+    	}
+    	
+    	del(i){
+    		this.props.del(i)
+    	}   	
+    }
+    
+    class Root extends React.Component{
+    // 他的数据全部都是在 父组件中。 那样当然容易啊。 	
+    	state = {
+    		goods:[
+    			{name:'苹果',count:1,price:100,checked:false},
+    			{name:'香蕉',count:1,price:200,checked:false},
+    			{name:'葡萄',count:1,price:300,checked:false}
+    		],
+    		//总数量
+    		count:0,
+    		//总价格
+    		money:0,
+    		//全选按钮状态
+    		checkedAll:false
+    	}
+    	
+    	componentWillMount(){
+    		//视图挂载前，默认计算一次当前商品的总价和总数量。
+    		this.setData();
+    	}
+    	
+    	//计算总数量和总价格
+    	setData(){
+    		let {goods} = this.state;
+    		let count = 0;
+    		let money = 0;
+    		goods.forEach((item,i)=>{
+    			if(item.checked){
+    				count += item.count*1;
+    				money += item.count * item.price
+    			}   			
+    		})   		
+    		this.setState({count,money})   		
+    	}
+    	
+    	//删除当前商品
+    	del(i){
+    		let {goods} = this.state;
+    		this.setState({
+    			goods:[...goods.slice(0,i),...goods.slice(i+1)]
+    		},this.setData)  		
+    	}  
+    	
+    	//点击+按钮增减数量。
+    	add(i){
+    		let {goods} = this.state;
+    		goods[i].count++;
+    		this.setData();
+    		this.setState({goods:[...goods]})
+    	}
+    	
+    	//点击-按钮减少数量
+    	reduce(i){
+    		let {goods} = this.state;
+    		if(goods[i].count>0){
+    			goods[i].count--;
+    		}
+    		this.setData();
+    		this.setState({goods:[...goods]})
+    	}
+    	
+    	//输入框输入数量
+    	setCount(i,count){
+    		let {goods} = this.state;
+    		goods[i].count = count;
+    		this.setData();
+    		this.setState({goods:[...goods]})
+    	}
+    	
+    	//删除所有
+    	delAll(){
+    		let {goods} = this.state;
+    		this.setState({goods:[],checkedAll:false},this.setData)
+    	}
+    	
+    	//新增商品
+    	addGoods(){
+    		let {goods} = this.state;
+    		this.setState({goods:[
+    			...goods,
+    			{name:'山竹',price:400,count:1,checked:false}
+    		]},this.setData);
+    	}
+    	
+    	//全选
+    	chooseAll(ev){
+    		let {goods} = this.state;
+    		goods.forEach((item,i)=>{
+    			item.checked = ev.target.checked
+    		})
+    		this.setData();
+    		this.setState({goods:[...goods],checkedAll:ev.target.checked})
+    	}
+    	
+    	//单选
+    	choose(i,checked){
+    		let {goods} = this.state;
+    		goods[i].checked = checked;
+    		
+    		//全选状态
+    		let checkedAll = 1;
+    		
+    		//设置全选按钮的状态。
+    		goods.forEach((item,i)=>{
+    			checkedAll *= item.checked
+    		})
+    		
+    		this.setData();
+    		this.setState({goods:[...goods],checkedAll:!!checkedAll});
+    	}
+    	
+    	render(){
+    		return (
+    			<div>
+    				<h3>购物车</h3>
+    				<ul>
+    				{
+    					this.state.goods.map((d,i)=>(
+    						<Goods 
+    							key={i} 
+    							d={d} 
+    							i={i}
+    							del={this.del.bind(this)}
+    							add={this.add.bind(this)}
+    							reduce={this.reduce.bind(this)}
+    							setCount={this.setCount.bind(this)}
+    							choose={this.choose.bind(this)}
+    						/>
+    					))
+    				}
+    				</ul>
+    				全选<input type='checkbox' checked={this.state.checkedAll} onChange={this.chooseAll.bind(this)} />
+    				<span>总数量:{this.state.count}</span>
+    				<span>总价格:{this.state.money}</span>
+    				<input type='button' value='删除所有' onClick={this.delAll.bind(this)} />
+    				<input type='button' value='新增' onClick={this.addGoods.bind(this)} />
+    			</div>
+    		)
+    	}
+    }
+    
+    ReactDOM.render(<Root />,document.getElementById("root"));
+    
+    
+</script>
+</html>

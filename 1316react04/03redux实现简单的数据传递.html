@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/redux.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/babel">
+		
+		//redux是第三方的状态管理插件。(和react没有关系)。
+		
+		//1):创建一个数据容器。store;
+		//2):把修改数据的封装逻辑写好.(mutations);
+		//3):如何获取共享数据.store.getState();
+		//4):如何修改共享数据.store.dispatch来触发mutation;
+
+// 1) **创建一个数据容器 . store = Redux.createStore( reducer )**
+// 2) **把修改数据的封装逻辑写好, 这个函数是放在   createStore 中或者 放在 combineReducers( {  冲突函数  } )；**
+// 3) **如何获取共享数据 。  store.getState()**
+// 4) **如何修改共享数据。 store.despatch 来触发 mutation;**
+// 5）**监听数据的变化。  subscribe( function(){} )**
+// 6）**合并多个 store  ; => let reducer =  Redux.combineReducers( { newData, length } )**
+// 7) **获取合并后的的数据 store.getState().数据名.**
+
+// **猜测 ：**                                                                                                                                                                                                                       
+//     store.despatch( { type: "", haha : "" } ) 
+//     store 中的数据  data = setData( data, { type: "", haha : "" } )
+// > 当调用 dispatch 时， store 是会把 本地的 state 和 dispatch传入来的 参数一并传入到  mutation函数中去做逻辑处理，
+// > 放回来的值 作为下一个 state 保存到 store本地。 
+
+
+		//数据容器.
+		let store = Redux.createStore(setData);
+		
+		//这里setData就是想所有修改数据的逻辑封装(mutation)
+		//state就是共享的数据.
+		//actions事件上就是一个用户行为.dispatch调用时传递过来的对象.
+		function setData(state='丁宇',actions){
+			if(actions.type=='GET'){
+				return actions.msg
+			}else{
+				return state
+			}	
+		}
+				
+		class Box1 extends React.Component{
+			
+			str = '你们这帮死肥宅'
+			
+			fn(){
+				//触发setState,并传入组件数据以更新共享数据.
+				store.dispatch({
+					type:'GET',
+					msg:this.str
+				})
+				ReactDOM.render(<Root />,document.getElementById("root"))
+			}
+			
+			render(){
+				return (
+					<div>
+						<input type='button' value='点击' onClick={this.fn.bind(this)} />
+					</div>
+				)
+			}
+		}
+		
+		class Box2 extends React.Component{
+			//获取redux内的共享数据.
+			render(){
+				return (
+					<div>
+						准备接帅哥:{store.getState()}
+					</div>
+				)
+			}
+		}
+		
+		class Root extends React.Component{
+			render(){
+				return (
+					<div>
+						<Box1 />
+						<hr />
+						<Box2 />
+					</div>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"))
+		
+	</script>
+	
+</html>

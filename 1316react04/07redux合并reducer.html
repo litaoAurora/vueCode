@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/redux.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/babel">
+		
+		//共享多少个数据，就需要多少个store，多少个reducer(mutations)
+		
+		function newData(state=[111,222,333],actions){
+			if(actions.type == 'ADD'){
+				state.push(actions.newItem)
+				return state
+			}else{
+				return state
+			}
+		}
+				
+		function newLength(state=3,actions){
+			if(actions.type == 'PLUS'){
+				return ++state
+			}else{
+				return state
+			}
+		}
+		
+//		如果需要共享多个数据，为了避免创建多个store，需要使用Redux.combineReducers来合并多个数据的reducer
+//		将newData和newLength合并成一个reducer
+//		这里news和length就是两个共享数据的名字。
+		
+//		获取经过合并的共享数据。 -> store.getState().数据名
+//		修改经过合并的共享数据。 -> 与没有合并的写法一致。(store每次dispatch，都会触发所有的reducer，匹配对应的type，运行对应的逻辑)		
+//		let reducer = Redux.combineReducers({
+//			news:newData,
+//			length:newLength
+//		});
+
+//		推荐合并时，数据的名字和reducer的名字一致。
+		let reducer = Redux.combineReducers({newData,newLength});
+//		
+//		工作里，只有需要共享多个数据时，才应该使用Redux.combineReducers吗？
+//			工作里面不管有多少个数据共享,都应该使用Redux.combineReducers,为了方便维护。
+		
+		//通过合并的reducer再创建一次store数据容器。
+		let store = Redux.createStore(reducer);
+		
+		class Box1 extends React.Component{
+						
+			render(){
+				return (
+					<div>
+						<ul>
+						{
+							store.getState().newData.map((d,i)=>(
+								<li key={i}>{d}</li>
+							))
+						}
+						</ul>
+					</div>
+				)
+			}
+		}
+		
+		class Box2 extends React.Component{
+			
+			//获取redux内的共享数据.
+			render(){
+				return (
+					<div>
+						<p>总的数据条数:{store.getState().newLength}</p>
+					</div>
+				)
+			}
+		}
+		
+		class Root extends React.Component{
+			render(){
+				return (
+					<div>
+						<Box1 />
+						<hr />
+						<Box2 />
+						<hr />
+						<input type='button' value='新增数据' onClick={this.setData.bind(this)} />
+					</div>
+				)
+			}
+			
+			setData(){
+				
+				store.dispatch({
+					type:'ADD',
+					newItem:Math.random()
+				})
+				
+				store.dispatch({
+					type:'PLUS',
+				})
+			}			
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"))
+		
+		//每次共享数据变化,刷新整个根组件.以达到响应式的目的.
+		store.subscribe(function(){
+			ReactDOM.render(<Root />,document.getElementById("root"))
+		})
+		
+	</script>
+	
+</html>

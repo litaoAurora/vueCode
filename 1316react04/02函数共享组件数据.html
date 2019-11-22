@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/babel">
+		
+		//将共享数据存入一个闭包内
+		function bus(str){
+			let bus = str;
+			return function(){
+				return bus
+			}
+		}
+		
+		//默认值。
+		let getState = function(){
+			return '默认值'
+		};
+		
+		class Box1 extends React.Component{
+			
+			str = '你们这帮死肥宅'
+			
+			fn(){
+//				bus = this.str;
+				getState = bus(this.str);
+				ReactDOM.render(<Root />,document.getElementById("root"))
+			}
+			
+			render(){
+				return (
+					<div>
+						<input type='button' value='点击' onClick={this.fn.bind(this)} />
+					</div>
+				)
+			}
+		}
+		
+		class Box2 extends React.Component{
+			render(){
+				return (
+					<div>
+						准备接肥宅:{getState()}
+					</div>
+				)
+			}
+		}
+		
+		class Root extends React.Component{
+			render(){
+				return (
+					<div>
+						<Box1 />
+						<hr />
+						<Box2 />
+					</div>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"))
+		
+	</script>
+	
+</html>

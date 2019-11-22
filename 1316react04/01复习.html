@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		
+		1):受控组件
+			类似于vue的v-model(双向数据绑定)
+			表单的value变化,数据会跟着变化.
+			数据变化,表单的value也会跟着变化.
+			
+			受控组件的value是必须通过逻辑修改.(必须有onChange)
+			如果没有,受控组件的value永远是固定
+			
+			如何让一个表单元素的value有默认值,但是又可以通过输入改变value而不需要借助于onChange?\
+			这时可以给表单元素添加defaultValue属性
+			
+			非受控组件:
+				没有添加value属性(value和state数据没有关系).
+				<input onChange={this.fn.bind(this)} ref={this.input} />
+				
+				通过自己输入更新state
+				this.setState({msg:ev.target.value});
+				
+				this.input = React.createRef();				
+				this.input.current -> 添加了ref属性的DOM元素
+				
+				通过点击按钮更新input的value到state
+				this.setState({msg:this.input.current.value});
+								
+		2):生命周期
+						
+			挂载阶段:
+				contructor(不能再这里通过this访问props,可以通过形参访问props)
+				componentWillMount(当成vue的created来使用)
+				render(render内不能修改state状态,否则死循环渲染)
+				componentDidMount(当成vue的mounted来使用)
+			
+			运行阶段
+				componentWillReceiveProps
+					用于将父组件的props来更新子组件的state,并且进行二次处理.
+					两个参数:
+						nextProps(变化后的props),nextState(变化后的state)
+						this.props(变化前的props),this.state(变化前的state)
+					
+					父组件的render触发,子组件的componentWillReceiveProps就一定触发.
+					
+				shouldComponentUpdate
+					用于判断视图是否应该更新.(性能优化的钩子)
+					返回true,视图继续更新,会继续触发后续的3个钩子.
+					返回false,视图停止更新,不会触发后续的3个钩子.
+					
+					每次视图将要更新时,都触发.
+					
+					两个参数:
+						nextProps(变化后的props),nextState(变化后的state)
+						this.props(变化前的props),this.state(变化前的state)
+					
+					注意:不能再这里修改组件的state,否则死循环.
+										
+				componentWillUpdate(类似于vue的beforeUpdate)
+				render
+					每次视图更新都会重复处罚.
+					意味着模板重新编译,各种插值表达式重新求值.
+					react实际上更新视图都是通过重新render实现的.
+				componentDidUpdate(类似于vue的updated)
+			
+			销毁阶段
+				componentDidUnmount
+			
+			如何在子组件内修改父组件的state?为了父组件在更新的同时更新子组件.
+				在父组件内设置方法修改state,然后传递该方法给子组件调用.
+			
+			
+		
+	</script>
+</html>
