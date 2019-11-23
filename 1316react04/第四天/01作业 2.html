@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+		* {
+			padding : 0;
+			margin : 0;
+		}
+		li , ul {
+			list-style: none;
+		}
+
+		h2,h4 {
+			text-align : center;
+		}
+
+		table {
+			display: block;
+		}
+
+		tbody {
+			width: 100%;
+			display: inline-block;
+		}
+
+		tr {
+			width: 100%;
+			display: flex;
+			padding: 10px 0 ;
+			border-top: 1px solid #999;
+			border-bottom: 1px solid #999;
+		}
+		tr td {
+			flex : 1;
+			text-align: center;
+			align-items: center;
+		}
+		tr td::before{
+			height: 100%;
+			display: inline-block;
+			content: '';
+			vertical-align: middle;
+		}
+		tr td span {
+			display: inline-block;
+		}
+
+		input[type="button"] {
+			padding: 10px;
+			color : white;
+			border-radius: 6px;
+		}
+
+		button .show {
+			display : inline-block;
+		}
+		button .hidden {
+			display : none;
+		}
+		div.inline {
+			display: inline-block;
+		}
+
+		.add-cart {
+			background: blue;
+			
+		}
+		.reduce-cart {
+			background: orange;
+		}
+		
+	</style>
+</head>
+<body>
+	<div id="Root"></div>
+</body>
+<script src="../js/react.development.js"></script>
+<script src="../js/react-dom.development.js"></script>
+<script src="../js/redux.js"></script>
+<script src="../js/babel.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+<script type="text/babel">
+		
+//		商品信息做成一个组件
+//		购物车做成一个组件
+//		总数量，总价格，情况做成一个组件。
+		
+//		点击商品信息内的'加入购物车'按钮,把当前的商品添加到购物车
+//		点击购物车内的'X',把当前商品移除购物车.
+//		总数量只显示购物车内的商品总数量
+//		
+//		商品信息内的+和购物车内的+同时更新两个组件的数量
+
+//   	-----------------------------------------
+		// 预功能分析与 逻辑预 分类
+// [{
+// 	ID : 自增,
+// 	name : '',
+// 	price : 0,
+// 	quantity : 0,
+// 	isCart : false
+// }]  
+// 利用  redux 的状态监听 可以 实现响应式的。 
+
+// 购物车
+
+// 		->  是影响 
+// 		1 加入购物车  ->  1 自身 2 购物车
+
+
+function increment (state= {  }, actions){
+	console.log( "---", actions, "-----" );
+//  
+	if( actions.type == "setInfo" ){
+		return { info : actions.info };
+	}
+	return state;
+}
+
+let Reducer = Redux.combineReducers( { increment } );
+let store = Redux.createStore( Reducer );
+
+
+
+class Cart extends React.Component{
+	constructor(){
+		super();
+		this.info = store.getState().increment.info;
+		this.title = ['ID', "名称", "价格", "数量", "Actions"];
+	}
+
+
+	render(){
+		return (
+			<React.Fragment>
+				<h2>购物车</h2>
+				<h4>商品信息</h4>
+				<table>
+					<tbody>
+						<tr>
+							{
+								this.title.map((item, i)=>(
+									<td key={i} ><strong> {item} </strong></td>
+								))
+							}
+						</tr>
+						{
+							this.info.map((item, i)=>(
+								<tr key={i} >
+									<td><span> {item.id} </span></td>
+									<td><span> {item.name} </span></td>
+									<td><span> {item.price} </span></td>
+									<td><span> {item.quantity} </span></td>
+									<td>
+									{
+										<div className="inline">
+											<span className={(this.isCart ? "hidden" : "show")} >
+												<input className="add-cart" type="button" value="加入购物车" />
+											</span>
+											<span className={(this.isCart ? "show" : "hidden")} >
+												<input className="add-cart" type="button" value="+" />
+												<input className="reduce-cart" type="button" value="-" />
+											</span>
+										</div>
+									}
+									</td>
+								</tr>
+							))
+						}
+					</tbody>
+				</table>
+
+			</React.Fragment>
+		)
+	}
+}
+
+class CartInfo extends React.Component {
+	constructor(){
+		super();
+		this.info = store.getState().increment.info;
+	}
+
+	render(){
+		return (
+			<React.Fragment>
+				<h2>购物车信息</h2>
+				<table>
+					<tbody>														
+					{ 
+						this.info
+						.filter((item, i)=>{ if(item.isCart) return true })
+						.map((item, i)=>(
+							<tr key={i} >
+								<td><span> {item.id} </span></td>
+								<td><span> {item.name} </span></td>
+								<td><span> {item.price} </span></td>
+								<td><span> {item.quantity} </span></td>
+								<td>
+								{
+									<div className="inline">
+										<span className={(this.isCart ? "show" : "hidden")} >
+											<input className="add-cart" type="button" value="加入购物车" />
+										</span>
+										<span className={(this.isCart ? "hidden" : "show")} >
+											<input className="add-cart" type="button" value="+" />
+											<input className="reduce-cart" type="button" value="-" />
+										</span>
+									</div>
+								}
+								</td>
+							</tr>
+						))
+					}
+					</tbody>
+				</table>
+			</React.Fragment>
+		)
+	}
+}
+
+class Record extends React.Component {
+
+	render(){
+		return (
+			<React.Fragment>
+				<section>
+					<span>总数量 ： { null } </span>
+					<span>总价格： { null } </span>
+					<div className="btn-group" role="group" aria-label="...">
+						<button type="button" className="btn btn-default btn-danger">清空</button>
+					</div>
+				</section>
+			</React.Fragment>
+		)
+	}
+}
+
+class Root extends React.Component{
+	constructor(){
+		super();
+		this.info = [{name : '', price : 0, quantity : 0, isCart : false }]
+
+		this.info.forEach((item, i, arr)=>{
+			item.ID = i
+		})
+		console.log(this.info)
+
+
+	}
+	
+	componentWillMount(){
+		let info = this.info;
+		store.dispatch( {
+			type : "setInfo",
+			info : info
+		} )
+		console.log(info, 'WillMount')
+	}
+
+	render(){
+
+		return (
+			<React.Fragment>
+				<Cart />
+				<CartInfo />
+				<Record />
+			</React.Fragment>
+		)
+	}
+}
+
+
+
+ReactDOM.render( <Root />, document.getElementById('Root') )
+store.subscribe( function(){
+	ReactDOM.render( <Root />, document.getElementById('Root') )
+} )
+
+// 15302758882 张豪
+</script>
+</html>
