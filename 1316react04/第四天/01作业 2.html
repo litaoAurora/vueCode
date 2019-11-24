@@ -53,10 +53,10 @@
 			border-radius: 6px;
 		}
 
-		button .show {
+		.show {
 			display : inline-block;
 		}
-		button .hidden {
+		.hidden {
 			display : none;
 		}
 		div.inline {
@@ -82,7 +82,7 @@
 <script src="../js/babel.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 <script type="text/babel">
-		
+
 //		商品信息做成一个组件
 //		购物车做成一个组件
 //		总数量，总价格，情况做成一个组件。
@@ -111,28 +111,102 @@
 
 
 function increment (state= {  }, actions){
-	console.log( "---", actions, "-----" );
+	
 //  
-	if( actions.type == "setInfo" ){
-		return { info : actions.info };
+	// if(  ){
+	// 	return { info : actions.info };
+	// }
+
+	switch (actions.type){
+
+		case  "setInfo":
+			return { info : actions.info };
+
+
+		case "addCart":
+			state.info[actions['i']].isCart = actions.isCart;
+			return state;
+		case "addQuantity":
+			
+			// state.info[actions['i']].quantity += 1 ;
+			state.info[actions['i']].quantity = actions.quantity;
+			return state;
+		case "reduceQuantity":
+			state.info[actions['i']].quantity = actions.quantity;
+			return state;
+		case  "cancelCart":
+			state.info[actions['i']].isCart = actions.isCart;
+			state.info[actions['i']].quantity = 0;
+			return state;
+		case "emptyAll":
+			state.info.forEach(
+				(item, i, arr)=>{ 
+					arr[i].isCart = false;
+					arr[i].quantity = 0;
+				}
+			);
+			return state;
+
+		default : 
+			console.log( "---", actions, state, "-----" );
+			return state;
 	}
-	return state;
+		
 }
+
 
 let Reducer = Redux.combineReducers( { increment } );
 let store = Redux.createStore( Reducer );
 
 
+let allFn = function(){
+	this.addquantity = function(i){
+
+	let quantity =   store.getState().increment.info[i].quantity;
+	quantity++;
+	store.dispatch({ type : "addQuantity", quantity  , i : i })
+
+	}
+
+	this.reducequantity = function(i){
+		let quantity =   store.getState().increment.info[i].quantity;
+		if( quantity <=0 ) return; 
+		quantity--;
+		store.dispatch({ type : "reduceQuantity", quantity  , i : i });
+		if( quantity == 0 ){
+			store.dispatch( { type :"cancelCart" , i : i} )
+		}
+	}
+};
+
 
 class Cart extends React.Component{
 	constructor(){
 		super();
+		allFn.call(this);
 		this.info = store.getState().increment.info;
 		this.title = ['ID', "名称", "价格", "数量", "Actions"];
+		this.count = 0;
+		console.log( this.addquantity.bind(this) ,"----------------------------" )
 	}
 
+	addCart(i){
+		let isCart = store.getState().increment.info[i].isCart;
+		store.dispatch({ 
+			type : "addCart",
+			isCart : true,
+			i : i
+		 })
+		 this.addquantity(i)
+	}
+
+	// componentWillUpdate(){
+	// 	this.info = store.getState().increment.info;
+	// 	console.log('componentWillUpdate', this.info)
+	// }
 
 	render(){
+		console.log( this.info,"+++++++++++++++++++++" )
 		return (
 			<React.Fragment>
 				<h2>购物车</h2>
@@ -140,6 +214,7 @@ class Cart extends React.Component{
 				<table>
 					<tbody>
 						<tr>
+							
 							{
 								this.title.map((item, i)=>(
 									<td key={i} ><strong> {item} </strong></td>
@@ -149,19 +224,35 @@ class Cart extends React.Component{
 						{
 							this.info.map((item, i)=>(
 								<tr key={i} >
-									<td><span> {item.id} </span></td>
+									<td><span> {item.ID} </span></td>
 									<td><span> {item.name} </span></td>
 									<td><span> {item.price} </span></td>
 									<td><span> {item.quantity} </span></td>
 									<td>
 									{
 										<div className="inline">
-											<span className={(this.isCart ? "hidden" : "show")} >
-												<input className="add-cart" type="button" value="加入购物车" />
+											<span className={(item.isCart ? "hidden" : "show")} >
+												<input 
+													className="add-cart" 
+													type="button" 
+													onClick={this.addCart.bind(this,i)} 
+													value="加入购物车" 
+												/>
 											</span>
-											<span className={(this.isCart ? "show" : "hidden")} >
-												<input className="add-cart" type="button" value="+" />
-												<input className="reduce-cart" type="button" value="-" />
+											
+											<span className={(item.isCart ? "show" : "hidden")} >
+												<input 
+													className="add-cart" 
+													type="button" 
+													value="+" 
+													onClick={this.addquantity.bind(this,i)}
+												/>
+												<input 
+													className="reduce-cart" 
+													type="button" 
+													value="-" 
+													onClick={this.reducequantity.bind(this, i)}
+												/>
 											</span>
 										</div>
 									}
@@ -180,8 +271,14 @@ class Cart extends React.Component{
 class CartInfo extends React.Component {
 	constructor(){
 		super();
+		allFn.call(this);
 		this.info = store.getState().increment.info;
 	}
+
+	cancelCart(i){
+		store.dispatch({ type : "cancelCart", isCart : false , i : i });
+	}
+
 
 	render(){
 		return (
@@ -194,7 +291,7 @@ class CartInfo extends React.Component {
 						.filter((item, i)=>{ if(item.isCart) return true })
 						.map((item, i)=>(
 							<tr key={i} >
-								<td><span> {item.id} </span></td>
+								<td><span> {item.ID} </span></td>
 								<td><span> {item.name} </span></td>
 								<td><span> {item.price} </span></td>
 								<td><span> {item.quantity} </span></td>
@@ -205,8 +302,24 @@ class CartInfo extends React.Component {
 											<input className="add-cart" type="button" value="加入购物车" />
 										</span>
 										<span className={(this.isCart ? "hidden" : "show")} >
-											<input className="add-cart" type="button" value="+" />
-											<input className="reduce-cart" type="button" value="-" />
+											<input 
+												className="add-cart" 
+												type="button" value="+" 
+												onClick={this.addquantity.bind(this, item.ID - 1)} 
+											/>
+											<input 
+												className="reduce-cart" 
+												type="button" 
+												value="-" 
+												onClick={this.reducequantity.bind(this, item.ID - 1)}
+												// 这里有 bus , 最好是传入一个 id.
+											/>
+											<input 
+												className="reduce-cart" 
+												type="button" 
+												value="x" 
+												onClick={this.cancelCart.bind(this,item.ID - 1)}
+											/>
 										</span>
 									</div>
 								}
@@ -222,15 +335,63 @@ class CartInfo extends React.Component {
 }
 
 class Record extends React.Component {
+	// static getDerivedStateFromProps(props, state){
+	// 	console.log( props, state )
+	// 	console.log( props, this )
+	// 	// 这里的 this 指向 undefined 。
+	// }
+
+	constructor(){
+		super();
+		let info = store.getState().increment.info;
+		this.state = { info } 
+		this.state.price = this.calcPrice();
+		this.state.quantity = this.calcQuantity();
+		// console.log( this.price, 'price' )
+
+	}
+
+	componentWillUpdate(){
+		this.state.price = this.calcPrice();
+		this.state.quantity = this.calcQuantity();
+	}
+
+	calcPrice(){
+		// console.log( this.state.info ,'info')
+		let filterArr = this.state.info.filter((item,i)=>{ if(item.isCart)  return true;});
+		if(  filterArr.length >0 ){
+			return filterArr.map((item,i)=>{ return item.price  * item.quantity }).reduce((a, i)=>{ return a + i });
+		}else {
+			return 0;
+		}
+	}
+
+	calcQuantity(){
+		let filterArr = this.state.info.filter((item,i)=>{ if(item.isCart)  return true;});
+		if(  filterArr.length >0 ){
+			return filterArr.map((item,i)=>{ return item.quantity }).reduce((a, i)=>{ return a + i });
+		}else {
+			return 0;
+		}
+	}
+
+	empty(){
+		store.dispatch({ type : "emptyAll" });
+	}
 
 	render(){
 		return (
 			<React.Fragment>
 				<section>
-					<span>总数量 ： { null } </span>
-					<span>总价格： { null } </span>
+					<span>总数量 ： { this.state.quantity }
+					</span>
+					<span>总价格： { this.state.price } </span>
 					<div className="btn-group" role="group" aria-label="...">
-						<button type="button" className="btn btn-default btn-danger">清空</button>
+						<button 
+							type="button" 
+							className="btn btn-default btn-danger" 
+							onClick={this.empty.bind(this)}>清空
+						</button>
 					</div>
 				</section>
 			</React.Fragment>
@@ -241,14 +402,19 @@ class Record extends React.Component {
 class Root extends React.Component{
 	constructor(){
 		super();
-		this.info = [{name : '', price : 0, quantity : 0, isCart : false }]
+		this.info = [
+			{name : '米饭', price :5 , quantity : 0, isCart : false },
+			{name : '高粱', price :10 , quantity : 0, isCart : false },
+			{name : '生命一号', price :100 , quantity : 0, isCart : false },
+			{name : '白米饭加鸡腿', price :15 , quantity : 0, isCart : false },
+			{name : '米粉', price :10 , quantity : 0, isCart : false },
+		];
+		// 可变的数据是 quantity 和 isCart 
 
 		this.info.forEach((item, i, arr)=>{
-			item.ID = i
+			item.ID = i+1;
 		})
 		console.log(this.info)
-
-
 	}
 	
 	componentWillMount(){
@@ -276,9 +442,14 @@ class Root extends React.Component{
 
 ReactDOM.render( <Root />, document.getElementById('Root') )
 store.subscribe( function(){
+	console.log("-----------------------------")
 	ReactDOM.render( <Root />, document.getElementById('Root') )
 } )
 
 // 15302758882 张豪
+
+// 数据的原理 时 store 存储的是每次的地址都是一样的。 三个组件所用的数据是同一个地址。 
+
+
 </script>
 </html>
