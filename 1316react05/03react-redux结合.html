@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/redux.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--先引入redux，再引入react-redex-->
+	<script src="js/react-redux.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/babel">
+		
+		function num(state=10,actions){
+			switch(actions.type){
+				case 'ADD':
+					return ++state;
+				case 'REDUCE':
+					return --state;
+				default:
+					return state
+			}
+		}
+		
+		let reducer = Redux.combineReducers({num});
+		let store = Redux.createStore(reducer);
+		
+		//state的值实际上就是：store.getState()的值，
+		function stateToProps(state,parentProps){
+			//把state的num赋值给了props.num
+			return {
+				num:state.num
+			}
+		}
+		
+//		第一个参数就是store.dispatch
+		function dispatchToProps(dispatch,parentProps){
+			return {
+				add(){
+					dispatch({
+						type:"ADD"
+					})
+				},
+				reduce(){
+					dispatch({
+						type:"REDUCE"
+					})
+				}
+			}
+		}
+		
+		class Box1 extends React.Component{
+			render(){
+				return (
+					<div>
+						<input type='button' value='+' onClick={()=>{this.props.add()}} />
+						<span>{this.props.num}</span>
+						<input type='button' value='-' onClick={()=>{this.props.reduce()}} />
+					</div>
+				)
+			}
+		}
+		
+		let NewBox1 = ReactRedux.connect(stateToProps,dispatchToProps)(Box1);
+		
+		class Root extends React.Component{
+			render(){
+				return (
+					<div>
+						<ReactRedux.Provider store = {store}>
+							<NewBox1 />
+						</ReactRedux.Provider>
+					</div>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/redux.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--先引入redux，再引入react-redex-->
+	<script src="js/react-redux.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/babel">
+		
+//		redux不是react的插件,redux的共享数据变化不会默认让组件视图更新.		
+//		使用react-redux后,无需手动刷新组件,会有响应式的效果.(共享数据变化,视图自动更新).
+//		
+//		react-redux会将共享数据变成组件的props属性.还会将store.dispatch变成组件的props方法.
+//		通过自动刷新父组件,重新render传入props数据(共享数据)到子组件.子组件因父组件刷新而刷新,产生响应式效果.
+
+//		如果创建变成props数据的共享数据。
+//			1:需要两个函数,一个转换state变成props,一个人转换dispatch变成props
+//			2:确定哪个组件的props变成共享数据,需要ReactRedux.Provider包裹指定组件
+//				ReactRedux.connect(stateToProps,dispatchToProps)(Box)
+//				
+//			3:确定哪个store的数据变成props,需要在ReactRedux.Provider上同store属性指定.
+			
+//		如果获取变成props数据的共享数据。
+//		如果修改变成props数据的共享数据。
+		
+		function msg(state='万水千山总是情,少给100行不行',actions){
+			switch(actions.type){
+				case "CHANGE":
+					return actions.str
+				default:
+					return state
+			}
+		}
+		
+		let reducer = Redux.combineReducers({msg});
+		let store = Redux.createStore(reducer);
+		
+		//将共享数据转换为组件的props
+		//形参state就是我们的msg共享数据state
+		//parentProps父组件传递的props
+		function stateToProps(state,parentProps){
+			return {
+				msg:state.msg
+			}
+		}
+		
+		//将store的dispatch，转换为组件的props
+		
+		//dispatch就是store.dispatch
+		//parentProps父组件传递的props
+		function dispatchToProps(dispatch,parentProps){			
+			return {
+				changeData(num){
+					dispatch({
+						type:"CHANGE",
+						str:num
+					})
+				}
+			}
+		}
+		
+		class Box extends React.Component{
+			render(){
+				return (
+					<div>
+						<input type='button' value='修改共享数据' onClick={this.fn.bind(this)} />
+						{/*获取共享数据*/}
+						<p>{this.props.msg}</p>
+					</div>
+				)
+			}
+			
+			fn(){
+				//修改共享数据。
+				this.props.changeData('世间哪有真情在，少给1块是1块');
+			}
+		}
+		
+		//给Box组件添加props共享数据以及dispatch
+		//connect返回一个新的组件。(高阶组件).
+		let NewBox = ReactRedux.connect(stateToProps,dispatchToProps)(Box);
+		
+		class Root extends React.Component{
+			render(){
+				return (
+					<div>
+						<ReactRedux.Provider store={store}>
+							<NewBox />
+						</ReactRedux.Provider>
+					</div>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/redux.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/babel.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/babel">
+		
+//		商品信息做成一个组件
+//		购物车做成一个组件
+//		总数量，总价格，情况做成一个组件。
+		
+//		点击商品信息内的'加入购物车'按钮,把当前的商品添加到购物车
+//		点击购物车内的'X',把当前商品移除购物车.
+//		总数量只显示购物车内的商品总数量
+//		
+//		商品信息内的+和购物车内的+同时更新两个组件的数量
+		
+		function setCart(state=data,actions){
+			
+			let i = actions.index;
+			let thisGood = state[i];
+			
+			switch(actions.type){
+				case "ADD":
+					thisGood.inCart = true
+					break
+				case "PLUS":
+					thisGood.count++;
+					break
+				case "REDUCE":
+					if(thisGood.count>0){
+						thisGood.count--;
+						if(thisGood.count==0){
+							thisGood.inCart = false;
+							thisGood.count = 1;
+						}
+					}
+					break
+				case "DEL":
+					thisGood.inCart = false;
+					break
+				case 'DELALL':
+					state.forEach((d,i)=>{
+						d.inCart = false;
+						d.count = 1;
+					})
+			}
+			return state
+		}
+		
+		let data = [
+			{ID:1,name:'鱼香肉丝',count:1,price:100,inCart:false,index:0},
+			{ID:2,name:'猪香肉丝',count:1,price:200,inCart:false,index:1},
+			{ID:3,name:'鸡香肉丝',count:1,price:300,inCart:false,index:2},
+			{ID:4,name:'牛香肉丝',count:1,price:400,inCart:false,index:3}
+		]
+		
+		let reducer = Redux.combineReducers({setCart});
+		let store = Redux.createStore(reducer);
+		
+		store.subscribe(()=>{ReactDOM.render(<Root />,document.getElementById("root"))});
+		
+		class Goods extends React.Component{
+			render(){
+				return (
+					<div>
+						<h3>商品信息</h3>
+						<table border='1' cellPadding='20'>
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>名称</th>
+									<th>数量</th>
+									<th>价格</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								{
+									store.getState().setCart.map((d,i)=>(
+										<tr key={i}>
+											{
+												Object.values(d).slice(0,4).map((item,j)=>(
+													<td key={j}>{item}</td>
+												))
+											}
+											<td style={{display:d.inCart?"none":"block"}}>
+												<input type='button' value='加入购物车' onClick={this.add.bind(this,i)} />
+											</td>
+											<td style={{display:d.inCart?"block":"none"}}>
+												<input type='button' value='+' onClick={this.plus.bind(this,i)} />
+												<input type='button' value='-' onClick={this.reduce.bind(this,i)} />
+											</td>
+										</tr>
+									))
+								}							
+							</tbody>
+						</table>
+					</div>
+				)
+			}
+			plus(i){
+				store.dispatch({
+					type:"PLUS",
+					index:i
+				})
+			}
+			reduce(i){
+				store.dispatch({
+					type:"REDUCE",
+					index:i
+				})
+			}
+			add(i){
+				store.dispatch({
+					type:"ADD",
+					index:i
+				})
+			}
+		}
+		
+		class Cart extends React.Component{
+			render(){
+				return (
+					<div>
+						<h3>购物车信息</h3>
+						<table border='1' cellPadding='20'>
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>名称</th>
+									<th>数量</th>
+									<th>价格</th>
+									<th>总价</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								{
+									store.getState().setCart.filter((d,i)=>(d.inCart)).map((d,i)=>(
+										<tr key={i}>
+											{
+												Object.values(d).slice(0,4).map((item,j)=>(
+													<td key={j}>{item}</td>
+												))
+											}
+											<td>{d.count*d.price}</td>
+											<td>
+												<input type='button' value='+' onClick={this.plus.bind(this,d.index)} />
+												<input type='button' value='-' onClick={this.reduce.bind(this,d.index)} />
+												<input type='button' value='X' onClick={this.del.bind(this,d.index)} />
+											</td>
+										</tr>
+									))
+								}
+							</tbody>
+						</table>
+					</div>
+				)
+			}
+			del(i){
+				store.dispatch({
+					type:"DEL",
+					index:i
+				})
+			}
+			plus(i){
+				store.dispatch({
+					type:"PLUS",
+					index:i
+				})
+			}
+			reduce(i){
+				store.dispatch({
+					type:"REDUCE",
+					index:i
+				})
+			}
+		}
+		
+		class Detail extends React.Component{
+			render(){
+				return (
+					<div>
+						<span>总数量:{this.showDetail(true)}</span>
+						<span>总价格:{this.showDetail(false)}</span>
+						<input type='button' value='清空所有购物车' onClick={this.delAll.bind(this)} />
+					</div>
+				)
+			}
+			delAll(){
+				store.dispatch({
+					type:"DELALL"
+				})
+			}
+			showDetail(isCount){
+				let arr = store.getState().setCart;				
+				//总数量
+				let count = 0;
+				//总价格
+				let price = 0;
+				
+				//计算总价格
+				arr.forEach((d,i)=>{
+					if(d.inCart){
+						count += d.count;
+						price += d.count*d.price;
+					}					
+				})
+				
+				if(isCount){
+					return count;
+				}else{
+					return price;
+				}				
+			}
+		}
+		
+		class Root extends React.Component{
+			render(){
+				return (
+					<React.Fragment>
+						<h2>购物车demo</h2>
+						<Goods />
+						<Cart />
+						<hr />
+						<Detail />
+					</React.Fragment>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+		
+	</script>
+</html>

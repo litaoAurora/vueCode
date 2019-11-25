@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-router-dom.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/babel">
+		
+//		导入与理由功能相关的功能组件。
+		
+//		Router -> 路由的所有组件都必须包裹在Router内.
+//		Route -> 路由选项
+//		Redirect -> 重定向组件
+		
+		let {HashRouter:Router,Route,Redirect} = ReactRouterDOM
+		
+		class Home extends React.Component{
+			render(){
+				return (
+					<div>
+						<h3>主页内容</h3>
+						<p>主页的详细内容</p>
+					</div>
+				)
+			}
+		}
+		
+		class News extends React.Component{
+			render(){
+				return (
+					<div>
+						<h3>新闻内容</h3>
+						<p>新闻的详细内容</p>
+					</div>
+				)
+			}
+		}
+		
+		class Product extends React.Component{
+			render(){
+				return (
+					<div>
+						<h3>产品内容</h3>
+						<p>产品的详细内容</p>
+					</div>
+				)
+			}
+		}
+		
+		//Router必须只有一个子组件.所有的路由组件,都必须放入Router内.(注意必须有根元素包裹)
+		
+		class RouterView extends React.Component{
+			render(){
+				return (
+					<Router>
+						<div>
+							<Route path='/home' component={Home} />
+							<Route path='/news' component={News} />
+							<Route path='/product'component={Product} />
+							<Redirect path='/' to='/home' />
+						</div>
+					</Router>
+				)
+			}
+		}
+				
+		class Root extends React.Component{
+			render(){
+				return (
+					<div>
+						<RouterView />
+					</div>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>

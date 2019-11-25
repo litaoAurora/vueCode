@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/redux.js" type="text/javascript" charset="utf-8"></script>
+	
+	<!--先引入redux，再引入react-redex-->
+	<script src="js/react-redux.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/babel">
+		
+		function num(state=10,actions){
+			switch(actions.type){
+				case 'ADD':
+					return ++state;
+				case 'REDUCE':
+					return --state;
+				default:
+					return state
+			}
+		}
+		
+		let reducer = Redux.combineReducers({num});
+		let store = Redux.createStore(reducer);
+		
+		//state的值实际上就是：store.getState()的值，
+		function stateToProps(state,parentProps){
+			//把state的num赋值给了props.num
+			
+			// 这里 的 state 就是 num 函数里 return 出来的值
+			// console.log( "-------------" , state, "--------------------" )
+			// console.log( "-------------" , parentProps , "--------------------" )
+			return {
+				num:state.num
+			}
+		}
+		
+		//第一个参数就是store.dispatch
+		function dispatchToProps(dispatch,parentProps){
+			// console.log( "+++++++++++++" , dispatch , "--------------------" )
+			console.log( "++++++++++++++" , parentProps , "--------------------" )
+
+			return {
+				add(i){
+					console.log(i)
+					dispatch({
+						type:"ADD"
+					})
+				},
+				reduce(){
+					dispatch({
+						type:"REDUCE"
+					})
+				}
+			}
+		}
+		
+		class Box1 extends React.Component{
+			render(){
+				return (
+					<div>
+						<input type='button' value='+' onClick={()=>{this.props.add( { 'parent' : "我是投入进来的数据" } )}} />
+						<span>{this.props.num}</span>
+						<input type='button' value='-' onClick={()=>{this.props.reduce()}} />
+					</div>
+				)
+			}
+		}
+		
+		class Div extends React.Component{
+			render(){
+				return (
+					<div>{this.props.num}</div>
+				)
+			}
+		}
+		
+		let NewBox1 = ReactRedux.connect(stateToProps,dispatchToProps)(Box1);
+		let NewDiv = ReactRedux.connect(stateToProps,dispatchToProps)(Div);
+		
+		//如果共享数据需要提供给多个组件使用，则
+		//	有多少个组件就必须写多少个Provider,每个Provider都必须包裹一个组件
+		//	这个组件又必须通过connect处理.转换成高阶组件.
+		
+		class Root extends React.Component{
+			render(){
+				return (
+					<div>
+						{/*Provider内有且只有一个子组件*/}
+						<ReactRedux.Provider store = {store}>
+							<NewBox1> '我是父props' </NewBox1>
+						</ReactRedux.Provider>
+						
+						<ReactRedux.Provider store = {store}>
+							<NewDiv />
+						</ReactRedux.Provider>			
+					</div>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>

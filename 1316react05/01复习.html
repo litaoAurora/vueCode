@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		
+	</body>
+	<script type="text/javascript">
+		
+		1):redux.(状态管理器,数据共享)(使用场景和vuex一致)
+			
+			a):怎么创建共享数据
+				let store = Redux.createStore(fn);
+				这里fn是修改共享数据的逻辑函数(类似于vuex的mutation,redux叫reducer)
+				
+				state就是各组件需要共享的数据.100就是state的默认值.
+				actions是一个对象.
+				actions.type -> 指的是用户的操作类型.
+				actions.数据名 -> 用户操作时传递的参数.
+				
+				function fn(state=100,actions){
+					
+					actions.index -> 获取用户传递的参数.
+					actions.type -> 获取用户的操作类型.
+					
+					return state -> 可以让别的地方获取到state
+				}
+				
+			b):怎么获取共享数据
+				
+				store.getState();
+			
+			c):怎么修改共享数据
+				
+				type必须填写!
+				这里指明当次操作的类型是ADD
+				index:100是传递给reducer的参数.
+				
+				store.dispatch({
+					type:'ADD',
+					index:100
+				})
+			
+		2):注意事项.redux是第三方的状态管理器,根react没有任何关系.
+		因此redux共享的数据变化,默认不会导致视图的变化.
+		因为redux的共享数据并不是react组件的组件数据.
+		
+		3):如果要共享多个数据,可以使用多个store容器.
+		如何使用一个store容器,共享所有数据?
+		
+		以下三个函数分别对应3个数据,如何使用一个store共享这3个数据.
+		fn1,fn2,fn3
+		
+		a):创建一个合并的reducer.
+			let reducer = Redux.combineReducers({fn1,fn2,fn3});
+			
+			通过合并的reducer,创建store数据容器.
+			let store = Redux.createStore();
+		
+		b):怎么获取不同的数据?
+			store.getState().fn1
+			store.getState().fn2
+			store.getState().fn3
+		
+		c):怎么修改共享数据.
+			store.dispatch({
+				type:'ADD',
+				index:100
+			})
+		
+	</script>
+</html>

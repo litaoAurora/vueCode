@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'></div>
+	</body>
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/babel">
+		
+//		高阶组件：
+//			如果多个组件拥有相同的逻辑,可以把这些逻辑抽离成一个高阶组件(函数).
+//				高阶组件需要返回另一个组件.return class
+//				
+//				高阶组件的形参也是组件,隐藏形参的首字母需要大写.
+//				然后把功能不全的组件传入高阶组件函数,高阶组件通过形参接受功能不全的组件的模板.
+//				
+//				高阶组件是功能不全的低级组件的父组件.
+//				因此,高级组件的数据和方法需要通过props传递给功能不全的子组件访问.
+			
+		
+		//功能不全的组件Box1
+		class Box1 extends React.Component{
+			render(){
+				return (
+					<div>
+						<h3>BOX1的组件</h3>
+						<input type='button' value='++' onClick={()=>{this.props.add()}} />
+						<p>{this.props.num}</p>
+					</div>
+				)
+			}			
+		}
+		
+		//功能不全的组件Box2
+		class Box2 extends React.Component{
+			render(){
+				return (
+					<div>
+						<h2>BOX2的组件</h2>
+						<input type='button' value='++' onClick={()=>{this.props.add()}} />
+						<p>{this.props.num}</p>
+					</div>
+				)
+			}
+		}
+		
+		function HighComponent(Component){
+			return class AAA extends React.Component{
+				
+				render(){
+					return (
+						<Component num={this.num} add={this.add.bind(this)} />
+					)
+				}
+				
+				num = '砖头撂倒'
+				
+				add(){
+					this.num = Math.random();
+					this.forceUpdate();
+				}
+			}			
+					6
+		}
+		
+		//新组件就是功能全的组件，需要通过高阶组件(HighComponent提供)返回
+		let NewBox1 = HighComponent(Box1);
+		let NewBox2 = HighComponent(Box2);
+
+		class Root extends React.Component{
+			render(){
+				return (
+					<div>
+						<NewBox1 />
+						<NewBox2 />
+					</div>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+//		-------------------------------------------------------------------------------------------------------		
+//		
+//		class Box1 extends React.Component{
+//			render(){
+//				return (
+//					<div>
+//						<h3>BOX1的组件</h3>
+//						<input type='button' value='++' onClick={this.add.bind(this)} />
+//						<p>{this.num}</p>
+//					</div>
+//				)
+//			}
+//			
+//			num = '砖头撂倒'
+//			
+//			add(){
+//				this.num = Math.random();
+//				this.forceUpdate();
+//			}
+//			
+//		}
+//		
+//		class Box2 extends React.Component{
+//			render(){
+//				return (
+//					<div>
+//						<h2>BOX2的组件</h2>
+//						<input type='button' value='++' onClick={this.add.bind(this)} />
+//						<p>{this.num}</p>
+//					</div>
+//				)
+//			}
+//			
+//			num = '砖头撂倒'
+//			
+//			add(){
+//				this.num = Math.random();
+//				this.forceUpdate();
+//			}
+//			
+//		}
+//		
+//		class Root extends React.Component{
+//			render(){
+//				return (
+//					<div>
+//						<Box1 />
+//						<Box2 />
+//					</div>
+//				)
+//			}
+//		}
+//		
+//		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>

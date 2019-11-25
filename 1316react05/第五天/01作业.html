@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<div id="Root">
+		<!-- <a href="#">首页</a>
+		<a href="#">新闻</a>
+		<a href="#">产品</a>
+		<div>
+			<h3>首页</h3>
+			<input type='text'>
+		</div>
+		<div>
+			<h3>新闻</h3>
+			<p>新闻</p>
+		</div>
+		<div>
+			<h3>产品</h3>
+			<p></p>
+		</div> -->
+	</div>
+</body>
+<script src="../js/react.development.js"></script>
+<script src="../js/react-dom.development.js"></script>
+<script src="../js/redux.js"></script>
+<script src="../js/react-redux.js"></script>
+<script src="../js/react-router-dom.js"></script>
+<script src="../js/babel.js"></script>
+<script type="text/babel">
+
+//		把以上的效果做出路由.
+//		
+//		要求,默认显示首页.
+//		产品页的p标签的内容,显示的是首页的输入框输入的内容.
+let { HashRouter, Route, NavLink, Switch, Redirect } = ReactRouterDOM;
+// let { HashRouter : Router, Route, Redirect, Link, NavLink, Switch} = ReactRouterDOM; 
+
+function loginData(state = {}, actions){
+	switch(actions.type){
+		case "inputText" : 
+			state.inputText = actions.inputText
+			return state;
+		default : 
+			return state;
+	}
+	
+}
+let reducer = Redux.combineReducers({ loginData });
+let store = Redux.createStore(reducer);
+
+// 定义修改数据逻辑的函数
+// 合并逻辑函数  
+// 创建创库实例
+// 		进入预编译子组件的步伐。 
+// 		把 state 传给 props 
+// 		把 修改数据的函数 放到 props 中去。 
+
+function stateToProps(state, parentProps){
+
+	return {
+		inputText : state.inputText
+	}
+}
+
+function dispatchToProps(dispatch, parentProps){
+// 在这里定义 修改数据的逻辑函数。 出给 props 中被调用
+
+	return {
+		getText(inputText){
+			dispatch({ type : 'inputText', inputText : inputText })
+		}
+	}
+}
+
+class Home extends React.Component{
+
+	btn = React.createRef();
+
+	da(){
+		console.log( this.refs)
+		// this.props.inputText( this.refs.btn.valu )
+	}
+
+	render(){
+		return (
+			<React.Fragment> 
+				<div>
+					<h3>首页</h3>
+					<input type='text'  ref={this.btn} onInput={this.da.bind(this)} />
+				</div>
+			</React.Fragment>
+		)
+	}
+}
+class News extends React.Component{
+
+	render(){
+		return (
+			<React.Fragment> 
+				<div>
+					<h3>新闻</h3>
+					<p>新闻</p>
+				</div>
+			</React.Fragment>
+		)
+	}
+}
+class Product extends React.Component{
+
+	render(){
+		return (
+			<React.Fragment> 
+				<div>
+					<h3>产品</h3>
+					<input type='text' />
+				</div>
+			</React.Fragment>
+		)
+	}
+}
+// ReactRedux
+
+// connect
+let CompliceHome = ReactRedux.connect(stateToProps,dispatchToProps)( Home );
+let CompliceProduct = ReactRedux.connect(stateToProps,dispatchToProps)( Product );
+
+class relayHome extends React.Component {
+	render(){
+		return (
+			<ReactRedux.Provider store = {store}>
+				<CompliceHome />					
+			</ReactRedux.Provider>
+		)
+	}
+}
+class relayProduct extends React.Component {
+	render(){
+		return (
+			<ReactRedux.Provider store = {store}>
+				<CompliceProduct />					
+			</ReactRedux.Provider>
+		)
+	}
+}
+
+
+class RouterView extends React.Component{
+	render(){
+		return (
+			<HashRouter>
+				<React.Fragment>
+					<div>
+						<NavLink activeClassName='active' to='/home'>首页</NavLink>
+						<NavLink to='/news'>新闻</NavLink>
+						<NavLink to='/product'>产品</NavLink>
+						<br />
+						<Switch>
+							<Route path="/home" component={relayHome} />
+							<Route path="/news" component={News}></Route>
+							<Route path="/product" component={relayProduct} />
+							<Redirect path='/' to='/home' />
+							
+						</Switch>
+					</div>
+				</React.Fragment>
+			</HashRouter>
+		)
+	}
+}
+
+class Root extends React.Component{
+
+	render(){
+		return (
+			<React.Fragment>
+				<RouterView />
+			</React.Fragment>
+		)
+	}
+}
+
+ReactDOM.render( <Root />, document.getElementById('Root') )
+	
+</script>
+</html>
