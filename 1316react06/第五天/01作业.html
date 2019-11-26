@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id='root'>
+			
+		</div>
+	</body>
+	<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/react-router-dom.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/babel.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/redux.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/react-redux.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/babel">
+		
+//		把以上的效果做出路由.
+//		
+//		要求,默认显示首页.
+//		产品页的p标签的内容,显示的是首页的输入框输入的内容.
+		
+		const {HashRouter:Router,Route,Redirect,Switch,NavLink} = ReactRouterDOM;
+		
+		function msg(state='首页信息输入',actions){
+			if(actions.type == "SET"){
+				return actions.str
+			}else{
+				return state
+			}
+		}
+		
+//		let Reducer = Redux.combineReducers({msg});		
+		const store = Redux.createStore(Redux.combineReducers({msg}));
+
+//		这里的形参state就是store.getState()
+		function stateToProps(state,props){
+			return {
+				msg:state.msg
+			}
+		}
+
+//		这里的形参dispatch就是store.dispatch
+		function dispatchToProps(dispatch,props){
+			return {
+				setMsg(val){
+					dispatch({
+						type:'SET',
+						str:val
+					})
+				}
+			}
+		}
+		
+		class Home extends React.Component{
+
+			render(){
+				return (
+					<div>
+						<h3>首页</h3>
+						<input type='text' value={this.props.msg} onChange={this.fn.bind(this)} />
+					</div>
+				)
+			}
+			
+			fn(ev){
+				this.props.setMsg(ev.target.value);
+			}
+		}
+		
+		class News extends React.Component{
+			render(){
+				return (
+					<div>
+						<h3>新闻</h3>
+						<p>新闻</p>
+					</div>
+				)
+			}
+		}
+		
+		class Product extends React.Component{
+			render(){
+				return (
+					<div>
+						<h3>产品</h3>
+						<p>{this.props.msg}</p>
+					</div>
+				)
+			}
+		}
+		
+		const NewHome = ReactRedux.connect(stateToProps,dispatchToProps)(Home);
+		const NewProduct = ReactRedux.connect(stateToProps,dispatchToProps)(Product);
+		
+		class Root extends React.Component{
+			render(){
+				return (
+					<ReactRedux.Provider store={store}>
+						<Router>
+							<React.Fragment>
+								<NavLink to='/home'>首页</NavLink>
+								<NavLink to='/news'>新闻</NavLink>
+								<NavLink to='/product'>产品</NavLink>
+								<Switch>
+									<Route path='/home' component={NewHome} />
+									<Route path='/news' component={News} />
+									<Route path='/product' component={NewProduct} />
+									<Redirect path='/' to='/home' />
+								</Switch>
+							</React.Fragment>
+						</Router>
+					</ReactRedux.Provider>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"))
+		
+	</script>
+</html>

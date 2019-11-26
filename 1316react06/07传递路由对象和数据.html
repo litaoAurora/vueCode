@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="root"></div>
+	</body>
+	
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-router-dom.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/babel">
+					
+		const {HashRouter:Router,Route,Redirect,Switch,NavLink} = ReactRouterDOM;
+
+//		如果需要使用路由对象的history和match等属性时。
+//			路由选项上只能用component引入路由组件,
+//			如果使用render属性代替了component属性,则在子组件中默认无法使用history和match等属性
+//			但是如果使用component属性,又无法把父组件数据传递给子组件?
+//			
+//			如何又传递父组件数据,又使用history等属性?
+//				render={(props)=>(<Box {...props} msg={this.msg} />)}
+//				
+//				这里render的形参props会自动得到系统提供的history以及match等与路由相关的属性
+//				{...props} -> 相当于把系统传入的各种属性依次通过props传递给子组件.
+				
+			
+		class Box extends React.Component{
+			
+			data = {
+				home:'首页',
+				news:'新闻',
+				product:'产品'
+			}
+			
+			render(){
+				return (
+					<div>
+						<h3>{this.data[this.props.match.params.hash]}</h3>
+						<div>{this.data[this.props.match.params.hash]}</div>
+						<p>{this.props.msg}</p>
+					</div>
+				)
+			}
+		}
+		
+		class Root extends React.Component{
+			
+			msg = 'uuuuu'
+			
+			render(){
+				return (
+					<React.Fragment>
+						<Router>
+							<React.Fragment>
+								<NavLink to='/home'>首页</NavLink>
+								<NavLink to='/news'>新闻</NavLink>
+								<NavLink to='/product'>产品</NavLink>
+								<Switch>
+									<Route path='/:hash' exact render={
+										(props)=>{
+											console.log('形参props',props)
+											return <Box {...props} msg={this.msg} />
+										}
+									} />
+									<Redirect path='/' to='/home' />
+								</Switch>
+							</React.Fragment>
+						</Router>
+					</React.Fragment>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		
+	</body>
+	<script type="text/javascript">
+		
+		1):react-redux
+			可以让共享的数据具有响应式的效果.
+			如何实现?把共享数据变成组件的props,把store的dispatch变成组件的props
+			
+			组件内:
+				获取共享数据 -> this.props.msg
+				修改共享数据 -> this.props.setData()
+			
+			需要通过高阶组件将使用共享数据的组件转换成拥有共享数据props的组件
+			
+			fn1(state,props){
+				return {
+					msg:hhhh
+				}
+			}
+			
+			fn2(dispatch,props){
+				return {
+					setData(){
+						dispatch({
+							type:'AAA',
+							str:0000
+						})
+					}
+				}
+			}
+			
+			let NewHome = ReactRedux.connect(fn1,fn2)(home);
+			
+			//ReactRedux.Provider内部只能有一个子组件。
+			//如果多个组件需要共享同一个store的数据，可以写多个provider
+			//也可以在provider内先写一个根元素，然后把多个组件放入这个根元素内。
+			<ReactRedux.Provider store={store}>
+				<div>
+					<NewHome ggg={777} />
+					<NewApp ggg={777} />
+				</div>				
+			</ReactRedux.Provider>
+
+			
+						
+		2):高阶组件
+			
+			把相同逻辑的组件抽离成一个函数,然后通过这个函数生成经过加工的新组件.
+			抽离的函数或者数据,需要经过props再传递给需要加工的组件.
+			
+			class App{
+				render(){
+					retrun (<div>{this.props.msg}</div>)
+				}
+			}
+			
+			class Box{
+				render(){
+					retrun (<p>{this.props.msg}</p>)
+				}
+			}
+			
+			function hC(Component){
+				return class extends React.Component{
+					render (Component){
+						return (
+							<Component msg = {this.msg} />
+						)
+					}
+
+				}
+				msg = 9000
+			}
+			
+			let NewApp = hC(App);
+			
+		3):路由.
+			
+			react的路由有很多版本.
+			react-router-dom(4以上)(现在用的最多,但是网上教程最少)
+			react-router(2以下),
+			
+			导入路由组件
+			
+			{HashRouter:Router,Route,Redirect,NavLink,Switch,Link} = ReactRouterDOM;
+			
+			Router内部只能有一个根组件
+			<Router>
+				<div>
+//					NavLink一定需要to属性.
+					<NavLink to='/home'>首页</NavLink>
+					<Switch>
+//						<Route path='/home' component={home} />
+//						<Route path='/home' render={()=>(<div>11111</div>)} />
+//						<Route path='/home' render={()=>(<Box />)} />\
+//						<Redirect path='/' to='/home' />
+						
+//						不用重定向，直接到home的简写方法						
+						<Route path='/' component={home} />
+					</Switch>
+				</div>
+			</Router>
+			
+			嵌套路由:
+				在某个组件视图内,再写另一个路由.
+		
+	</script>
+</html>

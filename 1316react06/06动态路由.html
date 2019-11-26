@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="root"></div>
+	</body>
+	
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-router-dom.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/babel">
+		
+//		vue里面的动态路由,
+//			如果路由组件布局一致,内容不一样,可以用动态路由.			
+//			组件只写一个,路由选项只写一个.
+//		路由参数 -> 获取当前的组件对应的哈希值.
+//			vue获取路由参数,this.$route.params.hash
+//			react获取路由参数,this.props.match.params.hash
+			
+		const {HashRouter:Router,Route,Redirect,Switch,NavLink} = ReactRouterDOM;\
+		
+		class Box extends React.Component{
+			data = {
+				home:'首页',
+				news:'新闻',
+				product:'产品'
+			}
+			render(){
+				return (
+					<div>
+						<h3>{this.data[this.props.match.params.hash]}</h3>
+						<div>{this.data[this.props.match.params.hash]}</div>
+					</div>
+				)
+			}
+		}
+		
+		class Root extends React.Component{
+						
+			render(){
+				return (
+					<React.Fragment>
+						<Router>
+							<React.Fragment>
+								<NavLink to='/home'>首页</NavLink>
+								<NavLink to='/news'>新闻</NavLink>
+								<NavLink to='/product'>产品</NavLink>
+								<Switch>
+									<Route path='/:hash' exact component={Box} />
+									<Redirect path='/' to='/home' />
+								</Switch>
+							</React.Fragment>
+						</Router>
+					</React.Fragment>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>

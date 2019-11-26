@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="root"></div>
+	</body>
+	
+	<script src="js/react.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/react-router-dom.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/babel.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/babel">
+		
+//		页面上如果没有NavLink标签,如何实现路由跳转?
+//			vue跳转路由 -> $router.push('/home').
+		
+		
+		const {HashRouter:Router,Route,Redirect,Switch,NavLink} = ReactRouterDOM;
+		
+		class Home extends React.Component{
+			render(){
+				return (
+					<div>
+						<h3>首页</h3>
+						<div>首页</div>
+					</div>
+				)
+			}
+		}
+		
+		class News extends React.Component{
+			render(){
+				return (
+					<div>
+						<h3>新闻</h3>
+						<div>新闻</div>
+					</div>
+				)
+			}
+		}
+		
+		class Product extends React.Component{
+			render(){
+				return (
+					<div>
+						<h3>产品</h3>
+						<div>产品</div>
+						<input type='button' value='跳转到首页' onClick={this.jump.bind(this)} />
+					</div>
+				)
+			}
+			
+			jump(){
+				//可以通过history.push实现路由的跳转.push会把当前路由作为上一条历史记录.
+				//this.props.history.push('/home');
+				
+				//可以通过history.push实现路由的跳转.replace不会把当前路由作为上一条历史记录.
+				this.props.history.replace('/home');
+				
+				//跳转到第三个历史记录
+				//this.props.history.go(2);
+				
+				//后退
+				//this.props.history.goBack();
+				
+				//前进
+				//this.props.history.goforWard();
+				
+				//history对象是由路由组件自动传给子组件的.
+				console.log(this.props.history);
+			}
+		}
+		
+		class Root extends React.Component{
+						
+			render(){
+				return (
+					<React.Fragment>
+						<Router>
+							<React.Fragment>
+								<NavLink to='/product'>去吧产品</NavLink>
+								<Switch>
+									<Route path='/home' exact component={Home} />
+									<Route path='/news' exact component={News} />
+									<Route path='/product' exact component={Product} />
+									<Redirect path='/' to='/home' />
+								</Switch>
+							</React.Fragment>
+						</Router>
+					</React.Fragment>
+				)
+			}
+		}
+		
+		ReactDOM.render(<Root />,document.getElementById("root"));
+		
+	</script>
+</html>
