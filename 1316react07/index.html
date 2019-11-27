@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		
+	</body>
+	<script type="text/javascript">
+		
+		1):跳转路由 -> 
+			this.props.history.push('/home');
+			this.props.history.replace('/home');
+			this.props.history.go(2);
+			this.props.history.goBack(2);
+			this.props.history.goForward(2);
+			
+			vue的前进后退是:
+				$router.back();
+				$router.forward();
+					
+		2):路由参数 ->
+			this.props.match.params.参数名 -> 获取当前路由的哈希值.
+			
+			动态路由:模板一样,内容不一样.
+			(在路由切换时更新内容,不是切换组件)
+			
+			<Route component={Home} />
+			<Route render={(props)=>(<Box {...props} msg={this.msg} />)} />
+							
+		3):脚手架.
+			路径问题,引入源文件的写法和vue一致.
+			import Vue from 'vue'
+			import React,{Component} from 'react'
+			import ReactDOM from 'react-dom'
+			import {createStore,combineReducers,subscribe} from 'redux'
+			import {Provider,connect} from 'react-redux'
+			import {HashRouter:Router,Route,Switch,NavLink,Redirect} from 'react-router-dom'
+			
+			没有@的写法了.
+			./ -> 当前文件夹
+			../ -> 上一级
+			.js和.jsx可以省略后缀.
+			
+			react的组件是.js文件或者.jsx文件.(jsx是组件,js是逻辑)
+			
+	</script>
+</html>
