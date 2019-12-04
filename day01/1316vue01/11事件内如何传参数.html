@@ -10,7 +10,7 @@
 			
 			<!--事件传参,只需要在click后面属性函数的调用,并且在()内写上实参即可.(原生js不能这样做)-->
 			
-			<input type="button" :value='name' @click='fn(100)' />			
+			<input type="button" :value='name' @click='fn(name)' />			
 			<input type="button" :value='name' @click='fn(200)' />			
 			<input type="button" :value='name' @click='fn(300)' />
 			
