@@ -41,6 +41,7 @@
 				'$route.path':{
 					immediate:true,
 					handler(){
+						console.log(this.$route)
 						let path = this.$route.params.path;
 						this.title = this.data[path].title;
 						this.content = this.data[path].content;
